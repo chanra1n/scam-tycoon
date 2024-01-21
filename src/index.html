@@ -31,7 +31,7 @@
     }
 
     .grid-item {
-      background-color: #fff;
+      background-color: #e9e9e9;
       outline: 1.5px solid #c3c3c320;
       box-sizing: border-box;
     }
@@ -41,7 +41,7 @@
     }
 
     .industrial {
-      background-color: #f0f0f0;
+      background-color: #c3c3c3;
     }
 
     .natural {
@@ -60,117 +60,220 @@
     }
 
     .habitable {
-      background-color: orange;
+      background-color: #ffa500;
     }
 
-.habitable:hover {
+    .habitable:hover {
       outline: 5px solid #00ff00a0!important;
-      z-index:1000;
-      border-radius:100%;
+      z-index: 1000;
+      border-radius: 100%;
     }
 
-
-    .water:hover, .road:hover, .grid-item:hover {
+    .water:hover,
+    .road:hover,
+    .grid-item:hover {
       outline: 5px solid #ff0000a0;
-      z-index:1000;
-      border-radius:100%;
+      z-index: 1000;
+      border-radius: 100%;
     }
+
+
+    /* const buildingTypes = ["office-building", "gas-station", "library", "police-station", "fire-station", "admin-buildings", "restaurants", "homes"];
+*/
+
+.office-building {
+  background-color: red;
+}
+
+.gas-station {
+  background-color: blue;
+}
+
+.library {
+  background-color: green;
+}
+
+.police-station {
+  background-color: yellow;
+}
+
+.fire-station {
+  background-color: purple;
+}
+
+.admin-buildings {
+  background-color: pink;
+}
+
+.restaurants {
+  background-color: brown;
+}
+
+.homes {
+  background-color: black;
+}
 
   </style>
 </head>
 
 <body>
-  <div class="grid-container">
+  <div class="grid-container"></div>
 
-    <script>
-      const gridSize = 64;
-      const gridContainer = document.querySelector(".grid-container");
+  <script>
+    const gridSize = 64;
+    const gridContainer = document.querySelector(".grid-container");
 
-      const cityLayout = generateCityLayout(gridSize);
+    const cityLayout = generateCityLayout(gridSize);
 
-      for (let i = 0; i < gridSize; i++) {
-        for (let j = 0; j < gridSize; j++) {
-          const gridItem = document.createElement("div");
-          gridItem.classList.add("grid-item");
-          gridItem.classList.add(cityLayout[i][j]);
-          gridContainer.appendChild(gridItem);
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+        const gridItem = document.createElement("div");
+        gridItem.classList.add("grid-item");
+        gridItem.classList.add(cityLayout[i][j]);
+        gridContainer.appendChild(gridItem);
+      }
+    }
+
+    // Function to shuffle an array
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+    function generateCityLayout(size) {
+      const layout = [];
+      const quarters = ["residential", "industrial", "natural", "water"];
+      shuffle(quarters);
+      const roadInterval = Math.floor(Math.random() * 3) + 4; // Randomize the density of the roads
+      const turnChance = Math.random() * 0.2 + 0.1; // Randomize the chance of a road turning
+
+
+      
+      // Create a grid of "residential", "industrial", "natural", and "water" areas
+      for (let i = 0; i < size; i++) {
+        layout[i] = [];
+        for (let j = 0; j < size; j++) {
+          const quarter = quarters[Math.floor(i / (size / (2 + Math.random()))) * 2 + Math.floor(j / (size / (2 + Math.random())))];
+          layout[i][j] = quarter;
         }
       }
 
-      function generateCityLayout(size) {
+      
 
-        const layout = [];
-        const quarters = ["residential", "industrial", "natural", "water"];
-        const roadInterval = Math.floor(Math.random() * 3) + 4; // Randomize the density of the roads
-        const turnChance = Math.random() * 0.2 + 0.1; // Randomize the chance of a road turning
-
-        // Shuffle the quarters array to randomize the order of the quarters
-        quarters.sort(() => Math.random() - 0.5);
-
-        // Create a grid of "residential", "industrial", "natural", and "water" areas
-        for (let i = 0; i < size; i++) {
-          layout[i] = [];
-          for (let j = 0; j < size; j++) {
-            const quarter = quarters[Math.floor(i / (size / (2 + Math.random()))) * 2 + Math.floor(j / (size / (2 + Math.random())))];
-            layout[i][j] = quarter;
-          }
-        }
-
-        // Create roads based on the type of the area
-        for (let i = 0; i < size; i++) {
-          for (let j = 0; j < size; j++) {
-            const areaType = layout[i][j];
-            if (areaType === "residential" || areaType === "industrial") {
-              // Create tightly packed roads for "residential" and "industrial" areas
-              if (i % roadInterval === 0 || j % roadInterval === 0) {
-                layout[i][j] = "road";
-              }
-
-            } else if (areaType === "natural") {
-              // Create winding roads for "natural" areas
-              if ((i % (2 * roadInterval) < roadInterval && j % roadInterval === 0) ||
-                (i % (2 * roadInterval) >= roadInterval && i % roadInterval === 0)) {
-                layout[i][j] = "road";
-                // Randomly turn the road
-                if (Math.random() < turnChance) {
-                  if (i % (2 * roadInterval) < roadInterval) {
-                    // The road is currently horizontal, so turn it vertical
-                    for (let k = i; k < size; k++) {
-                      layout[k][j] = "road";
-                    }
-                  } else {
-                    // The road is currently vertical, so turn it horizontal
-                    for (let k = j; k < size; k++) {
-                      layout[i][k] = "road";
-                    }
+      // Create roads based on the type of the area
+      for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+          const areaType = layout[i][j];
+          if (areaType === "residential" || areaType === "industrial") {
+            // Create tightly packed roads for "residential" and "industrial" areas
+            if (i % roadInterval === 0 || j % roadInterval === 0) {
+              layout[i][j] = "road";
+            }
+          } else if (areaType === "natural") {
+            // Create winding roads for "natural" areas
+            if ((i % (2 * roadInterval) < roadInterval && j % roadInterval === 0) ||
+              (i % (2 * roadInterval) >= roadInterval && i % roadInterval === 0)) {
+              layout[i][j] = "road";
+              // Randomly turn the road
+              if (Math.random() < turnChance) {
+                if (i % (2 * roadInterval) < roadInterval) {
+                  // The road is currently horizontal, so turn it vertical
+                  for (let k = i; k < size; k++) {
+                    layout[k][j] = "road";
+                  }
+                } else {
+                  // The road is currently vertical, so turn it horizontal
+                  for (let k = j; k < size; k++) {
+                    layout[i][k] = "road";
                   }
                 }
               }
             }
           }
         }
+      }
 
-        for (let i = 0; i < size; i++) {
-    for (let j = 0; j < size; j++) {
-      const areaType = layout[i][j];
-      if (areaType !== "road" && areaType !== "water" && areaType !== "natural") {
-        if ((i > 0 && layout[i - 1][j] === "road") ||
-            (j > 0 && layout[i][j - 1] === "road") ||
-            (i < size - 1 && layout[i + 1][j] === "road") ||
-            (j < size - 1 && layout[i][j + 1] === "road")) {
-          layout[i][j] = "habitable";
+      for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+          const areaType = layout[i][j];
+          if (areaType !== "road" && areaType !== "water" && areaType !== "natural") {
+            if ((i > 0 && layout[i - 1][j] === "road") ||
+              (j > 0 && layout[i][j - 1] === "road") ||
+              (i < size - 1 && layout[i + 1][j] === "road") ||
+              (j < size - 1 && layout[i][j + 1] === "road")) {
+              layout[i][j] = "habitable";
+            }
+          }
         }
+      }
+
+      const buildingTypes = ["office-building", "gas-station", "library", "police-station", "fire-station", "admin-buildings", "restaurants", "homes"];
+const buildingLimits = {
+  "gas-station": 10,
+  "library": 2,
+  "police-station": 5,
+  "fire-station": 3,
+  "restaurants": 10
+};
+const buildingCounts = {
+  "gas-station": 0,
+  "library": 0,
+  "police-station": 0,
+  "fire-station": 0,
+  "restaurants": 0
+};
+
+// Generate a list of all habitable locations
+const habitableLocations = [];
+for (let i = 0; i < size; i++) {
+  for (let j = 0; j < size; j++) {
+    if (layout[i][j] === "habitable") {
+      habitableLocations.push([i, j]);
+    }
+  }
+}
+
+// Shuffle the habitable locations
+shuffle(habitableLocations);
+
+// Assign buildings to the habitable locations
+for (const [i, j] of habitableLocations) {
+  if (Math.random() < 0.5) { // Only assign a building 50% of the time
+    let buildingType;
+    do {
+      buildingType = buildingTypes[Math.floor(Math.random() * buildingTypes.length)];
+    } while (buildingLimits[buildingType] && buildingCounts[buildingType] >= buildingLimits[buildingType]);
+    layout[i][j] = buildingType;
+    if (buildingCounts[buildingType] !== undefined) {
+      buildingCounts[buildingType]++;
+    }
+  }
+}
+// Post-processing check for roads
+for (let i = 0; i < size; i++) {
+  for (let j = 0; j < size; j++) {
+    if (layout[i][j] === "road") {
+      const neighbors = [
+        layout[i - 1] && layout[i - 1][j],
+        layout[i + 1] && layout[i + 1][j],
+        layout[i][j - 1],
+        layout[i][j + 1]
+      ];
+      const nonRoadNeighbors = neighbors.filter(neighbor => neighbor !== "road");
+      if (nonRoadNeighbors.length === neighbors.length) { // All neighbors are not roads
+        layout[i][j] = nonRoadNeighbors[0]; // Change the road to match its neighbors
       }
     }
   }
-
-        return layout;
-      }
+}
 
 
 
-    </script>
-  </div>
+      return layout;
+    }
+  </script>
 </body>
 
 </html>
