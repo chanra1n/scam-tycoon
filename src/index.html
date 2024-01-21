@@ -36,12 +36,6 @@
       box-sizing: border-box;
     }
 
-    .grid-item:hover {
-      outline: 5px solid #ff0000a0;
-      z-index:1000;
-      border-radius:100%;
-    }
-
     .residential {
       background-color: #f9f9f9;
     }
@@ -64,6 +58,24 @@
       background-color: #c3c3c3;
       z-index: 100;
     }
+
+    .habitable {
+      background-color: orange;
+    }
+
+.habitable:hover {
+      outline: 5px solid #00ff00a0!important;
+      z-index:1000;
+      border-radius:100%;
+    }
+
+
+    .water:hover, .road:hover, .grid-item:hover {
+      outline: 5px solid #ff0000a0;
+      z-index:1000;
+      border-radius:100%;
+    }
+
   </style>
 </head>
 
@@ -137,6 +149,20 @@
             }
           }
         }
+
+        for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      const areaType = layout[i][j];
+      if (areaType !== "road" && areaType !== "water" && areaType !== "natural") {
+        if ((i > 0 && layout[i - 1][j] === "road") ||
+            (j > 0 && layout[i][j - 1] === "road") ||
+            (i < size - 1 && layout[i + 1][j] === "road") ||
+            (j < size - 1 && layout[i][j + 1] === "road")) {
+          layout[i][j] = "habitable";
+        }
+      }
+    }
+  }
 
         return layout;
       }
