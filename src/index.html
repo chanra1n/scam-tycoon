@@ -10,14 +10,37 @@
   <!-- UIkit JS -->
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit-icons.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.1.0/remixicon.min.css"
+    integrity="sha512-i5VzKip7owqOGjb0YTF8MR2J9yBVO3FLHeazKzLp354XYTmKcqEU3UeFYUw82R8tV6JqxeATOfstCfpfPhbyEA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel = "stylesheet" href = "crt.css">
+    <link rel = "stylesheet" href = "vig.css">
+    <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
   <style>
+
+    /*add my custom fonts*/
+
+    @font-face {
+      font-family: "gamer";
+      src: url("sprites/gamer.ttf");
+    }
+
+    @font-face {
+      font-family: "beeg";
+      src: url("sprites/8bitfont.ttf");
+    }
+
     body,
     html {
       height: 100%;
-      margin: 0;
-      padding: 0px;
-      width: 100%;
+    margin: 0;
+    padding: 0px;
+    width: 100%;
+    overflow: hidden;
+    filter: brightness(1.2);
+    font-family:'gamer';
     }
+
 
     .grid-container {
       display: grid;
@@ -34,6 +57,11 @@
       background-color: #e9e9e9;
       outline: 1.5px solid #c3c3c320;
       box-sizing: border-box;
+      background-image:url('sprites/city_block.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+      image-rendering: pixelated;
+        
     }
 
     .residential {
@@ -42,11 +70,17 @@
 
     .industrial {
       background-color: #c3c3c3;
+      background-image: url('sprites/city_block.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+      
     }
 
     .natural {
       background-color: #b8db88;
-      /* A green color for natural areas */
+      background-image: url('sprites/grass.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
     }
 
     .water {
@@ -55,16 +89,50 @@
     }
 
     .road {
-      background-color: #c3c3c3;
-      z-index: 100;
+      background-color: #a1a1a1;
+      z-index: 10000;
+      background-image: url('sprites/street.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+      image-rendering: pixelated;
+    }
+
+    .horizontal {
+      background-image: url('sprites/street_horizontal.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .vertical {
+      background-image: url('sprites/street_vertical.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .end-horizontal {
+      background-image: url('sprites/street.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .end-vertical {
+      background-image: url('sprites/street.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .intersection {
+      background-image: url('sprites/street.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
     }
 
     .habitable {
-      background-color: #ffa500;
+      background-color: #e9e9e9;
     }
 
     .habitable:hover {
-      outline: 5px solid #00ff00a0!important;
+      outline: 5px solid #00ff00a0 !important;
       z-index: 1000;
       border-radius: 100%;
     }
@@ -77,49 +145,135 @@
       border-radius: 100%;
     }
 
+    .beach {
+      background-color: #f6d4a4;
+      background-image:none;
+      z-index:1000;
+    }
 
-    /* const buildingTypes = ["office-building", "gas-station", "library", "police-station", "fire-station", "admin-buildings", "restaurants", "homes"];
-*/
+
+
+
+.office-building, .gas-station, .library, .police-station, .fire-station, .admin-buildings, .restaurants, .homes{
+  background-color: #A6A9AE;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  transform:scale(1.05);
+}
+
+.office-building:hover, .gas-station:hover, .library:hover, .police-station:hover, .fire-station:hover, .admin-buildings:hover, .restaurants:hover, .homes:hover{
+z-index:1000000;
+transform:scale(2);
+border:none;
+outline:none;
+border-radius:0px;
+overflow:auto;
+}
 
 .office-building {
-  background-color: red;
+  background-image: url('sprites/office_building_1.png');
+  background-size: contain;
+  z-index:1000;
+  transform:scale(1.05);
 }
 
 .gas-station {
-  background-color: blue;
+  background-image: url('sprites/gas_station.png');
+  background-size: contain;
+  z-index:0;
 }
 
 .library {
-  background-color: green;
+  background-image: url('sprites/library.png');
+  background-size: contain;
+  z-index:10;
 }
 
 .police-station {
-  background-color: yellow;
+  background-image: url('sprites/police_station.png');
+  z-index:1000;
+  background-size:contain;
 }
 
 .fire-station {
-  background-color: purple;
+  background-image: url('sprites/fire_station.png');
+  z-index:100;
 }
 
 .admin-buildings {
-  background-color: pink;
+  background-image: url('sprites/office_building_1.png');
+  z-index:1000;
 }
 
 .restaurants {
-  background-color: brown;
+  background-image: url('sprites/reset.png');
+  z-index:100;
 }
 
 .homes {
-  background-color: black;
+  background-image: url('sprites/house_1.png');
+    background-size: 50%;
+    z-index: 0;
+    background-repeat: round;
+    opacity: 50%;
 }
 
+
+    #navbar {
+      position: fixed;
+      bottom: 0;
+      z-index: 1000;
+      background-color: black;
+      box-sizing: border-box;
+      width: 98%;
+      margin: 1%;
+      border-radius: 7.5px;
+      font-weight: 900;
+      font-size: 20px;
+      color: white;
+      opacity: 50%;
+      vertical-align: middle;
+      display: flex;
+      padding: 10px;
+    }
+
+    #navbar:hover {
+      opacity: 100%;
+    }
+
+    #navbar button {
+      color: white;
+      border: none;
+      font-size: 20px;
+      background-color: transparent;
+      border-radius: 100vmin;
+      aspect-ratio: 1/1;
+      cursor: pointer;
+    }
   </style>
 </head>
 
 <body>
-  <div class="grid-container"></div>
+  <div class = "vignette"></div>
+  <div class = "crt"></div>
+  <div id="navbar">
+
+    <!-- Add this to your HTML -->
+    <select id="building-select">
+      <option value="police-station">Police Station</option>
+      <option value="fire-station">Fire Station</option>
+      <!-- Add more options as needed -->
+    </select>
+    <button id="toggle-building-mode"><i class="ri-hammer-fill"></i></button>
+
+
+
+  </div>
+  <div id = "world-map" class="grid-container"></div>
 
   <script>
+
     const gridSize = 64;
     const gridContainer = document.querySelector(".grid-container");
 
@@ -131,16 +285,49 @@
         gridItem.classList.add("grid-item");
         gridItem.classList.add(cityLayout[i][j]);
         gridContainer.appendChild(gridItem);
+        gridItem.dataset.position = `${i},${j}`;
+
+
+        if (cityLayout[i][j] === "road") {
+  const isRoadAbove = i > 0 && cityLayout[i - 1][j] === "road";
+  const isRoadBelow = i < gridSize - 1 && cityLayout[i + 1][j] === "road";
+  const isRoadLeft = j > 0 && cityLayout[i][j - 1] === "road";
+  const isRoadRight = j < gridSize - 1 && cityLayout[i][j + 1] === "road";
+
+  const isHorizontal = isRoadLeft || isRoadRight;
+  const isVertical = isRoadAbove || isRoadBelow;
+
+  const isIntersection = isHorizontal && isVertical;
+  const isEnd = [isRoadAbove, isRoadBelow, isRoadLeft, isRoadRight].filter(Boolean).length === 1;
+
+  if (isIntersection) {
+    gridItem.classList.add("intersection");
+  } else if (isEnd) {
+    if (isRoadAbove || isRoadBelow) {
+      gridItem.classList.add("vertical");
+    } else {
+      gridItem.classList.add("horizontal");
+    }
+  } else if (isHorizontal) {
+    gridItem.classList.add("horizontal");
+  } else {
+    gridItem.classList.add("vertical");
+  }
+}
+
+
       }
     }
 
+
+
     // Function to shuffle an array
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
 
     function generateCityLayout(size) {
       const layout = [];
@@ -150,7 +337,7 @@ function shuffle(array) {
       const turnChance = Math.random() * 0.2 + 0.1; // Randomize the chance of a road turning
 
 
-      
+
       // Create a grid of "residential", "industrial", "natural", and "water" areas
       for (let i = 0; i < size; i++) {
         layout[i] = [];
@@ -160,7 +347,7 @@ function shuffle(array) {
         }
       }
 
-      
+
 
       // Create roads based on the type of the area
       for (let i = 0; i < size; i++) {
@@ -210,33 +397,33 @@ function shuffle(array) {
       }
 
       const buildingTypes = ["office-building", "gas-station", "library", "police-station", "fire-station", "admin-buildings", "restaurants", "homes"];
-const buildingLimits = {
-  "gas-station": 10,
-  "library": 2,
-  "police-station": 5,
-  "fire-station": 3,
-  "restaurants": 10
-};
-const buildingCounts = {
-  "gas-station": 0,
-  "library": 0,
-  "police-station": 0,
-  "fire-station": 0,
-  "restaurants": 0
-};
+      const buildingLimits = {
+        "gas-station": 10,
+        "library": 2,
+        "police-station": 5,
+        "fire-station": 3,
+        "restaurants": 10
+      };
+      const buildingCounts = {
+        "gas-station": 0,
+        "library": 0,
+        "police-station": 0,
+        "fire-station": 0,
+        "restaurants": 0
+      };
 
-// Generate a list of all habitable locations
-const habitableLocations = [];
-for (let i = 0; i < size; i++) {
-  for (let j = 0; j < size; j++) {
-    if (layout[i][j] === "habitable") {
-      habitableLocations.push([i, j]);
-    }
-  }
-}
+      // Generate a list of all habitable locations
+      const habitableLocations = [];
+      for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+          if (layout[i][j] === "habitable") {
+            habitableLocations.push([i, j]);
+          }
+        }
+      }
 
-// Shuffle the habitable locations
-shuffle(habitableLocations);
+      // Shuffle the habitable locations
+      shuffle(habitableLocations);
 
 // Assign buildings to the habitable locations
 for (const [i, j] of habitableLocations) {
@@ -245,12 +432,15 @@ for (const [i, j] of habitableLocations) {
     do {
       buildingType = buildingTypes[Math.floor(Math.random() * buildingTypes.length)];
     } while (buildingLimits[buildingType] && buildingCounts[buildingType] >= buildingLimits[buildingType]);
-    layout[i][j] = buildingType;
-    if (buildingCounts[buildingType] !== undefined) {
-      buildingCounts[buildingType]++;
+    if (buildingType) { // Check that a building type was found
+      layout[i][j] = buildingType;
+      if (buildingCounts[buildingType] !== undefined) {
+        buildingCounts[buildingType]++;
+      }
     }
   }
 }
+
 // Post-processing check for roads
 for (let i = 0; i < size; i++) {
   for (let j = 0; j < size; j++) {
@@ -260,19 +450,163 @@ for (let i = 0; i < size; i++) {
         layout[i + 1] && layout[i + 1][j],
         layout[i][j - 1],
         layout[i][j + 1]
-      ];
+      ].filter(Boolean); // Filter out undefined neighbors
       const nonRoadNeighbors = neighbors.filter(neighbor => neighbor !== "road");
-      if (nonRoadNeighbors.length === neighbors.length) { // All neighbors are not roads
+      if (nonRoadNeighbors.length === neighbors.length && nonRoadNeighbors[0]) { // All neighbors are not roads and there is at least one non-road neighbor
         layout[i][j] = nonRoadNeighbors[0]; // Change the road to match its neighbors
       }
+    }
+  }
+
+}
+
+// Post-processing to add beach squares
+for (let i = 0; i < size; i++) {
+  for (let j = 0; j < size; j++) {
+    if (layout[i][j] === "water") {
+      const isEdgeOfWaterZone = (
+        (i > 0 && layout[i - 1][j] !== "water") ||
+        (j > 0 && layout[i][j - 1] !== "water") ||
+        (i < size - 1 && layout[i + 1][j] !== "water") ||
+        (j < size - 1 && layout[i][j + 1] !== "water")
+      );
+
+      if (isEdgeOfWaterZone) {
+        for (let di = -1; di <= 1; di++) {
+          for (let dj = -1; dj <= 1; dj++) {
+            if (i + di >= 0 && i + di < size && j + dj >= 0 && j + dj < size) { // Check that the square is within the grid
+              if (layout[i + di][j + dj] === "empty") {
+                layout[i + di][j + dj] = "beach";
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// post processing to check for undefined squares
+for (let i = 0; i < size; i++) {
+  for (let j = 0; j < size; j++) {
+    if (!layout[i][j]) {
+      layout[i][j] = "industrial";
     }
   }
 }
 
 
 
+
       return layout;
     }
+
+    let buildingMode = false;
+
+    document.getElementById('toggle-building-mode').addEventListener('click', () => {
+      buildingMode = !buildingMode;
+
+      if (buildingMode) {
+        document.getElementById('toggle-building-mode').style.backgroundColor = "#00ff00";
+      } else {
+        document.getElementById('toggle-building-mode').style.backgroundColor = "transparent";
+      }
+    });
+
+    const gridItems = document.querySelectorAll('.grid-item');
+    gridItems.forEach(item => {
+      item.addEventListener('click', () => {
+        if (buildingMode && item.classList.contains('habitable')) {
+          const buildingType = document.getElementById('building-select').value;
+          item.classList.remove('habitable');
+          item.classList.add(buildingType);
+        }
+      });
+    });
+
+
+    var player = {
+      money: 0,
+      income: 0,
+      expenses: 0,
+      level: 0
+    };
+
+
+    let panZoomController = panzoom(document.getElementById('world-map'), {
+  bounds: true,
+  maxZoom: 4,
+  minZoom: 1,
+  boundsPadding: 1
+});
+
+
+const adminBuildingImages = [
+  'sprites/admin_building_1.png',
+  'sprites/admin_building_2.png',
+  'sprites/admin_building_3.png',
+];
+
+const restaurantBuildingImages = [
+  'sprites/rest_1.png',
+  'sprites/rest_2.png',
+];
+
+const houseBuildingImages = [
+  'sprites/house_1.png',
+  'sprites/house_2.png',
+  'sprites/house_3.png',
+];
+
+const officeBuildingImages = [
+  'sprites/office_building_1.png',
+  'sprites/office_building_2.png',
+];
+
+document.querySelectorAll('.admin-buildings').forEach((building) => {
+  const randomImage = adminBuildingImages[Math.floor(Math.random() * adminBuildingImages.length)];
+  building.style.backgroundImage = `url('${randomImage}')`;
+});
+
+document.querySelectorAll('.restaurants').forEach((building) => {
+  const randomImage = restaurantBuildingImages[Math.floor(Math.random() * restaurantBuildingImages.length)];
+  building.style.backgroundImage = `url('${randomImage}')`;
+});
+
+document.querySelectorAll('.homes').forEach((building) => {
+  const randomImage = houseBuildingImages[Math.floor(Math.random() * houseBuildingImages.length)];
+  building.style.backgroundImage = `url('${randomImage}')`;
+});
+
+document.querySelectorAll('.office-building').forEach((building) => {
+  const randomImage = officeBuildingImages[Math.floor(Math.random() * officeBuildingImages.length)];
+  building.style.backgroundImage = `url('${randomImage}')`;
+});
+
+window.onload = function() {
+  document.querySelectorAll('.admin-buildings').forEach((building) => {
+    const randomImage = adminBuildingImages[Math.floor(Math.random() * adminBuildingImages.length)];
+    building.style.backgroundImage = `url('${randomImage}')`;
+  });
+
+  document.querySelectorAll('.restaurants').forEach((building) => {
+    const randomImage = restaurantBuildingImages[Math.floor(Math.random() * restaurantBuildingImages.length)];
+    building.style.backgroundImage = `url('${randomImage}')`;
+  });
+
+  document.querySelectorAll('.homes').forEach((building) => {
+    const randomImage = houseBuildingImages[Math.floor(Math.random() * houseBuildingImages.length)];
+    building.style.backgroundImage = `url('${randomImage}')`;
+  });
+
+  document.querySelectorAll('.office-building').forEach((building) => {
+    const randomImage = officeBuildingImages[Math.floor(Math.random() * officeBuildingImages.length)];
+    building.style.backgroundImage = `url('${randomImage}')`;
+  });
+
+};
+
+
   </script>
 </body>
 
