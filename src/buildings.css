@@ -13,6 +13,8 @@
       image-rendering: pixelated;
       background-size:auto;
       transform: scale(1.1);
+      transition: all 0.25s, background-color 0s;
+      transition-timing-function:cubic-bezier(0.8,0,0,1);
       z-index: 100000;
       filter: saturate(1.1);
     }
@@ -36,6 +38,7 @@
       filter: drop-shadow(1px 1px 0px black)!important;
       background-position:center;
       opacity:100%;
+      cursor:pointer;
     }
 
     .office-building {
@@ -47,8 +50,9 @@
 
     .gas-station {
       background-image: url('sprites/gas_station.png');
-      background-size: contain;
-      filter:grayscale(100%)
+      background-size: 50% 75%;
+      filter: grayscale(100%);
+      background-position: center;
 
     }
 
@@ -66,7 +70,8 @@
 
     .fire-station {
       background-image: url('sprites/fire_station.png');
-      filter:grayscale(100%)
+      filter:grayscale(100%);
+      background-size: contain;
     }
 
     .admin-buildings {
@@ -76,7 +81,9 @@
 
     .restaurants {
       background-image: url('sprites/rest_1.png');
-      filter:grayscale(100%)
+      filter: grayscale(100%);
+      background-size: 85%;
+      background-position: center;
     }
 
     .homes {

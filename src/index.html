@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="vig.css">
   <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
   <script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://unpkg.com/tippy.js@6"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
   <style>
     /*add my custom fonts*/
 
@@ -39,12 +39,13 @@
     body,
     html {
       height: 100%;
-    margin: 0;
-    padding: 0px;
-    width: 100%;
-    overflow: hidden;
-    font-family: 'gamer';
-    filter: sepia(1) hue-rotate(45deg);
+      margin: 0;
+      padding: 0px;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'gamer';
+      filter: sepia(1) hue-rotate(45deg);
+      user-select: none!important;
     }
 
 
@@ -105,18 +106,18 @@
 
     #topbar {
       position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10000;
-    background-color: black;
-    width: 100%;
-    font-weight: 900;
-    font-size: 20px;
-    vertical-align: middle;
-    padding: 0px;
-    margin: 0px;
-    text-align: right;
-    box-sizing: border-box;
+      top: 0;
+      left: 0;
+      z-index: 10000;
+      background-color: black;
+      width: 100%;
+      font-weight: 900;
+      font-size: 20px;
+      vertical-align: middle;
+      padding: 0px;
+      margin: 0px;
+      text-align: right;
+      box-sizing: border-box;
     }
 
     #topbar p:nth-child(even) {
@@ -129,15 +130,15 @@
 
     #topbar p {
       font-weight: 100;
-    font-size: 20px;
-    padding: 0px;
-    margin: 0px;
-    vertical-align: middle;
-    display: inline-block;
-    padding-left: 10px;
-    padding-right: 10px;
-    white-space: normal;
-    border: 5px solid transparent;
+      font-size: 20px;
+      padding: 0px;
+      margin: 0px;
+      vertical-align: middle;
+      display: inline-block;
+      padding-left: 10px;
+      padding-right: 10px;
+      white-space: normal;
+      border: 5px solid transparent;
     }
 
     #topbar p i {
@@ -145,15 +146,49 @@
     }
 
     .tippy-box {
-  background-color: #000;
-  font-family:'pst';
-  font-size:10px!important;
-  border-radius:0px;
-}
+      background-color: #000;
+      font-family: 'pst';
+      font-size: 9px !important;
+      border-radius: 0px;
+    }
+
+    .tippy-box hr {
+      padding: 1.5px;
+      margin: 0px;
+      box-sizing: border-box;
+      opacity: 50%;
+    }
+
+    .tippy-box h3 {
+      color: green;
+    font-family: 'pst';
+    font-size: 10px;
+    border: 1.5px solid;
+    padding: 5px;
+    text-align: center;
+    display: block;
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+    cursor:pointer;
+    }
+
+    .tippy-box h3:hover {
+      box-shadow:1.5px 1.5px 0px green;
+      transform:scale(1.05);
+    }
+
+    .tippy-arrow {
+      background-color: #000!important;
+      color:#000!important;
+    }
+
+    [data-tippy-root] {
+      z-index: 1000000000000000!important;
+    }
 
   </style>
-    <link rel="stylesheet" href="zones.css">
-    <link rel="stylesheet" href="buildings.css">
+  <link rel="stylesheet" href="zones.css">
+  <link rel="stylesheet" href="buildings.css">
 </head>
 
 <body>
@@ -161,18 +196,18 @@
 
     <div style="float:left">
       <select id="building-select">
-        <option value="admin-buildings">Admin Building</option>
+        <option value="admin-buildings">Call Center</option>
         <option value="office-building">Office Building</option>
         <!-- Add more options as needed -->
       </select>
       <button id="toggle-building-mode"><i class="ri-hammer-fill"></i></button>
     </div>
     <div style="float:right;display:flex;">
-    <p id="player-money"> <i class="ri-money-dollar-circle-fill"></i> 0</p>
-    <p id="player-level"><i class="ri-shield-fill"></i> 00</p>
-    <p id="employee-count"><i class="ri-user-5-fill"></i> 0</p>
-    <p id="building-count"><i class="ri-hotel-fill"></i> 0</p>
-</div>
+      <p id="player-money"> <i class="ri-money-dollar-circle-fill"></i> 0</p>
+      <p id="player-level"><i class="ri-shield-fill"></i> 00</p>
+      <p id="employee-count"><i class="ri-user-5-fill"></i> 0</p>
+      <p id="building-count"><i class="ri-hotel-fill"></i> 0</p>
+    </div>
 
   </div>
   <div id="navbar">
@@ -527,89 +562,214 @@
 
 
     class Building {
-  constructor(name, type, resaleValue, buyValue, rentValue, location) {
-    this.name = name;
-    this.type = type;
-    this.resaleValue = resaleValue;
-    this.buyValue = buyValue;
-    this.rentValue = rentValue;
-    this.location = location;
-  }
+      constructor(name, type, resaleValue, buyValue, rentValue, location, forSale, forRent) {
+        this.name = name;
+        this.type = type;
+        this.resaleValue = resaleValue;
+        this.buyValue = buyValue;
+        this.rentValue = rentValue;
+        this.location = location;
+        this.forSale = forSale; // Assign the value
+        this.forRent = forRent; // Assign the value
+      }
 
-  getInfo() {
-    return `
-    ID: ${this.name}<br>
-    Type: ${this.type}<br>
-    Buy: ${this.buyValue}<br>
-    Rent: ${this.rentValue}<br>
-    Resale: ${this.resaleValue}<br>
-    Coords: ${this.location}<br>
+      // make an embed for the rent status
+      get isforrent() {
+        if (this.forRent == true) {
+          return `<h3 style = "display:block;color:green;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-line"></i> FOR RENT</h3>`;
+        } else {
+          return ``;
+        }
+      }
+
+      // make an embed for the sale status
+      get isforsale() {
+        if (this.forSale == true) {
+          return `<h3 style = "display:block;color:green;vertical-align:middle"> <i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>`;
+        } else {
+          return ``;
+        }
+      }
+
+      getInfo() {
+
+        if (this.type === "Call Center" || this.type === "Office") {
+ 
+
+        return `
+    <span style = "font-size:8px" ><i>#</i> ${this.name}</span><hr>
+    <i style = "font-weight:100;vertical-align:middle" class="ri-building-4-fill"></i> <span style = "vertical-align:middle;">${this.type}</span><br>
+    <i title = "Rent [Monthly]" style="font-weight:100;vertical-align:middle" class="ri-money-dollar-circle-line"></i> <span title = "Rent [Monthly]" style="vertical-align:middle;">${(parseFloat(this.rentValue)/1000).toFixed(1)}K/mo.</span><br>
+    <i title = "Property Value" style="font-weight:100;vertical-align:middle" class="ri-money-dollar-circle-fill"></i> <span title = "Property Value" style="vertical-align:middle;">${(parseFloat(this.buyValue)/1000000).toFixed(1)}M</span><br>
+    <i title = "Resale Value" style="font-weight:100;vertical-align:middle;opacity:50%;" class="ri-discount-percent-line"></i> <span title = "Resale Value" style="vertical-align:middle;opacity:50%;">${(parseFloat(this.resaleValue)/1000000).toFixed(1)}M</span><br>
+    <i style = "font-weight:100;vertical-align:middle" class="ri-map-pin-2-fill"></i> <span style = "vertical-align:middle;">${this.location}</span><br>
+    ${this.isforrent}
+    ${this.isforsale}
     `;
-  }
-}
 
-gridItems.forEach((item, index) => {
-  var buildingType;
-  var prefix;
+        } else if (this.type === "Restaurant") {
+        // no rent value for restaurants
+        return `
+    <span style = "font-size:8px" ><i>#</i> ${this.name}</span><hr>
+    <i style = "font-weight:100;vertical-align:middle" class="ri-building-4-fill"></i> <span style = "vertical-align:middle;">${this.type}</span><br>
+    <i style="font-weight:100;vertical-align:middle" class="ri-money-dollar-circle-fill"></i> <span style="vertical-align:middle;">${parseFloat(this.buyValue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span><br>
+    <i style = "opacity:50%;font-weight:100;vertical-align:middle" class="ri-discount-percent-line"></i> <span style = "opacity:50%;vertical-align:middle;">${parseFloat(this.resaleValue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span><br>
+    <i style = "font-weight:100;vertical-align:middle" class="ri-map-pin-2-fill"></i> <span style = "vertical-align:middle;">${this.location}</span><br>
+    ${this.isforsale}
+    `;
 
-  if (Array.from(item.classList).some(cls => cls.includes('admin'))) {
-  buildingType = "Admin";
-  prefix = 'A';
-  numba = index;
-} else if (Array.from(item.classList).some(cls => cls.includes('office'))) {
-  buildingType = "Office";
-  prefix = 'O';
-  numba = index;
-} else if (Array.from(item.classList).some(cls => cls.includes('gas'))) {
-  buildingType = "Gas Station";
-  prefix = 'G';
-  numba = index;
-} else if (Array.from(item.classList).some(cls => cls.includes('library'))) {
-  buildingType = "Library";
-  prefix = 'L';
-  numba = index;
-} else if (Array.from(item.classList).some(cls => cls.includes('police'))) {
-  buildingType = "Police Station";
-  prefix = 'P';
-  numba = index;
-} else if (Array.from(item.classList).some(cls => cls.includes('fire'))) {
-  buildingType = "Fire Station";
-  prefix = 'F';
-  numba = index;
-} else if (Array.from(item.classList).some(cls => cls.includes('restaurant'))) {
-  buildingType = "Restaurant";
-  prefix = 'R';
-  numba = index;
-} else if (Array.from(item.classList).some(cls => cls.includes('home'))) {
-  buildingType = "Home";
-  prefix = 'H';
-  numba = index;
-} else {
-  buildingType = "****";
-  prefix = '****';
-  numba = '';
-}
-
-  let building = new Building(
-    ``+prefix+numba,
-    buildingType,
-    Math.floor(Math.random() * 1000000),
-    Math.floor(Math.random() * 1000000),
-    Math.floor(Math.random() * 10000),
-    `[`+item.dataset.position+`]`);
+      } else {
   
-  // Store the building info in a data attribute
-  item.dataset.info = building.getInfo();
-});
+        return `
+    <span style = "font-size:8px" ><i>#</i> ${this.name}</span><hr>
+    <i style = "font-weight:100;vertical-align:middle" class="ri-building-4-fill"></i> <span style = "vertical-align:middle;">${this.type}</span><br>
+    <i style = "font-weight:100;vertical-align:middle" class="ri-map-pin-2-fill"></i> <span style = "vertical-align:middle;">${this.location}</span><br>
+    `;
+
+      }
+
+    }
+    }
+
+    gridItems.forEach((item, index) => {
+      var buildingType;
+      var prefix;
+
+
+      if (Array.from(item.classList).some(cls => cls.includes('admin'))) {
+        buildingType = "Call Center";
+        prefix = 'C';
+        numba = index;
+        item.dataset.forSale = true;
+        item.dataset.forRent = true;
+      } else if (Array.from(item.classList).some(cls => cls.includes('office'))) {
+        buildingType = "Office";
+        prefix = 'O';
+        numba = index;
+        item.dataset.forSale = true;
+        item.dataset.forRent = true;
+      } else if (Array.from(item.classList).some(cls => cls.includes('gas'))) {
+        buildingType = "Gas Station";
+        prefix = 'G';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('library'))) {
+        buildingType = "Library";
+        prefix = 'L';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('police'))) {
+        buildingType = "Police Station";
+        prefix = 'P';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('fire'))) {
+        buildingType = "Fire Station";
+        prefix = 'F';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('restaurant'))) {
+        buildingType = "Restaurant";
+        prefix = 'R';
+        numba = index;
+        item.dataset.forSale = true;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('home'))) {
+        buildingType = "Home";
+        prefix = 'H';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('empty'))) {
+        buildingType = "****";
+        prefix = '';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('beach'))) {
+        buildingType = "****";
+        prefix = '';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('road'))) {
+        buildingType = "****";
+        prefix = '';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('natural'))) {
+        buildingType = "****";
+        prefix = '';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else if (Array.from(item.classList).some(cls => cls.includes('water'))) {
+        buildingType = "Water";
+        prefix = 'W';
+        numba = index;
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      } else {
+        buildingType = "****";
+        prefix = '****';
+        numba = '';
+        item.dataset.forSale = false;
+        item.dataset.forRent = false;
+      }
+
+      // Create a new building object
+
+      if (buildingType === "Restaurant") {
+        // generate a random number between 300,000 and 600,000. the average should be around 400,000
+        var buyValue; do { buyValue = Math.round(400000 + Math.random() * Math.sqrt(-2.0 * Math.log(Math.random())) * Math.sin(2.0 * Math.PI * Math.random()) * 50000); } while (buyValue < 300000 || buyValue > 600000);
+        
+      } else if (buildingType === "Call Center") {
+
+      // generate a random number between 1.5mil and 3mil. the average should be around 2mil 
+      var buyValue; do { buyValue = Math.round(2000000 + Math.random() * Math.sqrt(-2.0 * Math.log(Math.random())) * Math.sin(2.0 * Math.PI * Math.random()) * 50000); } while (buyValue < 1500000 || buyValue > 3000000);
+      // generate a random number between 50k and 100k. the average should be around 75k
+      var rentValue; do { rentValue = Math.round(75000 + Math.random() * Math.sqrt(-2.0 * Math.log(Math.random())) * Math.sin(2.0 * Math.PI * Math.random()) * 50000); } while (rentValue < 50000 || rentValue > 100000);
+
+  } else if (buildingType === "Office") {
+        // generate a random number between 3.5mil and 4mil. the average should be around 3.75mil
+        var buyValue; do { buyValue = Math.round(3750000 + Math.random() * Math.sqrt(-2.0 * Math.log(Math.random())) * Math.sin(2.0 * Math.PI * Math.random()) * 50000); } while (buyValue < 3500000 || buyValue > 4000000);
+        // generate a random number between 100k and 150k. the average should be around 110k
+       var rentValue; do { rentValue = Math.round(110000 + Math.random() * Math.sqrt(-2.0 * Math.log(Math.random())) * Math.sin(2.0 * Math.PI * Math.random()) * 50000); } while (rentValue < 100000 || rentValue > 150000);  
+      } else {
+        var buyValue = Math.floor(Math.random() * 1000000) + 1000000;
+      }
+
+      let building = new Building(
+  `` + prefix + numba,
+  buildingType,
+  // resale value should be 60% of the buy value
+  buyValue * 0.6,
+  buyValue,
+  rentValue,
+  `[` + item.dataset.position + `]`,
+  JSON.parse(item.dataset.forSale), // Convert to boolean
+  JSON.parse(item.dataset.forRent)  // Convert to boolean
+);
+
+      // Store the building info in a data attribute
+      item.dataset.info = building.getInfo();
+    });
 
 
 
-tippy('.grid-item', {
-  content(reference) {
-    return reference.dataset.info;
-  },
-  allowHTML: true
-});
+    tippy('.grid-item:not(.road):not(.water):not(.natural):not(.empty):not(.beach):not(.residential):not(.industrial)',{
+          //trigger: 'click',
+      interactive: true, 
+      content(reference) {
+        return reference.dataset.info;
+      },
+      allowHTML: true
+    });
 
   </script>
 </body>
