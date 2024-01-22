@@ -156,8 +156,8 @@
 
     <div style="float:left">
       <select id="building-select">
-        <option value="police-station">Police Station</option>
-        <option value="fire-station">Fire Station</option>
+        <option value="admin-buildings">Admin Building</option>
+        <option value="office-building">Office Building</option>
         <!-- Add more options as needed -->
       </select>
       <button id="toggle-building-mode"><i class="ri-hammer-fill"></i></button>
@@ -452,8 +452,6 @@
 
     const adminBuildingImages = [
       'sprites/admin_building_1.png',
-      'sprites/admin_building_2.png',
-      'sprites/admin_building_3.png',
     ];
 
     const restaurantBuildingImages = [
@@ -524,21 +522,73 @@
 
 
     class Building {
-  constructor(name, type, size, location) {
+  constructor(name, type, resaleValue, rentValue, location) {
     this.name = name;
     this.type = type;
-    this.size = size;
+    this.resaleValue = resaleValue;
+    this.rentValue = rentValue;
     this.location = location;
   }
 
   getInfo() {
-    return `Name: ${this.name}<br>Type: ${this.type}<br>Size: ${this.size}<br>Location: ${this.location}`;
+    return `
+    ID: ${this.name}<br>
+    Type: ${this.type}<br>
+    Resale: ${this.resaleValue}<br>
+    Rent: ${this.rentValue}<br>
+    Coords: ${this.location}<br>
+    `;
   }
 }
 
 gridItems.forEach((item, index) => {
-  // Create a new building instance for each grid item
-  let building = new Building(`Building ${index + 1}`, 'Residential', 'Large', `Location ${index + 1}`);
+  var buildingType;
+  var prefix;
+
+  if (Array.from(item.classList).some(cls => cls.includes('admin'))) {
+  buildingType = "Admin";
+  prefix = 'A';
+  numba = index;
+} else if (Array.from(item.classList).some(cls => cls.includes('office'))) {
+  buildingType = "Office";
+  prefix = 'O';
+  numba = index;
+} else if (Array.from(item.classList).some(cls => cls.includes('gas'))) {
+  buildingType = "Gas Station";
+  prefix = 'G';
+  numba = index;
+} else if (Array.from(item.classList).some(cls => cls.includes('library'))) {
+  buildingType = "Library";
+  prefix = 'L';
+  numba = index;
+} else if (Array.from(item.classList).some(cls => cls.includes('police'))) {
+  buildingType = "Police Station";
+  prefix = 'P';
+  numba = index;
+} else if (Array.from(item.classList).some(cls => cls.includes('fire'))) {
+  buildingType = "Fire Station";
+  prefix = 'F';
+  numba = index;
+} else if (Array.from(item.classList).some(cls => cls.includes('restaurant'))) {
+  buildingType = "Restaurant";
+  prefix = 'R';
+  numba = index;
+} else if (Array.from(item.classList).some(cls => cls.includes('home'))) {
+  buildingType = "Home";
+  prefix = 'H';
+  numba = index;
+} else {
+  buildingType = "----";
+  prefix = '----';
+  numba = '';
+}
+
+  let building = new Building(
+    ``+prefix+numba,
+    buildingType,
+    Math.floor(Math.random() * 1000000),
+    Math.floor(Math.random() * 10000),
+    `[`+item.dataset.position+`]`);
   
   // Store the building info in a data attribute
   item.dataset.info = building.getInfo();

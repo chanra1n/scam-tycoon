@@ -1,6 +1,4 @@
 
-
-
     .office-building,
     .gas-station,
     .library,
@@ -13,8 +11,9 @@
       background-size: contain;
       background-repeat: no-repeat;
       image-rendering: pixelated;
+      background-size:auto;
       transform: scale(1.1);
-      z-index: 100000!important;
+      z-index: 100000;
       filter: saturate(1.1);
     }
 
@@ -26,12 +25,17 @@
     .admin-buildings:hover,
     .restaurants:hover,
     .homes:hover {
-      z-index: 1000000;
-      transform: scale(2);
+      z-index: 100000000;
+      transform: scale(2.5);
       border: none;
       outline: none;
       border-radius: 0px;
       overflow: auto;
+      background-size:100% 100%;
+      background-color:transparent;
+      filter: drop-shadow(1px 1px 0px black)!important;
+      background-position:center;
+      opacity:100%;
     }
 
     .office-building {
@@ -44,12 +48,14 @@
     .gas-station {
       background-image: url('sprites/gas_station.png');
       background-size: contain;
+      filter:grayscale(100%)
 
     }
 
     .library {
       background-image: url('sprites/library.png');
       background-size: contain;
+      filter:grayscale(100%)
 
     }
 
@@ -60,14 +66,17 @@
 
     .fire-station {
       background-image: url('sprites/fire_station.png');
+      filter:grayscale(100%)
     }
 
     .admin-buildings {
       background-image: url('sprites/office_building_1.png');
+      background-size:contain;
     }
 
     .restaurants {
-      background-image: url('sprites/reset.png');
+      background-image: url('sprites/rest_1.png');
+      filter:grayscale(100%)
     }
 
     .homes {
@@ -75,4 +84,5 @@
       background-size: 50%;
       background-repeat: round;
       opacity: 75%;
+      filter:grayscale(100%)
     }
