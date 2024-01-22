@@ -86,3 +86,19 @@
       opacity: 75%;
       filter:grayscale(100%)
     }
+
+
+
+
+    @keyframes moveCar {
+      0% { left: 0; }
+      100% { left: 100%; } /* Move the car to the end of the road */
+    }
+    
+    .car {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background-color: red; /* Or any color you want for the car */
+      animation: moveCar 5s linear infinite; /* Adjust the duration based on how fast you want the car to move */
+    }

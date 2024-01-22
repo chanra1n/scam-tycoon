@@ -31,15 +31,20 @@
       src: url("sprites/8bitfont.ttf");
     }
 
+    @font-face {
+      font-family: "pst";
+      src: url("sprites/pst.ttf");
+    }
+
     body,
     html {
       height: 100%;
-      margin: 0;
-      padding: 0px;
-      width: 100%;
-      overflow: hidden;
-      filter: brightness(1.2);
-      font-family: 'gamer';
+    margin: 0;
+    padding: 0px;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'gamer';
+    filter: sepia(1) hue-rotate(45deg);
     }
 
 
@@ -124,24 +129,26 @@
 
     #topbar p {
       font-weight: 100;
-      font-size: 25px;
-      padding: 0px;
-      margin: 0px;
-      vertical-align: middle;
-      display: inline-block;
-      padding-left: 10px;
-      padding-right: 10px;
-      white-space: normal;
-      border: 5px solid transparent;
+    font-size: 20px;
+    padding: 0px;
+    margin: 0px;
+    vertical-align: middle;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: normal;
+    border: 5px solid transparent;
     }
 
     #topbar p i {
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .tippy-box {
   background-color: #000;
-  font-family:'Consolas', 'Courier New', Courier, monospace;
+  font-family:'pst';
+  font-size:10px!important;
+  border-radius:0px;
 }
 
   </style>
@@ -150,8 +157,6 @@
 </head>
 
 <body>
-  <div class="vignette"></div>
-  <div class="crt"></div>
   <div id="topbar">
 
     <div style="float:left">
@@ -522,10 +527,11 @@
 
 
     class Building {
-  constructor(name, type, resaleValue, rentValue, location) {
+  constructor(name, type, resaleValue, buyValue, rentValue, location) {
     this.name = name;
     this.type = type;
     this.resaleValue = resaleValue;
+    this.buyValue = buyValue;
     this.rentValue = rentValue;
     this.location = location;
   }
@@ -534,8 +540,9 @@
     return `
     ID: ${this.name}<br>
     Type: ${this.type}<br>
-    Resale: ${this.resaleValue}<br>
+    Buy: ${this.buyValue}<br>
     Rent: ${this.rentValue}<br>
+    Resale: ${this.resaleValue}<br>
     Coords: ${this.location}<br>
     `;
   }
@@ -578,8 +585,8 @@ gridItems.forEach((item, index) => {
   prefix = 'H';
   numba = index;
 } else {
-  buildingType = "----";
-  prefix = '----';
+  buildingType = "****";
+  prefix = '****';
   numba = '';
 }
 
@@ -587,12 +594,15 @@ gridItems.forEach((item, index) => {
     ``+prefix+numba,
     buildingType,
     Math.floor(Math.random() * 1000000),
+    Math.floor(Math.random() * 1000000),
     Math.floor(Math.random() * 10000),
     `[`+item.dataset.position+`]`);
   
   // Store the building info in a data attribute
   item.dataset.info = building.getInfo();
 });
+
+
 
 tippy('.grid-item', {
   content(reference) {

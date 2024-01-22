@@ -3,10 +3,11 @@
     }
 
     .industrial {
-      background-color: #c3c3c3;
+      background-color: #1a1a1a;
       background-image: url('sprites/city_block.png');
       background-size: 100%;
       background-repeat: no-repeat;
+      filter: brightness(0.95);
 
     }
 
@@ -18,8 +19,8 @@
     }
 
     .water {
-      background-color: #6daed5;
-      outline: 20px solid #6daed550;
+      background-color: #404040;
+      outline: 25px solid #40404050;
     }
 
     .road {
