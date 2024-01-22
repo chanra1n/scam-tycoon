@@ -90,7 +90,7 @@
 
     .road {
       background-color: #a1a1a1;
-      z-index: 10000;
+      z-index: 1000;
       background-image: url('sprites/street.png');
       background-size: 100%;
       background-repeat: no-repeat;
@@ -156,10 +156,11 @@
 
 .office-building, .gas-station, .library, .police-station, .fire-station, .admin-buildings, .restaurants, .homes{
   background-color: #A6A9AE;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  image-rendering: pixelated;
-  transform:scale(1.05);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    transform: scale(1.075);
+    z-index: 100000!important;
 }
 
 .office-building:hover, .gas-station:hover, .library:hover, .police-station:hover, .fire-station:hover, .admin-buildings:hover, .restaurants:hover, .homes:hover{
@@ -203,7 +204,6 @@ overflow:auto;
 
 .admin-buildings {
   background-image: url('sprites/office_building_1.png');
-  z-index:1000;
 }
 
 .restaurants {
@@ -333,7 +333,7 @@ overflow:auto;
       const layout = [];
       const quarters = ["residential", "industrial", "natural", "water"];
       shuffle(quarters);
-      const roadInterval = Math.floor(Math.random() * 3) + 4; // Randomize the density of the roads
+      const roadInterval = Math.floor((Math.random() * 1.5) + (Math.random() *1.5)) + 4; // Randomize the density of the roads
       const turnChance = Math.random() * 0.2 + 0.1; // Randomize the chance of a road turning
 
 
@@ -349,38 +349,40 @@ overflow:auto;
 
 
 
-      // Create roads based on the type of the area
-      for (let i = 0; i < size; i++) {
-        for (let j = 0; j < size; j++) {
-          const areaType = layout[i][j];
-          if (areaType === "residential" || areaType === "industrial") {
-            // Create tightly packed roads for "residential" and "industrial" areas
-            if (i % roadInterval === 0 || j % roadInterval === 0) {
-              layout[i][j] = "road";
-            }
-          } else if (areaType === "natural") {
-            // Create winding roads for "natural" areas
-            if ((i % (2 * roadInterval) < roadInterval && j % roadInterval === 0) ||
-              (i % (2 * roadInterval) >= roadInterval && i % roadInterval === 0)) {
-              layout[i][j] = "road";
-              // Randomly turn the road
-              if (Math.random() < turnChance) {
-                if (i % (2 * roadInterval) < roadInterval) {
-                  // The road is currently horizontal, so turn it vertical
-                  for (let k = i; k < size; k++) {
-                    layout[k][j] = "road";
-                  }
-                } else {
-                  // The road is currently vertical, so turn it horizontal
-                  for (let k = j; k < size; k++) {
-                    layout[i][k] = "road";
-                  }
-                }
+// Create roads based on the type of the area
+for (let i = 0; i < size; i++) {
+  for (let j = 0; j < size; j++) {
+    const areaType = layout[i][j];
+    if (areaType !== "water") { // Add this line
+      if (areaType === "residential" || areaType === "industrial") {
+        // Create tightly packed roads for "residential" and "industrial" areas
+        if (i % roadInterval === 0 || j % roadInterval === 0) {
+          layout[i][j] = "road";
+        }
+      } else if (areaType === "natural") {
+        // Create winding roads for "natural" areas
+        if ((i % (2.1 * roadInterval) < roadInterval && j % roadInterval === 0) ||
+          (i % (2 * roadInterval) >= roadInterval && i % roadInterval === 0)) {
+          layout[i][j] = "road";
+          // Randomly turn the road
+          if (Math.random() < turnChance) {
+            if (i % (2 * roadInterval) < roadInterval) {
+              // The road is currently horizontal, so turn it vertical
+              for (let k = i; k < size; k++) {
+                layout[k][j] = "road";
+              }
+            } else {
+              // The road is currently vertical, so turn it horizontal
+              for (let k = j; k < size; k++) {
+                layout[i][k] = "road";
               }
             }
           }
         }
       }
+    }
+  }
+}
 
       for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
@@ -427,7 +429,7 @@ overflow:auto;
 
 // Assign buildings to the habitable locations
 for (const [i, j] of habitableLocations) {
-  if (Math.random() < 0.5) { // Only assign a building 50% of the time
+  if (Math.random() < 0.6) { // Only assign a building 60% of the time
     let buildingType;
     do {
       buildingType = buildingTypes[Math.floor(Math.random() * buildingTypes.length)];
