@@ -1,0 +1,78 @@
+
+
+
+    .office-building,
+    .gas-station,
+    .library,
+    .police-station,
+    .fire-station,
+    .admin-buildings,
+    .restaurants,
+    .homes {
+      background-color: #A6A9AE;
+      background-size: contain;
+      background-repeat: no-repeat;
+      image-rendering: pixelated;
+      transform: scale(1.1);
+      z-index: 100000!important;
+      filter: saturate(1.1);
+    }
+
+    .office-building:hover,
+    .gas-station:hover,
+    .library:hover,
+    .police-station:hover,
+    .fire-station:hover,
+    .admin-buildings:hover,
+    .restaurants:hover,
+    .homes:hover {
+      z-index: 1000000;
+      transform: scale(2);
+      border: none;
+      outline: none;
+      border-radius: 0px;
+      overflow: auto;
+    }
+
+    .office-building {
+      background-image: url('sprites/office_building_1.png');
+      background-size: contain;
+      z-index: 1000;
+      transform: scale(1.05);
+    }
+
+    .gas-station {
+      background-image: url('sprites/gas_station.png');
+      background-size: contain;
+
+    }
+
+    .library {
+      background-image: url('sprites/library.png');
+      background-size: contain;
+
+    }
+
+    .police-station {
+      background-image: url('sprites/police_station.png');
+      background-size: contain;
+    }
+
+    .fire-station {
+      background-image: url('sprites/fire_station.png');
+    }
+
+    .admin-buildings {
+      background-image: url('sprites/office_building_1.png');
+    }
+
+    .restaurants {
+      background-image: url('sprites/reset.png');
+    }
+
+    .homes {
+      background-image: url('sprites/house_1.png');
+      background-size: 50%;
+      background-repeat: round;
+      opacity: 75%;
+    }

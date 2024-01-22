@@ -1,0 +1,86 @@
+    .residential {
+      background-color: #f9f9f9;
+    }
+
+    .industrial {
+      background-color: #c3c3c3;
+      background-image: url('sprites/city_block.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+
+    }
+
+    .natural {
+      background-color: #b8db88;
+      background-image: url('sprites/grass.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .water {
+      background-color: #6daed5;
+      outline: 20px solid #6daed550;
+    }
+
+    .road {
+      background-color: #a1a1a1;
+      z-index: 1000;
+      background-image: url('sprites/street.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+      image-rendering: pixelated;
+    }
+
+    .horizontal {
+      background-image: url('sprites/street_horizontal.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .vertical {
+      background-image: url('sprites/street_vertical.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .end-horizontal {
+      background-image: url('sprites/street.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .end-vertical {
+      background-image: url('sprites/street.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .intersection {
+      background-image: url('sprites/street.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .habitable {
+      background-color: #e9e9e9;
+    }
+
+    .habitable:hover {
+      outline: 0.5px dashed #00ff00a0 !important;
+      z-index: 1000;
+      border-radius: 0%;
+    }
+
+    .water:hover,
+    .road:hover,
+    .grid-item:hover {
+      outline: 0.5px dashed #ff0000a0;
+      z-index: 1000000;
+      border-radius: 0%;
+    }
+
+    .beach {
+      background-color: #f6d4a4;
+      background-image: none;
+      z-index: 1000;
+    }
