@@ -101,16 +101,19 @@
         outline: 1.5px solid #000;
         z-index:100000000;
         background-size:100% 100%;
+        transition: steps(3, end);
       }
       50% {
         outline: 3px solid #000;
         z-index:100000000;
         background-size:100% 100%;
+        transition: steps(3, end);
       }
       100% {
         outline: 1.5px solid #000;
         z-index:100000000;
         background-size:100% 100%;
+        transition: steps(3, end);
       }
     }
 

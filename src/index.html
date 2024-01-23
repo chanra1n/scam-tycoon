@@ -121,17 +121,18 @@
       box-sizing: border-box;
       transition: all 1s;
       transition-timing-function:cubic-bezier(0.8,0,0,1);
+      overflow:hidden;
     }
 
-    #topbar p:nth-child(even) {
+    #topbar .right p:nth-child(even) {
       background-color: transparent;
     }
 
-    #topbar p:nth-child(odd) {
+    #topbar .right p:nth-child(odd) {
       background-color: #1a1a1a;
     }
 
-    #topbar p {
+    #topbar .right p {
       font-weight: 100;
       font-size: 20px;
       padding: 0px;
@@ -144,7 +145,7 @@
       border: 5px solid transparent;
     }
 
-    #topbar p i {
+    #topbar .right p i {
       font-size: 14px;
     }
 
@@ -236,6 +237,45 @@
       background-color: #1a1a1a;
     }
 
+    #calendar_widget {
+      display: block;
+    text-align: center;
+    aspect-ratio: 1/1;
+    box-sizing: border-box;
+    }
+
+    #calendar_month {
+      display: grid;
+    font-size: 12px;
+    margin: -2.5px;
+    padding: 0px;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    align-items: end;
+    justify-items: center;
+    box-sizing: border-box;
+    }
+
+    #calendar_day {
+      display: grid;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    background-color: green;
+    color: black;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    aspect-ratio: 1/0.75;
+    vertical-align: middle;
+    font-size: 35px;
+    box-sizing: border-box;
+    padding: 5px;
+    padding-top: 0px;
+    }
+
   </style>
   <link rel="stylesheet" href="zones.css">
   <link rel="stylesheet" href="buildings.css">
@@ -244,15 +284,24 @@
 <body>
   <div id="topbar">
 
-    <div style="float:left;display:none">
+    <div style="float:left;position:absolute">
+
+      <div style = "display:none">
       <select id="building-select">
         <option value="admin-buildings">Call Center</option>
         <option value="office-building">Office Building</option>
         <!-- Add more options as needed -->
       </select>
       <button id="toggle-building-mode"><i class="ri-hammer-fill"></i></button>
+      </div>
+
+      <div id = "calendar_widget" >
+        <p id = "calendar_month">JAN</p>
+        <p id = "calendar_day">01</p>
+      </div>
+
     </div>
-    <div style="float:right;display:flex;">
+    <div class = "right" style="float:right;display:flex;">
       <p id="player-money"> <i class="ri-money-dollar-circle-fill"></i> 0</p>
       <p id="player-level"><i class="ri-shield-fill"></i> 00</p>
       <p id="employee-count"><i class="ri-user-5-fill"></i> 0</p>
@@ -491,7 +540,7 @@ var buildingRentValue = building.dataset.rentValue;
     // all time values are in milliseconds.
 
     var monthlyMillisecondValue = 300000;
-    var testMonthlyMillisecondValue = 10000;
+    var testMonthlyMillisecondValue = 100;
     var yearlyMillisecondValue = 3600000;
     var testYearlyMillisecondValue = 10000;
 
@@ -500,15 +549,64 @@ var buildingRentValue = building.dataset.rentValue;
     updateBalance("add", player.income);  
     updateBalance("subtract", player.expenses);
 
+    // keep track of the current month
+    var currentMonth = document.getElementById("calendar_month").innerHTML;
+    var currentDay = document.getElementById("calendar_day").innerHTML;
+    var currentYear = 0;
+    var currentDayInt = parseInt(currentDay);
+    var currentMonthInt = 0;
+
+    // get the current month's index
+    var months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV", "DEC"];
+    for (var i = 0; i < months.length; i++){
+      if (currentMonth === months[i]){
+        currentMonthInt = i;
+      }
+    }
+
+    // if it's the last day of the month, reset the day to 1 and increment the month
+    if (currentDayInt === 31){
+      currentDayInt = 1;
+      currentMonthInt += 1;
+    } else {
+      currentDayInt += 1;
+    }
+
+//account for the differing days in the months
+if (currentMonthInt === 0 || currentMonthInt === 2 || currentMonthInt === 4 || currentMonthInt === 6 || currentMonthInt === 7 || currentMonthInt === 9 || currentMonthInt === 11){
+  if (currentDayInt === 32){
+    currentDayInt = 1;
+    currentMonthInt += 1;
+  }
+} else if (currentMonthInt === 3 || currentMonthInt === 5 || currentMonthInt === 8 || currentMonthInt === 10){
+  if (currentDayInt === 31){
+    currentDayInt = 1;
+    currentMonthInt += 1;
+  }
+} else if (currentMonthInt === 1){
+  // Check if the current year is a leap year
+  if ((currentYear % 4 === 0 && currentYear % 100 !== 0) || currentYear % 400 === 0) {
+    if (currentDayInt === 30){
+      currentDayInt = 1;
+      currentMonthInt += 1;
+    }
+  } else {
+    if (currentDayInt === 29){
+      currentDayInt = 1;
+      currentMonthInt += 1;
+    }
+  }
+}
+
+    console.log(currentMonth);
+
+    //update the calendar widget, make sure that there's at least two digits for the day
+    document.getElementById("calendar_month").innerHTML = months[currentMonthInt];
+    document.getElementById("calendar_day").innerHTML = currentDayInt.toString().padStart(2, '0');
+
     }, testMonthlyMillisecondValue);
 
 
-    // questions - how should we handle negative balances? here are the choices i'm thinking:
-    // 1. realistic. the player should be able go into debt. they're not denied their income,
-    // but obviously they can't buy anything, as they can't afford it. they should figure out 
-    // ways to increase it by doing more scams.
-    // 2. players aren't allowed to have less than 0 dollars.
-    // if they can't pay rent on a building for more than 5 intervals, they lose the building.
 
   </script>
 </body>
