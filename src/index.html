@@ -308,7 +308,7 @@
       // if they do, add the sell value to their balance and remove the building from their index
       // then, update the building's forSale value to true
       if (player.buildingsIndex.includes(buildingID)) {
-        updateBalance("subtract", buildingSellValue);
+        updateBalance("add", buildingSellValue);
         updateBuildingCount("subtract", 1, buildingID);
         // get the element with the data-building-id of the buildingID passed
         let building = document.querySelector(`[data-name="${buildingID}"]`);
