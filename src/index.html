@@ -49,7 +49,6 @@
       background-color:black;
     }
 
-
     .grid-container {
       display: grid;
       grid-template-columns: repeat(48, 1fr);
@@ -259,21 +258,47 @@
 
     #calendar_day {
       display: grid;
-    padding: 0px;
     margin: 0px;
     text-align: center;
     background-color: green;
     color: black;
-    align-content: center;
+    align-content: end;
     justify-content: center;
-    align-items: center;
     justify-items: center;
-    aspect-ratio: 1/0.75;
+    aspect-ratio: 1/1;
     vertical-align: middle;
-    font-size: 35px;
+    font-size: 32px;
     box-sizing: border-box;
     padding: 5px;
-    padding-top: 0px;
+    width: 40px;
+    margin-bottom: -100%;
+    }
+
+    .scam_options {
+      border: 1.5px solid green;
+    color: black;
+    font-family: 'pst';
+    font-size: 8px;
+    text-align: center;
+    padding: 2.5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: green;
+    margin-bottom: 2.5px;
+    }
+
+    .selectascam {
+      font-size: 6px;
+    margin: 0px;
+    padding: 0px;
+    color: green;
+    margin-bottom: 5px;
+    margin-top:5px;
+    font-family:'pst';
+    }
+
+    .selectascamhr {
+
     }
 
   </style>
@@ -332,6 +357,14 @@
   <script src="buildingGen.js"></script>
   <script src="tippyConfig.js"></script>
   <script>
+
+    var unlockable_options = `
+    <option value="identity_theft">IDENTITY THEFT</option>
+        <option value="credit_card">CREDIT CARD</option>
+        <option value="tech_support">TECH SUPPORT</option>
+        `;
+
+
     var player = {
       money: 0,
       income: 0,
@@ -340,7 +373,82 @@
       employees: 0,
       buildings: 0,
       buildingsIndex: [],
+      persuasiveness: 0,
     };
+
+    function runScam(scam) {
+      if (scam === "identity_theft") {
+        runIdentityTheft(scam);
+      } else if (scam === "credit_card") {
+        runCreditCardScam();
+      } else if (scam === "tech_support") {
+        runTechSupport(scam);
+      } else {
+        console.log("error");
+      }
+    }
+
+    function runCreditCardScam() {
+  // generate a person
+  var person = {
+    defense: 0,
+    money: 0,
+  };
+
+  // generate a defense score for the person
+  person.defense = Math.floor(Math.random() * 100) + 1;
+
+  // generate a money amount for the person based on their class (poor, middle, rich)
+  var classRoll = Math.random();
+  if (classRoll < 0.6) {
+    // 60% chance of being poor
+    person.money = Math.floor(Math.random() * (2500 - 500)) + 500;
+    person.class = "poor";
+  } else if (classRoll < 0.9) {
+    // 30% chance of being rich
+    person.money = Math.floor(Math.random() * (100000 - 20000)) + 20000;
+    person.class = "rich";
+  } else {
+    // 10% chance of being middle class
+    person.money = Math.floor(Math.random() * (10000 - 3000)) + 3000;
+    person.class = "middle";
+  }
+
+  // generate 3 random numbers between 1, and twice the player's persuasiveness.
+  var randomNumbers = [];
+  for (var i = 0; i < 3; i++) {
+    randomNumbers.push(Math.floor(Math.random() * (player.persuasiveness * 2)) + 1);
+  }
+
+  // if one of these numbers is greater than the person's defense score, the scam succeeds, and the player gets a cut of the money.
+  var scamSucceeded = false;
+  for (var i = 0; i < randomNumbers.length; i++) {
+    if (randomNumbers[i] > person.defense) {
+      scamSucceeded = true;
+    }
+  }
+
+  if (scamSucceeded) {
+    // the scam succeeded, so give the player a cut of the money
+    var cut = person.money * ((Math.random() * (0.90 - 0.80)) + 0.80); // Cut is 80-90% of the money
+    updateBalance("add", Math.floor(cut));
+    player.persuasiveness += 1; // Increase persuasiveness
+    return 'scam succeeded, player got '+cut+ ' dollars';
+  } else {
+    // the scam failed, so give the player 1% of the cut they would have gotten
+    var consolation = person.money * 0.01;
+    updateBalance("add", Math.floor(consolation));
+    // give a readout of the person who got scammed, and all of their stats
+    console.log("scam failed, person stats: ");
+    console.log(person);
+    return 'scam failed, player got '+consolation+ ' dollars';
+  }
+}
+
+
+    function runTechSupport(scam) {
+      console.log("running tech support");
+    }
 
     // update the player's balance based on input
     function updateBalance(operation, amount) {
@@ -421,6 +529,12 @@
         console.log("building rsale value: "+buildingResaleValue);
         document.getElementById(buildingID+"_player_options").innerHTML = `
         <h3 onclick = "sellBuilding('${buildingID}', ${buildingResaleValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> SELL</h3>
+        <hr class = "selectascamhr">
+        <p class = "selectascam" >ACTIVE SCAM</p>
+        <select class = "scam_options" id = "${buildingID}_scam_options">
+        <option value="none">NONE</option>
+        `+unlockable_options+`
+      </select>
         `;
         building.style.animation = "pulse 1s infinite";
       } else {
@@ -444,6 +558,12 @@
         console.log("building rsale value: "+buildingRentValue);
         document.getElementById(buildingID+"_player_options").innerHTML = `
         <h3 onclick = "exitBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> CANCEL RENT</h3>
+        <hr class = "selectascamhr">
+        <p class = "selectascam" >ACTIVE SCAM</p>
+        <select class = "scam_options" id = "${buildingID}_scam_options">
+        <option value="none">NONE</option>
+        `+unlockable_options+`
+      </select>
         `;
         building.style.animation = "pulse 1s infinite";
       } else {
@@ -524,6 +644,7 @@ var buildingRentValue = building.dataset.rentValue;
 
     function initIntervals(){
       setInterval(monthlyInterval);
+      setInterval(dailyInterval);
     }
 
     window.onload = function () {
@@ -540,20 +661,58 @@ var buildingRentValue = building.dataset.rentValue;
     // all time values are in milliseconds.
 
     var monthlyMillisecondValue = 300000;
-    var testMonthlyMillisecondValue = 100;
-    var yearlyMillisecondValue = 3600000;
-    var testYearlyMillisecondValue = 10000;
+    var testMonthlyMillisecondValue = 10000;
 
-    var monthlyInterval = setInterval(function () {
-    
+    var yearlyMillisecondValue = monthlyMillisecondValue * 12;
+    var testYearlyMillisecondValue = testMonthlyMillisecondValue * 12;
+
+    var testDailyMillisecondValue = testMonthlyMillisecondValue / 30;
+    var dailyMillisecondValue = monthlyMillisecondValue / 30;
+
+    var dailyInterval = setInterval(function () {
+
+      // check to see if any of the player's owned buildings have any scam options active - if they do, run the selected scam
+      // the gridsquare_XXXX is the building's ID, they're stored in the global scamOptions object.
+      // var scamOptions = {
+      //  gridsquare_0001: "identity_theft",
+      // }
+
+      // loop through the scamOptions object
+      for (var key in scamOptions) {
+        // if the player owns the building, and the scam option is not "none", run the scam
+        if (player.buildingsIndex.includes(key) && scamOptions[key] !== "none") {
+          runScam(scamOptions[key]);
+        }
+      }
+
+
+
+
+    // keep track of the current day
+    var currentDay = document.getElementById("calendar_day").innerHTML;
+    var currentDayInt = parseInt(currentDay);
+
+    // if it's the last day of the month, reset the day to 1
+    if (currentDayInt >= 30){
+      currentDayInt = 1;
+    } else {
+      currentDayInt += 1;
+    }
+
+    //update the calendar widget, make sure that there's at least two digits for the day
+    document.getElementById("calendar_day").innerHTML = currentDayInt.toString().padStart(2, '0');
+
+}, testDailyMillisecondValue);
+
+var monthlyInterval = setInterval(function () {
+    // Monthly operations here...
+
     updateBalance("add", player.income);  
     updateBalance("subtract", player.expenses);
 
     // keep track of the current month
     var currentMonth = document.getElementById("calendar_month").innerHTML;
-    var currentDay = document.getElementById("calendar_day").innerHTML;
     var currentYear = 0;
-    var currentDayInt = parseInt(currentDay);
     var currentMonthInt = 0;
 
     // get the current month's index
@@ -564,47 +723,16 @@ var buildingRentValue = building.dataset.rentValue;
       }
     }
 
-    // if it's the last day of the month, reset the day to 1 and increment the month
-    if (currentDayInt === 31){
-      currentDayInt = 1;
-      currentMonthInt += 1;
-    } else {
-      currentDayInt += 1;
-    }
-
-//account for the differing days in the months
-if (currentMonthInt === 0 || currentMonthInt === 2 || currentMonthInt === 4 || currentMonthInt === 6 || currentMonthInt === 7 || currentMonthInt === 9 || currentMonthInt === 11){
-  if (currentDayInt === 32){
-    currentDayInt = 1;
+    // increment the month
     currentMonthInt += 1;
-  }
-} else if (currentMonthInt === 3 || currentMonthInt === 5 || currentMonthInt === 8 || currentMonthInt === 10){
-  if (currentDayInt === 31){
-    currentDayInt = 1;
-    currentMonthInt += 1;
-  }
-} else if (currentMonthInt === 1){
-  // Check if the current year is a leap year
-  if ((currentYear % 4 === 0 && currentYear % 100 !== 0) || currentYear % 400 === 0) {
-    if (currentDayInt === 30){
-      currentDayInt = 1;
-      currentMonthInt += 1;
+    if (currentMonthInt > 11) { // if it's December
+      currentMonthInt = 0; // reset to January
+      currentYear += 1; // increment the year
     }
-  } else {
-    if (currentDayInt === 29){
-      currentDayInt = 1;
-      currentMonthInt += 1;
-    }
-  }
-}
 
-    console.log(currentMonth);
-
-    //update the calendar widget, make sure that there's at least two digits for the day
+    //update the calendar widget
     document.getElementById("calendar_month").innerHTML = months[currentMonthInt];
-    document.getElementById("calendar_day").innerHTML = currentDayInt.toString().padStart(2, '0');
-
-    }, testMonthlyMillisecondValue);
+}, testMonthlyMillisecondValue);
 
 
 

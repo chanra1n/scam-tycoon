@@ -85,3 +85,7 @@
       background-image: none;
       z-index: 1000;
     }
+
+    .night {
+      filter:brightness(0.5);
+    }

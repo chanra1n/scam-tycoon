@@ -1,3 +1,6 @@
+// Create a global object to store the scam options
+var scamOptions = {};
+
 tippy('.grid-item:not(.road):not(.water):not(.natural):not(.empty):not(.beach):not(.residential):not(.industrial)', {
   trigger: 'click',
   interactive: true,
@@ -8,6 +11,11 @@ tippy('.grid-item:not(.road):not(.water):not(.natural):not(.empty):not(.beach):n
   onShow(instance) {
     setTimeout(function(){
       let buildingId = instance.reference.dataset.name;
+      let selectBox = document.getElementById(buildingId+"_scam_options");
+      if (selectBox) {
+        // Store the value in the global object
+        scamOptions[buildingId] = selectBox.value;
+      }
       let buildingOptions = document.getElementById(buildingId+"_player_options");
       if (player.buildingsIndex.includes(buildingId)) {
         //buildingOptions.innerHTML = ownedBuildingOptions;
@@ -20,8 +28,13 @@ tippy('.grid-item:not(.road):not(.water):not(.natural):not(.empty):not(.beach):n
       instance.popper.style.maxWidth = rect.width * panZoomController.getZoom() + 'px';
       instance.popper.style.maxHeight = rect.height * panZoomController.getZoom() + 'px';
     },1);
+  },
+  onHide(instance) {
+    let buildingId = instance.reference.dataset.name;
+    let selectBox = document.getElementById(buildingId + "_scam_options");
+    if (selectBox) {
+      // Update the value in the global object
+      scamOptions[buildingId] = selectBox.value;
+    }
   }
 });
-
-
-
