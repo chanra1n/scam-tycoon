@@ -46,6 +46,7 @@
       font-family: 'gamer';
       filter: sepia(1) hue-rotate(45deg);
       user-select: none !important;
+      background-color:black;
     }
 
 
@@ -106,7 +107,7 @@
 
     #topbar {
       position: absolute;
-      top: 0;
+      top: -20%;
       left: 0;
       z-index: 10000;
       background-color: black;
@@ -118,6 +119,8 @@
       margin: 0px;
       text-align: right;
       box-sizing: border-box;
+      transition: all 1s;
+      transition-timing-function:cubic-bezier(0.8,0,0,1);
     }
 
     #topbar p:nth-child(even) {
@@ -186,6 +189,53 @@
     [data-tippy-root] {
       z-index: 1000000000000000 !important;
     }
+
+    #world-map {
+      filter:blur(50px);
+      transition: filter 1s;
+      transition-timing-function:cubic-bezier(0.8,0,0,1);
+    }
+
+    #topbar .uk-dropdown {
+    background-color: black;
+    margin: 0px;
+    padding: 5px;
+    box-shadow: 5px 5px 0px green;
+    text-align: left;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    }
+
+    #topbar .uk-dropdown hr {
+      padding: 1.5px;
+      margin: 0px;
+      box-sizing: border-box;
+      opacity: 50%;
+    }
+
+    .building_index_listing_item {
+
+      display: block;
+    box-sizing: border-box;
+    padding: 5px;
+    padding-top: 2.5px;
+    padding-bottom: 2.5px;
+    border: 5px solid black;
+    border-left: none;
+    border-right: 0px;
+    font-size: 22px;
+
+    }
+
+    .building_index_listing_item:nth-child(even) {
+      background-color: transparent;
+    }
+
+    .building_index_listing_item:nth-child(odd) {
+      background-color: #1a1a1a;
+    }
+
   </style>
   <link rel="stylesheet" href="zones.css">
   <link rel="stylesheet" href="buildings.css">
@@ -207,6 +257,12 @@
       <p id="player-level"><i class="ri-shield-fill"></i> 00</p>
       <p id="employee-count"><i class="ri-user-5-fill"></i> 0</p>
       <p id="building-count"><i class="ri-hotel-fill"></i> 0</p>
+      <div id = "building-index-list" uk-dropdown>
+        <ul class="uk-nav uk-dropdown-nav">YOUR PROPERTIES
+          <hr>
+
+        </ul>
+    </div>
     </div>
 
   </div>
@@ -269,17 +325,36 @@
   if (operation === "add") {
     player.buildings += amount;
     player.buildingsIndex.push(buildingID); // Add buildingID to the index
+    // get the background image's url from the buildingID square
+    var building = document.querySelector(`[data-name="${buildingID}"]`);
+    console.log(building.style.backgroundImage);
+    document.getElementById("building-index-list").innerHTML += `
+    <div class = "building_index_listing_item" id = "${buildingID}_index_listing">
+    <img src = "${building.style.backgroundImage.replace('url("','')}" style = "width:20px;height:20px;vertical-align:middle">
+    <a href="#"><i>#</i> ${buildingID.replace('gridsquare_', '')}</a><br>
+    </div>
+    `;
   } else if (operation === "subtract") {
     player.buildings -= amount;
     const index = player.buildingsIndex.indexOf(buildingID);
     if (index > -1) {
       player.buildingsIndex.splice(index, 1); // Remove buildingID from the index
+      // remove the building from the building index list
+      document.getElementById(buildingID+"_index_listing").remove();
     }
   } else {
     console.log("error");
   }
   document.getElementById("building-count").innerHTML = `<i class="ri-hotel-fill"></i> ${player.buildings}`;
 }
+
+  function addExpense(amount) {
+    player.expenses += amount;
+  }
+
+  function removeExpense(amount) {
+    player.expenses -= amount;
+  }
 
 
     function buyBuilding(buildingID, buildingBuyValue) {
@@ -291,15 +366,39 @@
         updateBuildingCount("add", 1, buildingID);
         // get the element with the data-building-id of the buildingID passed
         console.log(buildingID);
-        let building = document.querySelector(`[data-name="${buildingID}"]`);
+        var building = document.querySelector(`[data-name="${buildingID}"]`);
         // get the data-resale-value of this building
-        let buildingResaleValue = building.dataset.resaleValue;
+        var buildingResaleValue = building.dataset.resaleValue;
         console.log("building rsale value: "+buildingResaleValue);
         document.getElementById(buildingID+"_player_options").innerHTML = `
         <h3 onclick = "sellBuilding('${buildingID}', ${buildingResaleValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> SELL</h3>
         `;
+        building.style.animation = "pulse 1s infinite";
       } else {
         alert("You don't have enough money to buy this building!");
+      }
+    }
+
+    function rentBuilding(buildingID, buildingRentValue){
+      // check if player has enough money to rent building, and if they don't already own it
+      // if they do, subtract the cost from their balance and add the building to their index
+      // then, update the building's forRent AND forSale value to false
+      if (player.money >= buildingRentValue && !player.buildingsIndex.includes(buildingID)) {
+        updateBalance("subtract", buildingRentValue);
+        updateBuildingCount("add", 1, buildingID);
+        addExpense(buildingRentValue);
+        // get the element with the data-building-id of the buildingID passed
+        console.log(buildingID);
+        var building = document.querySelector(`[data-name="${buildingID}"]`);
+        // get the data-resale-value of this building
+        var buildingRentValue = building.dataset.rentValue;
+        console.log("building rsale value: "+buildingRentValue);
+        document.getElementById(buildingID+"_player_options").innerHTML = `
+        <h3 onclick = "exitBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> CANCEL RENT</h3>
+        `;
+        building.style.animation = "pulse 1s infinite";
+      } else {
+        alert("You're screwed actually, you don't have enough money to leave :pensive:");
       }
     }
 
@@ -311,14 +410,14 @@
         updateBalance("add", buildingSellValue);
         updateBuildingCount("subtract", 1, buildingID);
         // get the element with the data-building-id of the buildingID passed
-        let building = document.querySelector(`[data-name="${buildingID}"]`);
+        var building = document.querySelector(`[data-name="${buildingID}"]`);
 // get the data-buy-value of this building
-let buildingBuyValue = building.dataset.buyValue;
-let buildingRentValue = building.dataset.rentValue;
+var buildingBuyValue = building.dataset.buyValue;
+var buildingRentValue = building.dataset.rentValue;
         console.log("building buy value: "+buildingBuyValue);
         console.log("building rent value: "+buildingRentValue);
         // detect if this is a restaurant or not, from this building's classList
-        let isResturant = Array.from(building.classList).some(cls => cls.includes('restaurant'));
+        var isResturant = Array.from(building.classList).some(cls => cls.includes('restaurant'));
         console.log(building.classList);
         if (isResturant){
           document.getElementById(buildingID+"_player_options").innerHTML = `
@@ -330,16 +429,86 @@ let buildingRentValue = building.dataset.rentValue;
         <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
         `;
         }
+        building.style.animation = "none";
       } else {
         alert("You already sold this building!");
       }
     }
 
+    function exitBuilding(buildingID, buildingRentValue) {
+      // check if player owns the building
+      // if they do, add the sell value to their balance and remove the building from their index
+      // then, update the building's forSale value to true
+      if (player.buildingsIndex.includes(buildingID)) {
+        updateBuildingCount("subtract", 1, buildingID);
+        removeExpense(buildingRentValue);
+        // get the element with the data-building-id of the buildingID passed
+        var building = document.querySelector(`[data-name="${buildingID}"]`);
+// get the data-buy-value of this building
+var buildingBuyValue = building.dataset.buyValue;
+var buildingRentValue = building.dataset.rentValue;
+        console.log("building buy value: "+buildingBuyValue);
+        console.log("building rent value: "+buildingRentValue);
+        // detect if this is a restaurant or not, from this building's classList
+        var isResturant = Array.from(building.classList).some(cls => cls.includes('restaurant'));
+        console.log(building.classList);
+        if (isResturant){
+          document.getElementById(buildingID+"_player_options").innerHTML = `
+        <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
+        `;
+        } else {
+          document.getElementById(buildingID+"_player_options").innerHTML = `
+        <h3 onclick = "rentBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-line"></i> FOR RENT</h3>
+        <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
+        `;
+        }
+        building.style.animation = "none";
+      } else {
+        alert("You already sold this building!");
+      }
+    }
+
+    function initToolbars(){
+    document.getElementById("topbar").style.top = "0px"; 
+    document.getElementById("world-map").style.filter = "blur(0px)"; 
+    }
+
+    function initIntervals(){
+      setInterval(monthlyInterval);
+    }
+
     window.onload = function () {
       initBuildingAppearance();
       updateBalance("add", 10000000);
+
+      initToolbars();
+      initIntervals();
     };
 
+
+    // 1 hour equals 1 year in the game.
+    // 5 minutes = one month
+    // all time values are in milliseconds.
+
+    var monthlyMillisecondValue = 300000;
+    var testMonthlyMillisecondValue = 10000;
+    var yearlyMillisecondValue = 3600000;
+    var testYearlyMillisecondValue = 10000;
+
+    var monthlyInterval = setInterval(function () {
+    
+    updateBalance("add", player.income);  
+    updateBalance("subtract", player.expenses);
+
+    }, testMonthlyMillisecondValue);
+
+
+    // questions - how should we handle negative balances? here are the choices i'm thinking:
+    // 1. realistic. the player should be able go into debt. they're not denied their income,
+    // but obviously they can't buy anything, as they can't afford it. they should figure out 
+    // ways to increase it by doing more scams.
+    // 2. players aren't allowed to have less than 0 dollars.
+    // if they can't pay rent on a building for more than 5 intervals, they lose the building.
 
   </script>
 </body>

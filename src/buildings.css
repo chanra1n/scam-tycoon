@@ -17,6 +17,7 @@
       transition-timing-function:cubic-bezier(0.8,0,0,1);
       z-index: 100000;
       filter: saturate(1.1);
+    
     }
 
     .office-building:hover,
@@ -95,7 +96,23 @@
     }
 
 
-
+    @keyframes pulse {
+      0% {
+        outline: 1.5px solid #000;
+        z-index:100000000;
+        background-size:100% 100%;
+      }
+      50% {
+        outline: 3px solid #000;
+        z-index:100000000;
+        background-size:100% 100%;
+      }
+      100% {
+        outline: 1.5px solid #000;
+        z-index:100000000;
+        background-size:100% 100%;
+      }
+    }
 
     @keyframes moveCar {
       0% { left: 0; }
