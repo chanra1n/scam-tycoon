@@ -141,6 +141,11 @@
       padding-right: 10px;
       white-space: normal;
       border: 5px solid transparent;
+      cursor:pointer;
+    }
+
+    #topbar .right p:hover {
+      background-color:#1a1a1aa0;
     }
 
     #topbar .right p i {
@@ -204,6 +209,11 @@
       box-sizing: border-box;
       padding-left: 10px;
       padding-right: 10px;
+      transition: all 0s!important;
+    }
+
+    .uk-nav {
+      transition: all 0s!important;
     }
 
     #topbar .uk-dropdown hr {
@@ -349,7 +359,7 @@
       <p id="player-money"> <i class="ri-money-dollar-circle-fill"></i> 0</p>
       <p id="player-datapoints"><i class="ri-database-2-fill"></i> 0</p>
       <div id="datapoint-trade-list" uk-dropdown>
-        <ul class="uk-nav uk-dropdown-nav">AVAILABLE DATACHUNK TRADES
+        <ul class="uk-nav uk-dropdown-nav"><span style = "font-size:17.5px">AVAILABLE DATACHUNK TRADES</span>
           <hr class = "selectascamhr">
           <span class = "datapointspan" style = "font-family:'pst'" >DATACHUNKS ARE OBTAINED THROUGH TECH SUPPORT SCAMS.
             THEY CAN BE USED TO BARTER WITH THIRD-PARTIES FOR POTENTIALLY HIGHER PAYOUTS.</span>
@@ -359,7 +369,7 @@
       <p id="employee-count"><i class="ri-user-5-fill"></i> 0</p>
       <p id="building-count"><i class="ri-hotel-fill"></i> 0</p>
       <div id="building-index-list" uk-dropdown>
-        <ul class="uk-nav uk-dropdown-nav">YOUR PROPERTIES
+        <ul class="uk-nav uk-dropdown-nav"><span style = "font-size:17.5px">YOUR PROPERTIES</span>
           <hr>
 
         </ul>
@@ -411,7 +421,7 @@
       } else if (scam === "credit_card") {
         runCreditCardScam();
       } else if (scam === "tech_support") {
-        runTechSupport(scam);
+        runTechSupportScam();
       } else {
         console.log("error");
       }
@@ -420,6 +430,7 @@
 
     // update the player's balance based on input
     function updateBalance(operation, amount) {
+    
       if (operation === "add") {
         player.money += amount;
       } else if (operation === "subtract") {
@@ -427,8 +438,23 @@
       } else {
         console.log("error");
       }
+      // show the amount that's been added or subtracted
       document.getElementById("player-money").innerHTML = `<i class="ri-money-dollar-circle-fill"></i> ${player.money.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
+
+        // update the player's balance based on input
+        function updateDatapoints(operation, amount) {
+    
+    if (operation === "add") {
+      player.datapoints += amount;
+    } else if (operation === "subtract") {
+      player.datapoints -= amount;
+    } else {
+      console.log("error");
+    }
+    // show the amount that's been added or subtracted
+    document.getElementById("player-datapoints").innerHTML = `<i class="ri-database-2-fill"></i> ${player.datapoints}`;
+  }
 
     function updateLevel() {
       player.level += 1;
@@ -641,7 +667,7 @@
     var dailyInterval = setInterval(function () {
 
       // Define the number of times to run scams in a day
-      var dailyScamRuns = 7;
+      var dailyScamRuns = 5;
 
       for (var i = 0; i < dailyScamRuns; i++) {
         for (var key in scamOptions) {
