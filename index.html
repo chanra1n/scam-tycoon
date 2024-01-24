@@ -1,5 +1,26 @@
 <html>
+    <head>
+        <style>
+            body, html {
+                background-color:black;
+                color:white;
+            }
+            #game {
+                aspect-ratio: 1/1;
+    width: 100vh;
+    height: auto;
+    object-fit: contain;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+            }
+        </style>
+    </head>
 <body>
-    <iframe src="src/index.html"></iframe>
+    <iframe id = "game" src="src/index.html"></iframe>
 </body>
 </html>
