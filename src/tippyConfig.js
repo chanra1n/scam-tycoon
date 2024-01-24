@@ -33,12 +33,6 @@ tippy('.grid-item:not(.road):not(.water):not(.natural):not(.empty):not(.beach):n
 
     },1);
 
-          // Get the dimensions of the reference element
-          let rect = instance.reference.getBoundingClientRect();
-
-          // Set the maxWidth and maxHeight of the tooltip based on the dimensions of the reference element
-          instance.popper.style.maxWidth = rect.width * panZoomController.getTransform().scale + '%';
-          instance.popper.style.maxHeight = rect.height * panZoomController.getTransform().scale + '%';
 
   },
   onHide(instance) {

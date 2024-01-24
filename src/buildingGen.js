@@ -209,5 +209,22 @@ class Building {
         item.dataset.location = building.location;
         item.dataset.forSale = building.forSale;
         item.dataset.forRent = building.forRent;
+
+        // set a random delay for the opacity transition
+        item.style.transitionDelay = Math.floor(Math.random() * 1000) + "ms";
+        // if item is a house, the opacity should be 0.75
+        item.style.transform = "scale(1)"
+        if (buildingType === "Home") {;
+          item.style.opacity = 0.75;
+        } else {
+          item.style.opacity = 1;
+        }
+
+
+        // then, let's remove the transition delay 
+        setTimeout(function () {
+          item.style.transitionDelay = "0ms";
+        }, 1000);
+
     });
 
