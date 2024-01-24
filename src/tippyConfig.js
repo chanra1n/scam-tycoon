@@ -11,6 +11,8 @@ tippy('.grid-item:not(.road):not(.water):not(.natural):not(.empty):not(.beach):n
   allowHTML: true,
   onShow(instance) {
     setTimeout(function(){
+
+
       let buildingId = instance.reference.dataset.name;
       let selectBox = document.getElementById(buildingId+"_scam_options");
       let modifierBox = document.getElementById(buildingId+"_modifier_options");
@@ -29,13 +31,15 @@ tippy('.grid-item:not(.road):not(.water):not(.natural):not(.empty):not(.beach):n
         //buildingOptions.innerHTML = ownedBuildingOptions;
       }
 
-      // Get the dimensions of the reference element
-      let rect = instance.reference.getBoundingClientRect();
-
-      // Set the maxWidth and maxHeight of the tooltip based on the dimensions of the reference element
-      instance.popper.style.maxWidth = rect.width * panZoomController.getZoom() + 'px';
-      instance.popper.style.maxHeight = rect.height * panZoomController.getZoom() + 'px';
     },1);
+
+          // Get the dimensions of the reference element
+          let rect = instance.reference.getBoundingClientRect();
+
+          // Set the maxWidth and maxHeight of the tooltip based on the dimensions of the reference element
+          instance.popper.style.maxWidth = rect.width * panZoomController.getTransform().scale + '%';
+          instance.popper.style.maxHeight = rect.height * panZoomController.getTransform().scale + '%';
+
   },
   onHide(instance) {
     let buildingId = instance.reference.dataset.name;
