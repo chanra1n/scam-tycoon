@@ -198,7 +198,8 @@
     #world-map {
       transition: filter 1s;
       transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
-      
+      width:100%;
+      height:100%;
     }
 
     #topbar .uk-dropdown {
@@ -346,6 +347,7 @@
       border-right: 0;
       width: 100%;
       overflow: hidden;
+      border-bottom:5px;
 
     }
 
@@ -502,7 +504,7 @@
 
       <div id="credit-line-list" uk-dropdown>
 
-        <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">CURRENT MONTHLY EXPENSES</span>
+        <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">CURRENT MONTHLY READOUT</span>
           <hr class="selectascamhr">
           <span id="current_daily_income_display"><i class="ri-money-dollar-circle-line"></i> </span>
           <canvas id="income_chart"></canvas>
