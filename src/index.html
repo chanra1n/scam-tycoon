@@ -508,10 +508,9 @@
           <hr class="selectascamhr">
           <span id="current_daily_income_display"><i class="ri-money-dollar-circle-line"></i> </span>
           <canvas id="income_chart"></canvas>
-          <br>
           <span id="current_monthly_expenses_display"><i class="ri-money-dollar-circle-line"></i> </span>
         </ul>
-
+        <br>
         <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">AVAILABLE LINES OF CREDIT</span>
           <hr class="selectascamhr">
           <span class="datapointspan" id="credit_blurb" style="font-family:'pst'">DOWN ON YOUR LUCK? GET MONEY FAST,
@@ -825,11 +824,12 @@
     window.onload = function () {
       initBuildingAppearance();
       updateBalance("add", 500000);
-      sendTradeOffer(thirdPartyCompanies[0]);
+      /*sendTradeOffer(thirdPartyCompanies[0]);
       sendTradeOffer(thirdPartyCompanies[1]);
       sendTradeOffer(thirdPartyCompanies[2]);
       sendTradeOffer(thirdPartyCompanies[3]);
       sendTradeOffer(thirdPartyCompanies[4]);
+      */
       dailyUpdate();
       monthlyUpdate();
       initToolbars();
@@ -862,7 +862,7 @@
           data: dailyIncomeData,
           backgroundColor: 'black',
           borderColor: 'green',
-          borderWidth: 3,
+          borderWidth: 1,
           borderCapStyle: 'square',
           pointStyle: 'rect',
         }]
@@ -1152,6 +1152,7 @@
     // 5. if the player accepts a trade, it is removed from the list, and that specific trade isn't sent again for the rest of the month.
     // 6. if the player declines a trade, it is removed from the list, and that specific trade isn't sent again for the rest of the week.
     // 7. if the player accepts a trade, the payout is added to their money balance, and the datapoints are subtracted from their datapoint balance.
+    // 8. all trades are sent at the beginning of the month.
 
     function sendTradeOffer(company) {
       // get a random trade from the company's trades array
@@ -1171,11 +1172,57 @@
         `;
         // mark the trade as offered
         randomTrade.offered = true;
+
+        // set a timeout to remove the trade from the list after the duration has passed
+
+        setTimeout(function () {
+          document.getElementById(randomTrade.name.replace(/\s/g, '')).remove();
+        }, randomTrade.duration * dailyMillisecondValue);
+
+      } else {
+        // if the trade has already been offered, don't add it to the list
+        console.log("trade already offered");
       }
+
+
+
     }
 
     // show me how i might use the function above
     // sendTradeOffer(thirdPartyCompanies[0]);
+
+    // send 3-4 trade offers from a random set of companies.
+    function sendTradeOffers() {
+
+      // get a random number between 3 and 4
+      var numberOfOffers = Math.floor(Math.random() * (4 - 3 + 1) + 3);
+      // get a random number between 0 and 4
+      var randomCompanyIndex = Math.floor(Math.random() * (4 - 0 + 1) + 0);
+      // get a random company from the thirdPartyCompanies array
+      var randomCompany = thirdPartyCompanies[randomCompanyIndex];
+      // send a trade offer from the random company
+      for (var i = 0; i < numberOfOffers; i++) {
+        sendTradeOffer(randomCompany);
+      }
+    }
+
+
+    function acceptTrade(name, payout, cost){
+      // check if the player has enough datapoints to accept the trade
+      if(player.datapoints >= cost){
+        // if they do, add the payout to their balance and subtract the cost from their datapoints
+        updateBalance("add", payout);
+        updateDatapoints("subtract", cost);
+        // remove the trade from the list
+        document.getElementById(name).remove();
+        // mark the trade as not offered
+        var company = thirdPartyCompanies.find(company => company.name === name);
+        var trade = company.trades.find(trade => trade.name === name);
+        trade.offered = false;
+      } else {
+        alert("You don't have enough datapoints to accept this trade!");
+      }
+    }
 
 
   </script>

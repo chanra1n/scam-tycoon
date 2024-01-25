@@ -1,4 +1,9 @@
 function dailyUpdate(){
+    
+    if (player.day % 7 === 0) {
+      sendTradeOffers();
+    }
+
     player.income = 0;
 
       // Define the number of times to run scams in a day
@@ -42,7 +47,6 @@ function dailyUpdate(){
     }
 
     function monthlyUpdate(){
-              // Monthly operations here...
 
       updateBalance("subtract", player.expenses);
 
