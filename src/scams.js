@@ -20,11 +20,13 @@ function runTechSupportScam() {
       updateBalance("add", Math.ceil(cut - datapoints));
       updateDatapoints("add", Math.ceil(datapoints));
       player.persuasiveness +=1;
+      player.income += Math.ceil(cut-datapoints);
       return `scam succeeded, player got ${cut - datapoints} dollars and ${datapoints} datapoints`;
     } else {
       const consolation = (person.money / 2) * 0.01;
       const datapoints = consolation * 0.1;
       player.persuasiveness+= 0.0025;
+      player.income += Math.ceil(consolation-datapoints);
       updateBalance("add", Math.floor(consolation - datapoints));
       updateDatapoints("add", Math.floor(datapoints));
       return `scam failed, player got ${consolation - datapoints} dollars and ${datapoints} datapoints`;
@@ -51,6 +53,7 @@ function runCreditCardScam() {
   if (scamSucceeded) {
     const cut = person.money;
     updateBalance("add", Math.ceil(cut));
+    player.income += Math.ceil(cut);
     if (player.persuasiveness > 5) {
       player.persuasiveness += 0.01;
     } else {
@@ -60,7 +63,10 @@ function runCreditCardScam() {
   } else {
     const consolation = (person.money / 2) * 0.01;
     player.persuasiveness+= 0.0025;
+    player.income += Math.floor(consolation);
     updateBalance("add", Math.floor(consolation));
     return `scam failed, player got ${consolation} dollars`;
   }
 }
+
+

@@ -7,6 +7,7 @@
   <!-- UIkit CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/css/uikit.min.css" />
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- UIkit JS -->
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit-icons.min.js"></script>
@@ -38,7 +39,6 @@
 
     body,
     html {
-      height: 100%;
       margin: 0;
       padding: 0px;
       width: 100%;
@@ -47,6 +47,7 @@
       filter: sepia(1) hue-rotate(45deg);
       user-select: none !important;
       background-color: black;
+      height: 100%;
     }
 
     .grid-container {
@@ -106,7 +107,7 @@
 
     #topbar {
       position: absolute;
-      top: -20%;
+      top: 0%;
       left: 0;
       z-index: 10000;
       background-color: black;
@@ -198,22 +199,24 @@
     #world-map {
       transition: filter 1s;
       transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
+      
     }
 
     #topbar .uk-dropdown {
       background-color: black;
-    margin: 0px;
-    padding: 5px;
-    box-shadow: 5px 5px 0px green;
-    text-align: left;
-    box-sizing: border-box;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 0px;
-    transition: all 0s !important;
-    max-height: 80vh;
-    overflow: hidden;
-    overflow-y: auto;
+      margin: 0px;
+      padding: 5px;
+      box-shadow: 5px 5px 0px green;
+      text-align: left;
+      box-sizing: border-box;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 0px;
+      transition: all 0s !important;
+      max-height: 80vh;
+      overflow: hidden;
+      overflow-y: auto;
+      align-items: flex-start;
     }
 
     .uk-nav {
@@ -237,7 +240,6 @@
       border: 5px solid black;
       border-left: none;
       border-right: 0px;
-      font-size: 22px;
 
     }
 
@@ -362,7 +364,7 @@
       font-weight: 900;
       padding-top: 3px;
       padding-bottom: 3px;
-      margin-bottom:0px;
+      margin-bottom: 0px;
     }
 
     .datapoint_trade_listing_item h3 {
@@ -399,28 +401,78 @@
 
     .datapoint_trade_listing_item button {
       width: 100%;
-    vertical-align: middle;
-    padding: 2.5px;
-    padding-left: 0px;
-    padding-right: 0px;
-    border: 1px solid green;
-    color: black;
-    font-family: 'gamer';
-    font-size: 20px;
-    background-color: green;
-    text-align: center;
-    padding-top: 0px;
-    cursor:pointer;
+      vertical-align: middle;
+      padding: 2.5px;
+      padding-left: 0px;
+      padding-right: 0px;
+      border: 1px solid green;
+      color: black;
+      font-family: 'gamer';
+      font-size: 20px;
+      background-color: green;
+      text-align: center;
+      padding-top: 0px;
+      cursor: pointer;
     }
 
     .datapoint_trade_listing_item button i {
       vertical-align: unset;
-    font-weight: 900;
-    font-size: 10px;
-    margin: 0px;
-    padding: 0px;
+      font-weight: 900;
+      font-size: 10px;
+      margin: 0px;
+      padding: 0px;
     }
 
+    #building-index-list h2 {
+      font-size: 9px;
+      font-family: 'pst';
+      display: block;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .listing_image {
+      width: 15px;
+      height: 15px;
+      vertical-align: middle;
+    }
+
+    .listing_id {
+      border: none !important;
+      margin: 0px !important;
+      display: inline !important;
+      padding: 0px !important;
+    }
+
+    #current_monthly_expenses_display {
+      font-family: 'gamer';
+      font-size: 25px;
+      display: math;
+      width: 100%;
+      background-color: green;
+      color: black;
+      box-sizing: border-box;
+      margin: 0px;
+      padding: 0px;
+      font-weight: 900;
+      vertical-align: middle;
+      border: 5px solid green;
+      border-top: 2.5px solid green;
+    }
+
+    #current_daily_income_display {
+      font-size: 20px;
+      border: 5px solid black;
+      margin: 0px;
+      border-top: 0px;
+      border-bottom: 0px;
+    }
+
+    #income_chart {
+      width: 100% !important;
+      border: 1.5px dashed green;
+      padding: 5px;
+    }
   </style>
   <link rel="stylesheet" href="zones.css">
   <link rel="stylesheet" href="buildings.css">
@@ -448,7 +500,17 @@
     </div>
     <div class="right" style="float:right;display:flex;">
       <p id="player-money"> <i class="ri-money-dollar-circle-fill"></i> 0</p>
+
       <div id="credit-line-list" uk-dropdown>
+
+        <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">CURRENT MONTHLY EXPENSES</span>
+          <hr class="selectascamhr">
+          <span id="current_daily_income_display"><i class="ri-money-dollar-circle-line"></i> </span>
+          <canvas id="income_chart"></canvas>
+          <br>
+          <span id="current_monthly_expenses_display"><i class="ri-money-dollar-circle-line"></i> </span>
+        </ul>
+
         <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">AVAILABLE LINES OF CREDIT</span>
           <hr class="selectascamhr">
           <span class="datapointspan" id="credit_blurb" style="font-family:'pst'">DOWN ON YOUR LUCK? GET MONEY FAST,
@@ -494,6 +556,7 @@
   <script src="buildingGen.js"></script>
   <script src="tippyConfig.js"></script>
   <script src="scams.js"></script>
+  <script src="intervals.js"></script>
   <script>
 
     var unlockable_options = `
@@ -533,6 +596,8 @@
 
       if (operation === "add") {
         player.money += amount;
+        // display player expenses in the current_monthly_expenses_display
+        document.getElementById("current_monthly_expenses_display").innerHTML = `- $${player.expenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/mo.`;
       } else if (operation === "subtract") {
         player.money -= amount;
       } else {
@@ -541,6 +606,8 @@
       // show the amount that's been added or subtracted
       document.getElementById("player-money").innerHTML = `<i class="ri-money-dollar-circle-fill"></i> ${player.money.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
+
+
 
     // update the player's balance based on input
     function updateDatapoints(operation, amount) {
@@ -581,8 +648,10 @@
         console.log(building.style.backgroundImage);
         document.getElementById("building-index-list").innerHTML += `
     <div class = "building_index_listing_item" id = "${buildingID}_index_listing">
-    <img src = "${building.style.backgroundImage.replace('url("', '')}" style = "width:20px;height:20px;vertical-align:middle">
-    <a href="#"><i>#</i> ${buildingID.replace('gridsquare_', '')}</a><br>
+    <img src = "${building.style.backgroundImage.replace('url("', '')}" class = "listing_image">
+    <p class = "listing_id" ><i>#</i> ${buildingID.replace('gridsquare_', '')}</p>
+    <h2><i class = "ri-building-4-fill" ></i> ${building.dataset.type}</h2>
+    <h2> <i title = "Rent [Monthly]" style="font-weight:100;vertical-align:middle" class="ri-money-dollar-circle-line"></i> <span title = "Rent [Monthly]" style="vertical-align:middle;">${(parseFloat(building.dataset.rentValue) / 1000).toFixed(1)}K/mo.</span><br</h2>
     </div>
     `;
       } else if (operation === "subtract") {
@@ -598,6 +667,7 @@
       }
       document.getElementById("building-count").innerHTML = `<i class="ri-hotel-fill"></i> ${player.buildings}`;
     }
+
 
     function addExpense(amount) {
       player.expenses += amount;
@@ -626,7 +696,7 @@
         <hr class = "selectascamhr">
         <p class = "selectascam" >ACTIVE SCAM</p>
         <select class = "scam_options" id = "${buildingID}_scam_options">
-        <option value="none">NONE</option>
+        <option value="none">CHOOSE A SCAM</option>
         `+ unlockable_options + `
       </select>
         `;
@@ -656,7 +726,7 @@
         <hr class = "selectascamhr">
         <p class = "selectascam" >ACTIVE SCAM</p>
         <select class = "scam_options" id = "${buildingID}_scam_options">
-        <option value="none">NONE</option>
+        <option value="none">CHOOSE A SCAM</option>
         `+ unlockable_options + `
       </select>
         `;
@@ -754,7 +824,13 @@
     window.onload = function () {
       initBuildingAppearance();
       updateBalance("add", 500000);
-
+      sendTradeOffer(thirdPartyCompanies[0]);
+      sendTradeOffer(thirdPartyCompanies[1]);
+      sendTradeOffer(thirdPartyCompanies[2]);
+      sendTradeOffer(thirdPartyCompanies[3]);
+      sendTradeOffer(thirdPartyCompanies[4]);
+      dailyUpdate();
+      monthlyUpdate();
       initToolbars();
       initIntervals();
     };
@@ -773,67 +849,67 @@
     var testDailyMillisecondValue = testMonthlyMillisecondValue / 30;
     var dailyMillisecondValue = monthlyMillisecondValue / 30;
 
+    var dailyIncomeData = [];
 
-    var dailyInterval = setInterval(function () {
-
-      // Define the number of times to run scams in a day
-      var dailyScamRuns = 5;
-
-      for (var i = 0; i < dailyScamRuns; i++) {
-        for (var key in scamOptions) {
-          // if the player owns the building, and the scam option is not "none", run the scam
-          if (player.buildingsIndex.includes(key) && scamOptions[key] !== "none") {
-            runScam(scamOptions[key]);
+    var income_ctx = document.getElementById('income_chart').getContext('2d');
+    var income_myChart = new Chart(income_ctx, {
+      type: 'line',
+      data: {
+        labels: "", // Labels are "Day 1", "Day 2", etc.
+        datasets: [{
+          label: '',
+          data: dailyIncomeData,
+          backgroundColor: 'black',
+          borderColor: 'green',
+          borderWidth: 3,
+          borderCapStyle: 'square',
+          pointStyle: 'rect',
+        }]
+      },
+      options: {
+        aspectRatio: 1 / 0.3,
+        plugins: {
+          title: {
+            display: false,
+            text: '',
+            font: {
+              family: 'pst'
+            }
+          },
+          legend: {
+            display: false,
+            labels: {
+              font: {
+                family: 'pst'
+              }
+            }
+          },
+          tooltip: {
+            display: false,
+            titleFont: {
+              family: 'pst'
+            },
+            bodyFont: {
+              family: 'pst'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            display: false
+          },
+          x: {
+            beginAtZero: true,
+            display: false
           }
         }
       }
+    });
 
+    var dailyInterval = setInterval(dailyUpdate, dailyMillisecondValue);
 
-
-      // keep track of the current day
-      var currentDay = document.getElementById("calendar_day").innerHTML;
-      var currentDayInt = parseInt(currentDay);
-
-      // if it's the last day of the month, reset the day to 1
-      if (currentDayInt >= 30) {
-        currentDayInt = 1;
-      } else {
-        currentDayInt += 1;
-      }
-
-      //update the calendar widget, make sure that there's at least two digits for the day
-      document.getElementById("calendar_day").innerHTML = currentDayInt.toString().padStart(2, '0');
-
-    }, dailyMillisecondValue);
-
-    var monthlyInterval = setInterval(function () {
-      // Monthly operations here...
-
-      updateBalance("subtract", player.expenses);
-
-      // keep track of the current month
-      var currentMonth = document.getElementById("calendar_month").innerHTML;
-      var currentYear = 0;
-      var currentMonthInt = 0;
-
-      // get the current month's index
-      var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-      for (var i = 0; i < months.length; i++) {
-        if (currentMonth === months[i]) {
-          currentMonthInt = i;
-        }
-      }
-
-      // increment the month
-      currentMonthInt += 1;
-      if (currentMonthInt > 11) { // if it's December
-        currentMonthInt = 0; // reset to January
-        currentYear += 1; // increment the year
-      }
-
-      //update the calendar widget
-      document.getElementById("calendar_month").innerHTML = months[currentMonthInt];
-    }, monthlyMillisecondValue);
+    var monthlyInterval = setInterval(monthlyUpdate, monthlyMillisecondValue);
 
 
 
@@ -852,6 +928,7 @@
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+
     var thirdPartyCompanies = [
       {
         name: "FauxBook",
@@ -860,7 +937,8 @@
             name: "FauxBook",
             description: `Hey there [COMPANY]! We're looking for some datachunks to help us improve our VR/AR offerings.
             If you can provide us with some personal info- I mean, datachunks, we'd be happy to provide payment.`,
-            payout: randomizePayout(100000),
+            payout: randomizePayout(50000),
+            cost: 100,
             duration: 7,
             rarity: "high",
             offered: false,
@@ -869,7 +947,8 @@
             name: "FauxBook",
             description: `Greetings [COMPANY]! At Fauxbook, we're always looking to improve our services. With a few of
             your datachunks, we can continue to provide our users with the best experience possible.`,
-            payout: randomizePayout(50000),
+            payout: randomizePayout(10000),
+            cost: 10,
             duration: 14,
             rarity: "medium",
             offered: false,
@@ -877,7 +956,8 @@
           {
             name: "Fauxbook",
             description: `Hello [COMPANY]! We'd like to offer you a chance to earn some money by providing us with your datachunks.`,
-            payout: randomizePayout(25000),
+            payout: randomizePayout(5000),
+            cost: 5,
             duration: 30,
             rarity: "low",
             offered: false,
@@ -887,7 +967,8 @@
             description: `Hey [COMPANY]! It's Mark Puckerzerg, CEO of Fauxbook. Please help me, 
             I wasted my money on this VR thing and it hasn't panned out too well.`,
             payout: randomizePayout(1000000),
-            duration: 30,
+            cost: 1000,
+            duration: 3,
             rarity: "rare",
             offered: false,
           },
@@ -900,6 +981,7 @@
             name: "Ex Corp.",
             description: `Formerly known as Xitter. Anyway, we're looking to shill some datachunks to our users. Got any to spare?`,
             payout: randomizePayout(100000),
+            cost: 100,
             duration: 7,
             rarity: "high",
             offered: false,
@@ -908,6 +990,7 @@
             name: "Ex Corp.",
             description: `Hey [COMPANY]! We're totally hip with the kids, show us your dankest datachunks!`,
             payout: randomizePayout(50000),
+            cost: 10,
             duration: 14,
             rarity: "medium",
             offered: false,
@@ -916,6 +999,7 @@
             name: "Ex Corp.",
             description: `We both know you can't hold onto those datachunks for long. Why not sell them to us?`,
             payout: randomizePayout(25000),
+            cost: 5,
             duration: 30,
             rarity: "low",
             offered: false,
@@ -924,14 +1008,14 @@
             name: "Ex Corp.",
             description: `We'd like to purchase your company. Actually, just kidding. We just want your datachunks.`,
             payout: randomizePayout(1000000),
-            duration: 30,
+            cost: 1000,
+            duration: 3,
             rarity: "rare",
             offered: false,
           },
         ],
       },
 
-      // 100010010
       {
         name: "Pear",
         trades: [
@@ -939,6 +1023,7 @@
             name: "Pear",
             description: `Hello from Pear! We're looking to purchase some datachunks from you.`,
             payout: randomizePayout(100000),
+            cost: 100,
             duration: 7,
             rarity: "low",
             offered: false,
@@ -947,6 +1032,7 @@
             name: "Pear",
             description: `We're always looking to improve our products with your datachunks.`,
             payout: randomizePayout(50000),
+            cost: 10,
             duration: 14,
             rarity: "medium",
             offered: false,
@@ -955,6 +1041,7 @@
             name: "Pear",
             description: `The plot thins. Add your datachunks to the story - consider our offer to purchase them.`,
             payout: randomizePayout(25000),
+            cost: 5,
             duration: 30,
             rarity: "high",
             offered: false,
@@ -963,7 +1050,8 @@
             name: "Pear",
             description: `One more thing... we'd like to make you an offer that's revolutionary.`,
             payout: randomizePayout(1000000),
-            duration: 30,
+            cost: 1000,
+            duration: 3,
             rarity: "rare",
             offered: false,
           },
@@ -975,6 +1063,7 @@
             name: "GooGoo!",
             description: `Hello! We're looking to purchase some datachunks from you.`,
             payout: randomizePayout(100000),
+            cost: 100,
             duration: 7,
             rarity: "high",
             offered: false,
@@ -983,6 +1072,7 @@
             name: "GooGoo!",
             description: `We're looking to improve our products with your datachunks.`,
             payout: randomizePayout(50000),
+            cost: 10,
             duration: 14,
             rarity: "medium",
             offered: false,
@@ -992,6 +1082,7 @@
             name: "GooGoo!",
             description: `We're looking to improve our products with your datachunks.`,
             payout: randomizePayout(25000),
+            cost: 5,
             duration: 30,
             rarity: "low",
             offered: false,
@@ -1000,7 +1091,8 @@
             name: "GooGoo!",
             description: `Sell us your datachunks, and you could win big!`,
             payout: randomizePayout(1000000),
-            duration: 30,
+            cost: 1000,
+            duration: 3,
             rarity: "rare",
             offered: false,
           },
@@ -1012,6 +1104,7 @@
             name: "MichaelSoft",
             description: `Hey there [COMPANY]! We're looking for some datachunks to help us improve our products.`,
             payout: randomizePayout(100000),
+            cost: 100,
             duration: 7,
             rarity: "high",
             offered: false,
@@ -1021,6 +1114,7 @@
             description: `We'd like to improve MichaelSoft Office 365 for everyone.
             Support our endeavors by selling us your datachunks.`,
             payout: randomizePayout(50000),
+            cost: 10,
             duration: 14,
             rarity: "medium",
             offered: false,
@@ -1029,6 +1123,7 @@
             name: "MichaelSoft",
             description: `We're looking to improve our range of services with your datachunks.`,
             payout: randomizePayout(25000),
+            cost: 5,
             duration: 30,
             rarity: "low",
             offered: false,
@@ -1038,7 +1133,8 @@
             description: `Hey [COMPANY]! It's Bob Grapes, CEO of Michaelsoft.
             My wife left me, and I'm looking to buy some datachunks to numb the pain.`,
             payout: randomizePayout(1000000),
-            duration: 30,
+            cost: 1000,
+            duration: 3,
             rarity: "rare",
             offered: false,
           },
@@ -1068,8 +1164,8 @@
         <h3>${randomTrade.description}</h3>
         <h4><i class = "ri-money-dollar-circle-fill"></i> ${randomTrade.payout}</h4>
         <h4><i class="ri-time-fill"></i> ${randomTrade.duration} DAYS</h4>
-        <button onclick = "acceptTrade('${randomTrade.name.replace(/\s/g, '')}', ${randomTrade.payout}, ${randomTrade.duration})" ><i class="ri-check-fill"></i> ACCEPT</button>
-        <button style = "color:green;background-color:transparent" onclick = "document.getElementById('${randomTrade.name.replace(/\s/g, '')}').remove()" ><i class="ri-close-fill"></i> DENY</button>
+        <button onclick = "acceptTrade('${randomTrade.name.replace(/\s/g, '')}', ${randomTrade.payout}, ${randomTrade.cost})" ><i class="ri-database-2-fill"></i> ${randomTrade.cost} - ACCEPT</button>
+        <button style = "color:green;background-color:transparent" onclick = "document.getElementById('${randomTrade.name.replace(/\s/g, '')}').remove()" ><i class="ri-close-fill"></i> DECLINE</button>
         </div>
         `;
         // mark the trade as offered
@@ -1079,11 +1175,6 @@
 
     // show me how i might use the function above
     // sendTradeOffer(thirdPartyCompanies[0]);
-
-
-    sendTradeOffer(thirdPartyCompanies[0]);
-    sendTradeOffer(thirdPartyCompanies[1]);
-
 
 
   </script>

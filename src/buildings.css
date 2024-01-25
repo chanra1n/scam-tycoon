@@ -30,7 +30,7 @@
     .restaurants:hover,
     .homes:hover {
       z-index: 100000000;
-      transform: scale(2.5);
+      transform: scale(2.5)!important;
       border: none;
       outline: none;
       border-radius: 0px;
