@@ -339,6 +339,7 @@
       padding-bottom: 10px !important;
     }
 
+
     .datapoint_trade_listing_item {
 
       background-color: #1a1a1a;
@@ -461,12 +462,20 @@
       border-top: 2.5px solid green;
     }
 
-    #current_daily_income_display {
+    #current_daily_income_display, #current_monthly_income_display {
       font-size: 20px;
       border: 5px solid black;
       margin: 0px;
       border-top: 0px;
       border-bottom: 0px;
+    }
+
+    #current_monthly_income_display {
+      background-color: transparent;
+    color: green;
+    border: none;
+    opacity: 50%;
+    font-size: 16px;
     }
 
     #income_chart {
@@ -506,7 +515,8 @@
 
         <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">CURRENT MONTHLY READOUT</span>
           <hr class="selectascamhr">
-          <span id="current_daily_income_display"><i class="ri-money-dollar-circle-line"></i> </span>
+          <span id="current_daily_income_display">+ $0.00/day</span>
+          <span id="current_monthly_income_display">$0/mo.</span>
           <canvas id="income_chart"></canvas>
           <span id="current_monthly_expenses_display"><i class="ri-money-dollar-circle-line"></i> </span>
         </ul>
@@ -965,8 +975,8 @@
     // send 3-4 trade offers from a random set of companies.
     function sendTradeOffers() {
 
-      // get a random number between 3 and 4
-      var numberOfOffers = Math.floor(Math.random() * (4 - 3 + 1) + 3);
+      // get a random number between 2 and 3, at the very most.
+      var numberOfOffers = Math.floor(Math.random() * (3 - 2 + 1) + 2);
       // get a random number between 0 and 4
       var randomCompanyIndex = Math.floor(Math.random() * (4 - 0 + 1) + 0);
       // get a random company from the thirdPartyCompanies array

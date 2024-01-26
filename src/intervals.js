@@ -1,4 +1,12 @@
+var day_counter = 0;
+
 function dailyUpdate(){
+
+  day_counter++;
+  if (day_counter % 7 === 0) {
+    sendTradeOffers();
+  }
+  
     player.income = 0;
 
       // Define the number of times to run scams in a day
@@ -15,6 +23,8 @@ function dailyUpdate(){
 
 
       document.getElementById('current_daily_income_display').innerHTML = `+ $${player.income.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/day`;
+      document.getElementById('current_monthly_income_display').innerHTML = `$${(player.income.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))*30}/mo.`;
+
 
       // keep track of the current day
       var currentDay = document.getElementById("calendar_day").innerHTML;
