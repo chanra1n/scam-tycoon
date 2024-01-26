@@ -1,14 +1,4 @@
-var day_counter = 0;
-
 function dailyUpdate(){
-
-    day_counter++;
-
-
-    if (day_counter % 7 === 0) {
-        sendTradeOffers();
-    }
-
     player.income = 0;
 
       // Define the number of times to run scams in a day
@@ -23,16 +13,6 @@ function dailyUpdate(){
         }
       }
 
-
-              // After running scams, add the income to dailyIncomeData
-              dailyIncomeData.push(player.income);
-
-              // Update the chart's data
-              income_myChart.data.labels.push(`Day ${dailyIncomeData.length}`);
-              income_myChart.data.datasets[0].data.push(player.income);
-          
-              // Update the chart
-              income_myChart.update();
 
       document.getElementById('current_daily_income_display').innerHTML = `+ $${player.income.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/day`;
 
@@ -49,11 +29,20 @@ function dailyUpdate(){
 
       //update the calendar widget, make sure that there's at least two digits for the day
       document.getElementById("calendar_day").innerHTML = currentDayInt.toString().padStart(2, '0');
+    // After running scams, add the income to dailyIncomeData
+    dailyIncomeData.push(player.income);
 
+    // Update the chart's data
+    income_myChart.data.labels.push(`Day ${dailyIncomeData.length}`);
+    income_myChart.data.datasets[0].data.push(player.income);
+
+    // Update the chart
+    income_myChart.update();
 
     }
 
     function monthlyUpdate(){
+              // Monthly operations here...
 
       updateBalance("subtract", player.expenses);
 
