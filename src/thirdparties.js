@@ -185,7 +185,7 @@ var thirdPartyCompanies = [
         name: "Michaelsoft",
         trades: [
           {
-            name: "MichaelSoft",
+            name: "Michaelsoft",
             description: `Hey there [COMPANY]! We're looking for some datachunks to help us improve our products.`,
             payout: randomizePayout(100000),
             cost: 10000,
@@ -204,7 +204,7 @@ var thirdPartyCompanies = [
             offered: false,
           },
           {
-            name: "MichaelSoft",
+            name: "Michaelsoft",
             description: `We're looking to improve our range of services with your datachunks.`,
             payout: randomizePayout(25000),
             cost: 500,

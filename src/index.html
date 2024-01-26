@@ -106,7 +106,7 @@
 
     #topbar {
       position: absolute;
-      top: 0%;
+      top: -20%;
       left: 0;
       z-index: 10000;
       background-color: black;
@@ -921,7 +921,16 @@
 
     var monthlyInterval = setInterval(monthlyUpdate, monthlyMillisecondValue);
 
+    var activeTradeCount = 0;
 
+    function removeTrade (){
+      activeTradeCount --;
+      if (activeTradeCount === 0){
+        document.getElementById('datachunk_blurb').style.display = "block";
+      } else {
+        document.getElementById('datachunk_blurb').style.display = "none";
+      }
+    }
 
     
     // write a function that will occasionally send a trade offer to the player, in the datapoints-trade-list div.
@@ -936,6 +945,8 @@
     // 8. all trades are sent at the beginning of the month.
 
     function sendTradeOffer(company) {
+      document.getElementById('datachunk_blurb').style.display = "none";
+      activeTradeCount ++;
       // get a random trade from the company's trades array
       var randomTrade = company.trades[Math.floor(Math.random() * company.trades.length)];
       // check if the player has already been offered this trade
@@ -948,7 +959,7 @@
         <h4><i class = "ri-money-dollar-circle-fill"></i> ${randomTrade.payout}</h4>
         <h4><i class="ri-time-fill"></i> ${randomTrade.duration} DAYS</h4>
         <button onclick = "acceptTrade('${randomTrade.name.replace(/\s/g, '')}', ${randomTrade.payout}, ${randomTrade.cost})" ><i class="ri-database-2-fill"></i> ${randomTrade.cost} - ACCEPT</button>
-        <button style = "color:green;background-color:transparent" onclick = "document.getElementById('${randomTrade.name.replace(/\s/g, '')}').remove()" ><i class="ri-close-fill"></i> DECLINE</button>
+        <button style = "color:green;background-color:transparent" onclick = "document.getElementById('${randomTrade.name.replace(/\s/g, '')}').remove();removeTrade();" ><i class="ri-close-fill"></i> DECLINE</button>
         </div>
         `;
         // mark the trade as offered
