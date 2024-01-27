@@ -21,6 +21,8 @@
     .water {
       background-color: #404040;
       outline: 25px solid #40404050;
+      background-image: url('sprites/water.gif');
+      background-size: 400%;
     }
 
     .road {
@@ -88,4 +90,27 @@
 
     .night {
       filter:brightness(0.5);
+    }
+
+
+
+    @keyframes dayNightCycle {
+      0%, 100% {
+        background-color: rgba(0, 0, 0, 0); /* Daytime, almost clear */
+      }
+      50% {
+        background-color: rgba(0, 0, 0, 0.5); /* Nighttime, dark */
+      }
+    }
+    
+    .dayNightOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100000;
+      animation: dayNightCycle 30s infinite;
+      transition-timing-function:cubic-bezier(0.8,0,0,1);
+      pointer-events: none;
     }

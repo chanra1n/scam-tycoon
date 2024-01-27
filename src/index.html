@@ -47,6 +47,7 @@
       user-select: none !important;
       background-color: black;
       height: 100%;
+      overflow:hidden;
     }
 
     .grid-container {
@@ -302,6 +303,38 @@
       margin-bottom: 2.5px;
     }
 
+    .employee_bonus_text {
+      font-family: 'pst';
+    font-size: 10px;
+    border: none;
+    padding: 2.5px;
+    margin: 0px;
+    background-color: green;
+    color: black;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    display: inline-block;
+    width: fit-content;
+    }
+
+    .employee_bonus_text h1 {
+      display: inline-block;
+    font-family: 'gamer';
+    font-size: 24px;
+    padding: 0px;
+    margin: -7.5px;
+    color: black;
+    margin-left: -5px;
+    margin-right: 5px;
+    }
+
+    .employee_bonus_text i {
+      font-size: 14px;
+    display: inline-block;
+    margin: 0px;
+    color: black;
+    }
+
     .selectascam {
       font-size: 6px;
       margin: 0px;
@@ -333,7 +366,7 @@
 
     #datapoint-trade-list,
     #building-index-list,
-    #credit-line-list {
+    #credit-line-list, #player-class-list, #employee-index-list {
 
       width: 40%;
       padding-bottom: 10px !important;
@@ -483,6 +516,48 @@
       border: 1.5px dashed green;
       padding: 5px;
     }
+
+    #player-class-display {
+      position: absolute;
+    background-color: #000000a0;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    margin: 0;
+    padding: 15px;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    font-family: 'pst';
+    opacity:80%;
+    transform:scale(1);
+    transform-origin: bottom right;
+    transition: all 0.25s;
+    }
+
+    #player-class-display:hover {
+      opacity:100%;
+      cursor:pointer;
+    }
+
+    #player-class-number {
+      margin: 0px;
+    padding: 0px;
+    font-family: 'gamer';
+    transform: scale(1.25);
+    filter: drop-shadow(3px 3px 0px black);
+    color: green;
+    }
+
+    #player-class-list {
+      width: 50%;
+    background-color: black;
+    opacity: 100%;
+    font-size: 16px;
+    padding: 15px;
+    padding-top: 5px;
+    padding-bottom: 15px!important;
+    }
+
   </style>
   <link rel="stylesheet" href="zones.css">
   <link rel="stylesheet" href="buildings.css">
@@ -532,15 +607,19 @@
         <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">AVAILABLE DATACHUNK TRADES</span>
           <hr class="selectascamhr">
           <span class="datapointspan" id="datachunk_blurb" style="font-family:'pst'">DATACHUNKS ARE OBTAINED THROUGH
-            TECH SUPPORT SCAMS.
-            THEY CAN BE USED TO BARTER WITH THIRD-PARTIES FOR POTENTIALLY HIGHER PAYOUTS.</span>
+            TECH SUPPORT SCAMS. THEY CAN BE USED FOR TRADE WITH THIRD-PARTIES TO EARN HIGHER PAYOUTS.</span>
         </ul>
       </div>
-      <p id="player-level"><i class="ri-shield-fill"></i> 00</p>
       <p id="employee-count"><i class="ri-user-5-fill"></i> 0</p>
+      <div id="employee-index-list" uk-dropdown>
+        <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">YOUR WORKER READOUT</span>
+          <hr class="selectascamhr">
+          <span class="datapointspan" id="employee_blurb" style="font-family:'pst'">WORKERS HELP YOU EARN MONEY MORE FREQUENTLY. THEIR EFFECTIVENESS INCREASES WITH PAY!</span>
+        </ul>
+      </div>
       <p id="building-count"><i class="ri-hotel-fill"></i> 0</p>
       <div id="building-index-list" uk-dropdown>
-        <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">YOUR PROPERTIES</span>
+        <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">CURRENT PROPERTY INDEX</span>
           <hr class="selectascamhr">
           <span class="datapointspan" id="property_blurb" style="font-family:'pst'">PROPERTIES GENERATE INCOME FOR YOUR
             BUSINESS, BUT INCUR EXPENSES LIKE RENT OR UTILITIES.</span>
@@ -549,13 +628,17 @@
     </div>
 
   </div>
-  <div id="navbar">
+  <div id="player-class-display">
+    <h1 id = "player-class-number">0</h1>
+    <div id="player-class-list" uk-dropdown>
+      <ul class="uk-nav uk-dropdown-nav"><span style = "font-size:17.5px;font-family:'gamer'" >CURRENT CLASS MODIFIERS</span>
+        <hr class="selectascamhr">
+        <span class="datapointspan" id="class_blurb" style="font-family:'pst'">AS YOUR BUSINESS GROWS, 
+          YOUR CLASS LEVEL WILL INCREASE, UNLOCKING NEW ABILITIES AND MODIFIERS.</span>
+      </ul>
+    </div>
 
-
-
-
-
-  </div>
+    </div>
   <div id="world-map" class="grid-container"></div>
 
   <script src="functionLibrary.js"></script>
@@ -569,6 +652,8 @@
   <script src="intervals.js"></script>
   <script src="thirdparties.js"></script>
   <script>
+
+    var playerDecidedPay = 100;
 
     var unlockable_options = `
     <option value="identity_theft">IDENTITY THEFT</option>
@@ -587,6 +672,7 @@
       buildingsIndex: [],
       persuasiveness: 0,
       datapoints: 0,
+      modifierRate: 0,
     };
 
     function runScam(scam) {
@@ -606,7 +692,7 @@
     function updateBalance(operation, amount) {
 
       if (operation === "add") {
-        player.money += amount;
+        player.money += amount+ (amount * player.modifierRate);
         // display player expenses in the current_monthly_expenses_display
         document.getElementById("current_monthly_expenses_display").innerHTML = `- $${player.expenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/mo.`;
       } else if (operation === "subtract") {
@@ -624,14 +710,14 @@
     function updateDatapoints(operation, amount) {
 
       if (operation === "add") {
-        player.datapoints += amount;
+        player.datapoints += amount + (amount * player.modifierRate);;
       } else if (operation === "subtract") {
         player.datapoints -= amount;
       } else {
         console.log("error");
       }
       // show the amount that's been added or subtracted
-      document.getElementById("player-datapoints").innerHTML = `<i class="ri-database-2-fill"></i> ${player.datapoints}`;
+      document.getElementById("player-datapoints").innerHTML = `<i class="ri-database-2-fill"></i> ${player.datapoints.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
     function updateLevel() {
@@ -642,8 +728,27 @@
     function updateEmployeeCount(operation, amount) {
       if (operation === "add") {
         player.employees += amount;
+
+        var employee_name = ["John", "Jane", "Bob", "Ben", "Mark", "Sarah", "Sally", "Sue", "Jill", "Jack", "Jim", "Joe", "Jenny", "Jen", "Jill", "Jesse", "Jess", "Mark", "Mary", "Molly"];
+        var employee_random = Math.floor(Math.random() * employee_name.length);
+
+        
+        for (var i = 0; i < amount; i++) {
+          document.getElementById("employee-index-list").innerHTML += `
+          <div class = "building_index_listing_item" id = "employee_${i}_index_listing">
+          <img src = "sprites/employee.png" class = "listing_image">
+          <p class = "listing_id" ><i>#</i> ${i}</p>
+          <h2><i class = "ri-user-5-fill" ></i> ${employee_name[employee_random]}</h2>
+          <h2> <i title = "Salary [Monthly]" style="font-weight:100;vertical-align:middle" class="ri-money-dollar-circle-line"></i> <span title = "Salary [Monthly]" style="vertical-align:middle;">$${(parseFloat(1000) / 1000).toFixed(1)}K/mo.</span><br</h2>
+          </div>
+          `;
+        }
+
       } else if (operation === "subtract") {
         player.employees -= amount;
+
+
+
       } else {
         console.log("error");
       }
@@ -679,7 +784,7 @@
       document.getElementById("building-count").innerHTML = `<i class="ri-hotel-fill"></i> ${player.buildings}`;
     }
 
-
+    
     function addExpense(amount) {
       player.expenses += amount;
     }
@@ -702,7 +807,12 @@
         // get the data-resale-value of this building
         var buildingResaleValue = building.dataset.resaleValue;
         console.log("building rsale value: " + buildingResaleValue);
-        document.getElementById(buildingID + "_player_options").innerHTML = `
+        // detect what building this is based on its data-type attribute
+        var buildingType = building.dataset.type;
+        console.log("building type: " + buildingType);
+
+        if (buildingType === "Call Center"){
+          document.getElementById(buildingID + "_player_options").innerHTML = `
         <h3 onclick = "sellBuilding('${buildingID}', ${buildingResaleValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> SELL</h3>
         <hr class = "selectascamhr">
         <p class = "selectascam" >ACTIVE SCAM</p>
@@ -711,6 +821,29 @@
         `+ unlockable_options + `
       </select>
         `;
+    } else if (buildingType === "Office"){
+
+      var employee_average_hire = Math.floor(Math.random()*200)+10;
+      // this modifier should be a percentage between 0 and 0.5. rounded to 2 decimal places
+      var employee_contributing_modifier = (Math.random()).toFixed(2);
+
+      player.modifierRate += parseFloat(employee_contributing_modifier);
+      
+      document.getElementById(buildingID + "_player_options").innerHTML = `
+        <h3 onclick = "sellBuilding('${buildingID}', ${buildingResaleValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> SELL</h3>
+        <hr class = "selectascamhr">
+        <p class = "selectascam" >BUILDING BONUS</p>
+        <span class = "employee_bonus_text" > <i class = "ri-user-5-fill" ></i> <h1 id = "${buildingID}_emp_contribution" >+${employee_average_hire}</h1></span>
+        <span class = "employee_bonus_text" > <i class="ri-discount-percent-fill"></i> <h1 id = "${buildingID}_mod_contribution" >+${employee_contributing_modifier}%</h1>
+        `;
+
+        updateEmployeeCount("add", employee_average_hire);
+
+    } else {
+      alert('Something went wrong, please try again later.');
+    }
+
+
         building.style.animation = "pulse 1s infinite";
         document.getElementById('property_blurb').style.display = "none";
       } else {
@@ -728,10 +861,17 @@
         addExpense(buildingRentValue);
         // get the element with the data-building-id of the buildingID passed
         console.log(buildingID);
+      
         var building = document.querySelector(`[data-name="${buildingID}"]`);
+                // detect what building this is based on its data-type attribute
+                var buildingType = building.dataset.type;
+        console.log("building type: " + buildingType);
+          
         // get the data-resale-value of this building
         var buildingRentValue = building.dataset.rentValue;
         console.log("building rsale value: " + buildingRentValue);
+
+        if (buildingType === "Call Center"){
         document.getElementById(buildingID + "_player_options").innerHTML = `
         <h3 onclick = "exitBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> CANCEL RENT</h3>
         <hr class = "selectascamhr">
@@ -741,6 +881,27 @@
         `+ unlockable_options + `
       </select>
         `;
+    } else if (buildingType === "Office"){
+
+      var employee_average_hire = Math.floor(Math.random()*200)+10;
+      // this modifier should be a percentage between 0 and 0.5. rounded to 2 decimal places
+      var employee_contributing_modifier = (Math.random()).toFixed(2);
+
+      player.modifierRate += parseFloat(employee_contributing_modifier);
+      
+      document.getElementById(buildingID + "_player_options").innerHTML = `
+        <h3 onclick = "exitBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> CANCEL RENT</h3>
+        <hr class = "selectascamhr">
+        <p class = "selectascam" >BUILDING BONUS</p>
+        <span class = "employee_bonus_text" > <i class = "ri-user-5-fill" ></i> <h1 id = "${buildingID}_emp_contribution" >+${employee_average_hire}</h1></span>
+        <span class = "employee_bonus_text" > <i class="ri-discount-percent-fill"></i> <h1 id = "${buildingID}_mod_contribution" >+${employee_contributing_modifier}%</h1>
+        `;
+
+        updateEmployeeCount("add", employee_average_hire);
+
+    } else {
+      alert('Something went wrong, please try again later.');
+    }
         building.style.animation = "pulse-rent 1s infinite";
         document.getElementById('property_blurb').style.display = "none";
       } else {
@@ -807,10 +968,23 @@
         <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
         `;
         } else {
+
+          var buildingType = building.dataset.type;
+        console.log("building type: " + buildingType);
+
+          if (buildingType === "Office"){
+            console.log(buildingID + "_emp_contribution");
+            var employee_average_hire = parseFloat(document.getElementById(buildingID + "_emp_contribution").innerHTML.replace("+", ""));
+            var employee_contributing_modifier = document.getElementById(buildingID + "_mod_contribution").innerHTML;
+            updateEmployeeCount("subtract", employee_average_hire);
+            player.modifierRate -= parseFloat(employee_contributing_modifier.replace("+", "").replace("%", ""));
+          }
+
           document.getElementById(buildingID + "_player_options").innerHTML = `
         <h3 onclick = "rentBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-line"></i> FOR RENT</h3>
         <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
         `;
+
         }
         building.style.animation = "none";
         // if the user has no buildings left, display the blurb again
@@ -830,17 +1004,12 @@
     function initIntervals() {
       setInterval(monthlyInterval);
       setInterval(dailyInterval);
+      setInterval(secondlyInterval);
     }
 
     window.onload = function () {
       initBuildingAppearance();
       updateBalance("add", 500000);
-      /*sendTradeOffer(thirdPartyCompanies[0]);
-      sendTradeOffer(thirdPartyCompanies[1]);
-      sendTradeOffer(thirdPartyCompanies[2]);
-      sendTradeOffer(thirdPartyCompanies[3]);
-      sendTradeOffer(thirdPartyCompanies[4]);
-      */
       initToolbars();
       initIntervals();
     };
@@ -860,6 +1029,8 @@
     var dailyMillisecondValue = monthlyMillisecondValue / 30;
 
     var dailyIncomeData = [];
+
+    var secondlyRate = 2500;
 
     var income_ctx = document.getElementById('income_chart').getContext('2d');
     var income_myChart = new Chart(income_ctx, {
@@ -920,6 +1091,8 @@
     var dailyInterval = setInterval(dailyUpdate, dailyMillisecondValue);
 
     var monthlyInterval = setInterval(monthlyUpdate, monthlyMillisecondValue);
+
+    var secondlyInterval = setInterval(secondlyUpdate, secondlyRate);
 
     var activeTradeCount = 0;
 
