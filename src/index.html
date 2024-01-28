@@ -5,36 +5,34 @@
   <meta charset="UTF-8" />
   <title>Scam Tycoon</title>
   <!-- UIkit CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/css/uikit.min.css" />
+  <link rel="stylesheet" href="css/uikit.css" />
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/lib/chart.js"></script>
   <!-- UIkit JS -->
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/js/uikit-icons.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.1.0/remixicon.min.css"
-    integrity="sha512-i5VzKip7owqOGjb0YTF8MR2J9yBVO3FLHeazKzLp354XYTmKcqEU3UeFYUw82R8tV6JqxeATOfstCfpfPhbyEA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="crt.css">
-  <link rel="stylesheet" href="vig.css">
-  <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <script src="https://unpkg.com/tippy.js@6"></script>
+  <script src="js/lib/uikit.js"></script>
+  <script src="js/lib/uikit-icons.js"></script>
+  <link rel="stylesheet" href="css/remixicon.css"/>
+  <link rel="stylesheet" href="css/crt.css">
+  <link rel="stylesheet" href="css/vig.css">
+  <script src='js/lib/panzoom.js'></script>
+  <script src="js/lib/popper.js"></script>
+  <script src="js/lib/tippy.js"></script>
   <style>
     /*add my custom fonts*/
 
     @font-face {
       font-family: "gamer";
-      src: url("sprites/gamer.ttf");
+      src: url("fonts/gamer.ttf");
     }
 
     @font-face {
       font-family: "beeg";
-      src: url("sprites/8bitfont.ttf");
+      src: url("fonts/8bitfont.ttf");
     }
 
     @font-face {
       font-family: "pst";
-      src: url("sprites/pst.ttf");
+      src: url("fonts/pst.ttf");
     }
 
     body,
@@ -511,11 +509,13 @@
     font-size: 16px;
     }
 
-    #income_chart {
+    #income_chart, #employee_productivity_chart {
       width: 100% !important;
       border: 1.5px dashed green;
       padding: 5px;
     }
+
+
 
     #player-class-display {
       position: absolute;
@@ -558,9 +558,39 @@
     padding-bottom: 15px!important;
     }
 
+    #employee-index-list button {
+      background-color: black;
+    color: green;
+    font-family: 'pst';
+    border: 2.5px solid green;
+    padding: 5px;
+    font-size: 7px;
+    display: inline-block;
+    margin: 7.5px;
+    margin-bottom: 2.5px;
+    box-sizing: border-box;
+    margin-left: 0px;
+    margin-right: 0px;
+    cursor: pointer;
+    width: fit-content;
+    }
+
+    .wages {
+      font-family: 'gamer';
+    display: inline-block;
+    width: 40%;
+    background-color: black;
+    color: green;
+    padding: 0px;
+    margin: 0px;
+    font-size: 16px;
+    opacity: 75%;
+    }
+
+
   </style>
-  <link rel="stylesheet" href="zones.css">
-  <link rel="stylesheet" href="buildings.css">
+  <link rel="stylesheet" href="css/zones.css">
+  <link rel="stylesheet" href="css/buildings.css">
 </head>
 
 <body>
@@ -607,7 +637,7 @@
         <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">AVAILABLE DATACHUNK TRADES</span>
           <hr class="selectascamhr">
           <span class="datapointspan" id="datachunk_blurb" style="font-family:'pst'">DATACHUNKS ARE OBTAINED THROUGH
-            TECH SUPPORT SCAMS. THEY CAN BE USED FOR TRADE WITH THIRD-PARTIES TO EARN HIGHER PAYOUTS.</span>
+            TECH SUPPORT SCAMS. THEY CAN BE USED FOR TRADE WITH INTERESTED PARTIES TO EARN HIGHER PAYOUTS.</span>
         </ul>
       </div>
       <p id="employee-count"><i class="ri-user-5-fill"></i> 0</p>
@@ -616,6 +646,42 @@
           <hr class="selectascamhr">
           <span class="datapointspan" id="employee_blurb" style="font-family:'pst'">WORKERS HELP YOU EARN MONEY MORE FREQUENTLY. THEIR EFFECTIVENESS INCREASES WITH PAY!</span>
         </ul>
+
+        <div id = "employee_index_div">
+
+        <span>PRODUCTIVITY BONUS</span>
+
+        <canvas id = "employee_productivity_chart"></canvas>
+
+
+          </div>
+
+        <br>
+        <span style = "display:inline-block;font-size:16px;" >HIRE EXTRA EMPLOYEES</span>
+        <span class = "datapointspan wages" style = "font-family:'pst';font-size:6.5px" >$3.0K/mo.</span>
+       <hr class = "selectascamhr">
+        <button id = "hire_10_employees_button">+10</button>
+        <button id = "hire_50_employees_button">+50</button>
+        <button id = "hire_100_employees_button">+100</button>
+
+        <br>
+
+        <span style = "display:inline-block;font-size:16px;" >HIRE INTERNS</span>
+        <span class = "datapointspan wages" style = "font-family:'pst';font-size:6.5px" >$1.0K/mo.</span>
+        <hr class = "selectascamhr">
+        <button id = "hire_10_interns_button">+10</button>
+        <button id = "hire_50_interns_button">+50</button>
+        <button id = "hire_100_interns_button">+100</button>
+        <br>
+
+        <span style = "display:inline-block;font-size:16px;" >HIRE LAWYERS</span>
+        <span class = "datapointspan wages" style = "font-family:'pst';font-size:6.5px" >$7.5K/mo.</span>
+        <hr class = "selectascamhr">
+        <button id = "hire_10_lawyers_button">+10</button>
+        <button id = "hire_50_lawyers_button">+50</button>
+        <button id = "hire_100_lawyers_button">+100</button>
+      
+
       </div>
       <p id="building-count"><i class="ri-hotel-fill"></i> 0</p>
       <div id="building-index-list" uk-dropdown>
@@ -641,16 +707,16 @@
     </div>
   <div id="world-map" class="grid-container"></div>
 
-  <script src="functionLibrary.js"></script>
-  <script src="layoutGen.js"></script>
-  <script src="buildingMode.js"></script>
-  <script src="panZoomConfig.js"></script>
-  <script src="buildingAppearance.js"></script>
-  <script src="buildingGen.js"></script>
-  <script src="tippyConfig.js"></script>
-  <script src="scams.js"></script>
-  <script src="intervals.js"></script>
-  <script src="thirdparties.js"></script>
+  <script src="js/custom/functionLibrary.js"></script>
+  <script src="js/custom/layoutGen.js"></script>
+  <script src="js/custom/buildingMode.js"></script>
+  <script src="js/custom/panZoomConfig.js"></script>
+  <script src="js/custom/buildingAppearance.js"></script>
+  <script src="js/custom/buildingGen.js"></script>
+  <script src="js/custom/tippyConfig.js"></script>
+  <script src="js/custom/scams.js"></script>
+  <script src="js/custom/intervals.js"></script>
+  <script src="js/custom/thirdparties.js"></script>
   <script>
 
     var playerDecidedPay = 100;
@@ -732,18 +798,6 @@
         var employee_name = ["John", "Jane", "Bob", "Ben", "Mark", "Sarah", "Sally", "Sue", "Jill", "Jack", "Jim", "Joe", "Jenny", "Jen", "Jill", "Jesse", "Jess", "Mark", "Mary", "Molly"];
         var employee_random = Math.floor(Math.random() * employee_name.length);
 
-        
-        for (var i = 0; i < amount; i++) {
-          document.getElementById("employee-index-list").innerHTML += `
-          <div class = "building_index_listing_item" id = "employee_${i}_index_listing">
-          <img src = "sprites/employee.png" class = "listing_image">
-          <p class = "listing_id" ><i>#</i> ${i}</p>
-          <h2><i class = "ri-user-5-fill" ></i> ${employee_name[employee_random]}</h2>
-          <h2> <i title = "Salary [Monthly]" style="font-weight:100;vertical-align:middle" class="ri-money-dollar-circle-line"></i> <span title = "Salary [Monthly]" style="vertical-align:middle;">$${(parseFloat(1000) / 1000).toFixed(1)}K/mo.</span><br</h2>
-          </div>
-          `;
-        }
-
       } else if (operation === "subtract") {
         player.employees -= amount;
 
@@ -753,6 +807,7 @@
         console.log("error");
       }
       document.getElementById("employee-count").innerHTML = `<i class="ri-user-5-fill"></i> ${player.employees}`;
+      //document.getElementById("current_modifier_rate").innerHTML = "+"+player.modifierRate.toFixed(2) + "%";
     }
 
     function updateBuildingCount(operation, amount, buildingID) {
@@ -1029,64 +1084,145 @@
     var dailyMillisecondValue = monthlyMillisecondValue / 30;
 
     var dailyIncomeData = [];
+    var modifierData = [];
+    var employeeData = [];
 
     var secondlyRate = 2500;
 
     var income_ctx = document.getElementById('income_chart').getContext('2d');
-    var income_myChart = new Chart(income_ctx, {
-      type: 'line',
-      data: {
-        labels: "", // Labels are "Day 1", "Day 2", etc.
-        datasets: [{
-          label: '',
-          data: dailyIncomeData,
-          backgroundColor: 'black',
-          borderColor: 'green',
-          borderWidth: 1,
-          borderCapStyle: 'square',
-          pointStyle: 'rect',
-        }]
+var income_myChart = new Chart(income_ctx, {
+  type: 'line',
+  data: {
+    labels: "", // Labels are "Day 1", "Day 2", etc.
+    datasets: [{
+      label: '',
+      data: dailyIncomeData,
+      backgroundColor: 'black',
+      borderColor: 'green',
+      borderWidth: 1,
+      borderCapStyle: 'square',
+      pointStyle: 'rect',
+    }]
+  },
+  options: {
+    aspectRatio: 1 / 0.3,
+    plugins: {
+      title: {
+        display: false,
+        text: '',
+        font: {
+          family: 'pst'
+        }
       },
-      options: {
-        aspectRatio: 1 / 0.3,
-        plugins: {
-          title: {
-            display: false,
-            text: '',
-            font: {
-              family: 'pst'
-            }
-          },
-          legend: {
-            display: false,
-            labels: {
-              font: {
-                family: 'pst'
-              }
-            }
-          },
-          tooltip: {
-            display: false,
-            titleFont: {
-              family: 'pst'
-            },
-            bodyFont: {
-              family: 'pst'
-            }
+      legend: {
+        display: false,
+        labels: {
+          font: {
+            family: 'pst'
           }
+        }
+      },
+      tooltip: {
+        display: true,
+        titleFont: {
+          family: 'pst'
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            display: false
-          },
-          x: {
-            beginAtZero: true,
-            display: false
+        bodyFont: {
+          family: 'pst'
+        },
+        callbacks: {
+          label: function(context) {
+            var label = context.dataset.label ? (context.dataset.label + ': ') : '';
+            label += '$' + context.parsed.y.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '/day';
+            return label;
           }
         }
       }
-    });
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        display: false
+      },
+      x: {
+        beginAtZero: true,
+        display: false
+      }
+    }
+  }
+});
+
+
+    var modifier_ctx = document.getElementById('employee_productivity_chart').getContext('2d');
+var modifier_myChart = new Chart(modifier_ctx, {
+  type: 'line',
+  data: {
+    labels: "", // Labels are "Day 1", "Day 2", etc.
+    datasets: [{
+      label: 'PRODUCTIVITY BONUS',
+      data: modifierData,
+      backgroundColor: 'black',
+      borderColor: 'green',
+      borderWidth: 1,
+      borderCapStyle: 'square',
+      pointStyle: 'rect',
+    }, {
+      label: 'WORKER COUNT',
+      data: employeeData,
+      backgroundColor: 'black',
+      borderColor: 'green',
+      borderWidth: 1,
+      borderCapStyle: 'square',
+      pointStyle: 'rect',
+    }]
+  },
+  options: {
+    aspectRatio: 1 / 0.3,
+    plugins: {
+      title: {
+        display: false,
+        text: '',
+        font: {
+          family: 'pst'
+        }
+      },
+      legend: {
+        display: false,
+        labels: {
+          font: {
+            family: 'pst'
+          }
+        }
+      },
+      tooltip: {
+        display: true,
+        titleFont: {
+          family: 'pst'
+        },
+        bodyFont: {
+          family: 'pst'
+        },
+        callbacks: {
+          label: function(context) {
+            var label = context.dataset.label ? (context.dataset.label + ': ') : '';
+            label += '+' + context.parsed.y.toFixed(1) + '%';
+            return label;
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        display: false
+      },
+      x: {
+        beginAtZero: true,
+        display: false
+      }
+    }
+  }
+});
 
     var dailyInterval = setInterval(dailyUpdate, dailyMillisecondValue);
 

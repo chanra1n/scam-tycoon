@@ -48,6 +48,15 @@ function dailyUpdate(){
     income_myChart.data.labels.push(`Day ${dailyIncomeData.length}`);
     income_myChart.data.datasets[0].data.push(player.income);
 
+    modifierData.push(player.modifierRate);
+    employeeData.push(player.employees);
+
+    // Update the chart's data
+    modifier_myChart.data.labels.push(`Day ${modifierData.length}`);
+    modifier_myChart.data.datasets[0].data.push(player.modifierRate);
+    modifier_myChart.data.datasets[1].data.push(player.employees);
+    modifier_myChart.update();
+
     // Update the chart
     income_myChart.update();
 

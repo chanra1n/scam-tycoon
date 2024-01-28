@@ -4,7 +4,7 @@
 
     .industrial {
       background-color: #1a1a1a;
-      background-image: url('sprites/city_block.png');
+      background-image: url('../sprites/city_block.png');
       background-size: 100%;
       background-repeat: no-repeat;
       filter: brightness(0.95);
@@ -13,7 +13,7 @@
 
     .natural {
       background-color: #b8db88;
-      background-image: url('sprites/grass.png');
+      background-image: url('../sprites/grass.png');
       background-size: 100%;
       background-repeat: no-repeat;
     }
@@ -21,45 +21,45 @@
     .water {
       background-color: #404040;
       outline: 25px solid #40404050;
-      background-image: url('sprites/water.gif');
+      background-image: url('../sprites/water.gif');
       background-size: 400%;
     }
 
     .road {
       background-color: #a1a1a1;
       z-index: 1000;
-      background-image: url('sprites/street.png');
+      background-image: url('../sprites/street.png');
       background-size: 100%;
       background-repeat: no-repeat;
       image-rendering: pixelated;
     }
 
     .horizontal {
-      background-image: url('sprites/street_horizontal.png');
+      background-image: url('../sprites/street_horizontal.png');
       background-size: 100%;
       background-repeat: no-repeat;
     }
 
     .vertical {
-      background-image: url('sprites/street_vertical.png');
+      background-image: url('../sprites/street_vertical.png');
       background-size: 100%;
       background-repeat: no-repeat;
     }
 
     .end-horizontal {
-      background-image: url('sprites/street.png');
+      background-image: url('../sprites/street.png');
       background-size: 100%;
       background-repeat: no-repeat;
     }
 
     .end-vertical {
-      background-image: url('sprites/street.png');
+      background-image: url('../sprites/street.png');
       background-size: 100%;
       background-repeat: no-repeat;
     }
 
     .intersection {
-      background-image: url('sprites/street.png');
+      background-image: url('../sprites/street.png');
       background-size: 100%;
       background-repeat: no-repeat;
     }
