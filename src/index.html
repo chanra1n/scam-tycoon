@@ -1159,7 +1159,7 @@ var modifier_myChart = new Chart(modifier_ctx, {
   data: {
     labels: "", // Labels are "Day 1", "Day 2", etc.
     datasets: [{
-      label: 'PRODUCTIVITY BONUS',
+      label: '',
       data: modifierData,
       backgroundColor: 'black',
       borderColor: 'green',
@@ -1167,13 +1167,14 @@ var modifier_myChart = new Chart(modifier_ctx, {
       borderCapStyle: 'square',
       pointStyle: 'rect',
     }, {
-      label: 'WORKER COUNT',
+      label: '',
       data: employeeData,
       backgroundColor: 'black',
       borderColor: 'green',
       borderWidth: 1,
       borderCapStyle: 'square',
       pointStyle: 'rect',
+
     }]
   },
   options: {
@@ -1204,10 +1205,19 @@ var modifier_myChart = new Chart(modifier_ctx, {
         },
         callbacks: {
           label: function(context) {
-            var label = context.dataset.label ? (context.dataset.label + ': ') : '';
-            label += '+' + context.parsed.y.toFixed(1) + '%';
-            return label;
-          }
+  var label = context.dataset.label ? (context.dataset.label + ': ') : '';
+  
+  if (context.datasetIndex === 0) {
+    // Formatting for the first dataset
+    label += '+' + context.parsed.y.toFixed(1) + '%';
+  } else if (context.datasetIndex === 1) {
+    // Formatting for the second dataset
+    // Replace this with your desired formatting
+    label += '+'+context.parsed.y + ' EMP.';
+  }
+  
+  return label;
+}
         }
       }
     },
