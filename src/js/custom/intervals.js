@@ -115,5 +115,83 @@ function secondlyUpdate(){
     updateBalance("add", incomePerIntern);
   }
 
+  if (player.money < 10000) {
+    document.getElementById('hire_10_interns_button').style.opacity = "50%";
+    document.getElementById('hire_10_interns_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_10_interns_button').style.opacity = "100%";
+    document.getElementById('hire_10_interns_button').style.pointerEvents = "auto";
+  }
+
+  if (player.money < 50000) {
+    document.getElementById('hire_50_interns_button').style.opacity = "50%";
+    document.getElementById('hire_50_interns_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_50_interns_button').style.opacity = "100%";
+    document.getElementById('hire_50_interns_button').style.pointerEvents = "auto";
+  }
+
+  if (player.money < 100000) {
+    document.getElementById('hire_100_interns_button').style.opacity = "50%";
+    document.getElementById('hire_100_interns_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_100_interns_button').style.opacity = "100%";
+    document.getElementById('hire_100_interns_button').style.pointerEvents = "auto";
+  }
+
+
+
+  if (player.money < 30000) {
+    document.getElementById('hire_10_employees_button').style.opacity = "50%";
+    document.getElementById('hire_10_employees_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_10_employees_button').style.opacity = "100%";
+    document.getElementById('hire_10_employees_button').style.pointerEvents = "auto";
+  }
+
+  if (player.money < 150000) {
+    document.getElementById('hire_50_employees_button').style.opacity = "50%";
+    document.getElementById('hire_50_employees_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_50_employees_button').style.opacity = "100%";
+    document.getElementById('hire_50_employees_button').style.pointerEvents = "auto";
+  }
+
+  if (player.money < 300000) {
+    document.getElementById('hire_100_employees_button').style.opacity = "50%";
+    document.getElementById('hire_100_employees_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_100_employees_button').style.opacity = "100%";
+    document.getElementById('hire_100_employees_button').style.pointerEvents = "auto";
+  }
+
+
+
+  if (player.money < 75000) {
+    document.getElementById('hire_10_lawyers_button').style.opacity = "50%";
+    document.getElementById('hire_10_lawyers_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_10_lawyers_button').style.opacity = "100%";
+    document.getElementById('hire_10_lawyers_button').style.pointerEvents = "auto";
+  }
+
+  if (player.money < 375000) {
+    document.getElementById('hire_50_lawyers_button').style.opacity = "50%";
+    document.getElementById('hire_50_lawyers_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_50_lawyers_button').style.opacity = "100%";
+    document.getElementById('hire_50_lawyers_button').style.pointerEvents = "auto";
+  }
+
+  if (player.money < 750000) {
+    document.getElementById('hire_100_lawyers_button').style.opacity = "50%";
+    document.getElementById('hire_100_lawyers_button').style.pointerEvents = "none";
+  } else {
+    document.getElementById('hire_100_lawyers_button').style.opacity = "100%";
+    document.getElementById('hire_100_lawyers_button').style.pointerEvents = "auto";
+  }
+
+
+
 
 }

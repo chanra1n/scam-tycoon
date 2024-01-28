@@ -230,15 +230,16 @@
     }
 
     .building_index_listing_item {
-
       display: block;
-      box-sizing: border-box;
-      padding: 5px;
-      padding-top: 2.5px;
-      padding-bottom: 2.5px;
-      border: 5px solid black;
-      border-left: none;
-      border-right: 0px;
+    box-sizing: border-box;
+    padding: 5px;
+    padding-top: 0px;
+    padding-bottom: 7.5px;
+    border: 5px solid black;
+    border-left: none;
+    border-right: 0px;
+    border-top: 0px;
+    margin: 0px;
 
     }
 
@@ -373,6 +374,11 @@
     }
 
 
+    #building-index-list {
+      width:25%;
+    }
+
+
     .datapoint_trade_listing_item {
 
       background-color: #1a1a1a;
@@ -459,7 +465,7 @@
     }
 
     #building-index-list h2 {
-      font-size: 9px;
+      font-size: 8px;
       font-family: 'pst';
       display: block;
       margin: 0px;
@@ -619,6 +625,19 @@
     margin-left: -5px;
     margin-top: -10px;
     margin-bottom: -10px;
+    }
+
+    .listing_id {
+      font-size: 25px;
+    vertical-align: baseline;
+    }
+
+    .building_index_listing_item hr {
+      width: 60%;
+    margin: 2.5px!important;
+    margin-left: 0px!important;
+    margin-top: 0px!important;
+    margin-bottom: 5px!important;
     }
 
   </style>
@@ -887,6 +906,7 @@
     <div class = "building_index_listing_item" id = "${buildingID}_index_listing">
     <img src = "${building.style.backgroundImage.replace('url("', '')}" class = "listing_image">
     <p class = "listing_id" ><i>#</i> ${buildingID.replace('gridsquare_', '')}</p>
+    <hr>
     <h2><i class = "ri-building-4-fill" ></i> ${building.dataset.type}</h2>
     <h2> <i title = "Rent [Monthly]" style="font-weight:100;vertical-align:middle" class="ri-money-dollar-circle-line"></i> <span title = "Rent [Monthly]" style="vertical-align:middle;">${(parseFloat(building.dataset.rentValue) / 1000).toFixed(1)}K/mo.</span><br</h2>
     </div>
