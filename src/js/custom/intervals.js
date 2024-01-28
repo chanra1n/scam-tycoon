@@ -96,17 +96,23 @@ function secondlyUpdate(){
   // basically, take the players income, divide it by the number of employees, and add that amount to the player's balance.
 
   if (player.employees > 0) {
-    // get the player's income
+
     var income = player.income;
 
-    // get the number of employees
     var employees = player.employees;
 
-    // divide the income by the number of employees
-    var incomePerEmployee = income / employees;
+    var incomePerEmployee = (income / employees) / 10;
 
-    // add that amount to the player's balance
+
     updateBalance("add", incomePerEmployee);
+  }
+
+  if (player.interns>0) {
+    var income = player.income;
+    var interns = player.interns;
+    var incomePerIntern = (income / interns) / 100;
+
+    updateBalance("add", incomePerIntern);
   }
 
 
