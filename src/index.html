@@ -896,6 +896,14 @@
       cursor:pointer;
     }
 
+    .credit_line_listing_item {
+      opacity:50%;
+    }
+
+    .credit_line_listing_item:hover {
+      opacity:80%;
+    }
+
   </style>
   <link rel="stylesheet" href="css/zones.css">
   <link rel="stylesheet" href="css/buildings.css">
@@ -958,7 +966,7 @@
           <button id="cashout-button" onclick = "creditCashOut(document.getElementById('cashout-amount').value)">CASH OUT</button>
         </div>
 
-        <button class = "cashoutbutton" onclick = "$('#credit-input-dialog').dialog('open');">CASH OUT</button>
+        <button class = "cashoutbutton" id = "cashoutcreditbutton" onclick = "$('#credit-input-dialog').dialog('open');">CASH OUT</button>
         <br>
         <h1 style = "    font-family: 'gamer';
         font-size: 16px;
@@ -975,7 +983,7 @@
 
         <h2 class = "bigcreditnumber" id = "total_to_pay">$0.00</h2>
         
-        <button class = "cashoutbutton" onclick = "payOffDebt()" > PAY OFF DEBT</button>
+        <button class = "cashoutbutton" id = "payoffbutton" onclick = "payOffDebt()" > PAY OFF DEBT</button>
         <br>
         <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">AVAILABLE LINES OF CREDIT</span>
           <hr class="selectascamhr">
@@ -988,7 +996,7 @@
               <h3>Hey kid, need CA$H fast?</h3>
               <h4><i class="ri-skip-up-fill"></i> $5M/mo.</h4>
               <h4> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 25%</h4>
-              <button onclick="selectCreditLine(bank1, this)" >ACCEPT</button>
+              <button onclick="selectCreditLine(bank1, this)" >OPEN ACCOUNT</button>
             </div>
 
             <div class="credit_line_listing_item">
@@ -996,7 +1004,7 @@
               <h3>Infinite growth. No excuses.</h3>
               <h4><i class="ri-skip-up-fill"></i> $1M/mo.</h4>
               <h4> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 10%</h4>
-              <button onclick= "selectCreditLine(bank2, this)">ACCEPT</button>
+              <button onclick= "selectCreditLine(bank2, this)">OPEN ACCOUNT</button>
             </div>
 
             <div class="credit_line_listing_item">
@@ -1004,7 +1012,7 @@
               <h3>For everything money can buy.</h3>
               <h4><i class="ri-skip-up-fill"></i> $500K/mo.</h4>
               <h4> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 7%</h4>
-              <button onclick="selectCreditLine(bank3, this)">ACCEPT</button>
+              <button onclick="selectCreditLine(bank3, this)">OPEN ACCOUNT</button>
             </div>
 
 
@@ -1013,7 +1021,7 @@
               <h3>Everywhere you are.</h3>
               <h4><i class="ri-skip-up-fill"></i> $100K/mo.</h4>
               <h4> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 5%</h4>
-              <button onclick="selectCreditLine(bank4, this)">ACCEPT</button>
+              <button onclick="selectCreditLine(bank4, this)">OPEN ACCOUNT</button>
             </div>
 
           </div>
@@ -1147,7 +1155,7 @@
       interns: 0,
       lawyers: 0,
       spendingLimit:0,
-      creditScore: 0,
+      creditScore: 600,
       interestRate:0,
       selectedBanks: [],
     };
@@ -1877,6 +1885,8 @@
         cancelCreditLine(creditLine, button);
       };
 
+      button.parentElement.style.opacity = "100%";
+
       player.selectedBanks.push(creditLine);
 
     }
@@ -1892,6 +1902,8 @@
       button.onclick = function(){
         selectCreditLine(creditLine, button);
       };
+
+      button.parentElement.style.opacity = "50%";
 
       player.selectedBanks = player.selectedBanks.filter(bank => bank !== creditLine);
 
@@ -1932,12 +1944,31 @@
     };
 
     function payOffDebt(){
-      var amountToPay = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));
-      updateBalance("subtract", amountToPay);
-      document.getElementById('spending_limit').innerHTML = "$"+player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      document.getElementById('amount_to_pay').innerHTML = "$0.00";
-      document.getElementById('total_to_pay').innerHTML = "$0.00";
-      resetCreditLineMonthly();
+
+      document.getElementById('payoffbutton').style.opacity = "50%";
+    document.getElementById('payoffbutton').style.pointerEvents = "none";
+
+      var debt = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));
+
+      if (player.money < debt) {
+        // the player does not have enough money to pay off the debt.
+        // spend all of their money, and set the remaining debt to a variable called "remaining debt".
+
+        var remainingDebt = debt - player.money;
+        updateBalance("subtract", player.money);
+        player.spendingLimit += remainingDebt;
+        document.getElementById('spending_limit').innerHTML = "$"+player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('amount_to_pay').innerHTML = "$"+remainingDebt.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('total_to_pay').innerHTML = "$"+parseFloat(remainingDebt + (remainingDebt * player.interestRate)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    } else {
+        var amountToPay = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));
+        updateBalance("subtract", amountToPay);
+        document.getElementById('spending_limit').innerHTML = "$"+player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('amount_to_pay').innerHTML = "$0.00";
+        document.getElementById('total_to_pay').innerHTML = "$0.00";
+        resetCreditLineMonthly();
+      }
     }
 
 

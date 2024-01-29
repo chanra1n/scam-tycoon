@@ -89,6 +89,7 @@ function monthlyUpdate(){
 
       //update the calendar widget
       document.getElementById("calendar_month").innerHTML = months[currentMonthInt];
+      resetCreditLineMonthly();
     }
 
 function secondlyUpdate(){
@@ -191,7 +192,27 @@ function secondlyUpdate(){
     document.getElementById('hire_100_lawyers_button').style.pointerEvents = "auto";
   }
 
+  var totalToPay = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));
 
+  if (totalToPay == 0) {
+    document.getElementById('payoffbutton').style.opacity = "50%";
+    document.getElementById('payoffbutton').style.pointerEvents = "none";
+  } else {
+    document.getElementById('payoffbutton').style.opacity = "100%";
+    document.getElementById('payoffbutton').style.pointerEvents = "auto";
+  }
+
+
+  var spendingLimit = parseFloat(document.getElementById('spending_limit').innerHTML.replace("$", "").replace(/,/g, ""));
+
+  if (spendingLimit == 0) {
+    document.getElementById('cashoutcreditbutton').style.opacity = "50%";
+    document.getElementById('cashoutcreditbutton').style.pointerEvents = "none";
+  } else {
+    document.getElementById('cashoutcreditbutton').style.opacity = "100%";
+    document.getElementById('cashoutcreditbutton').style.pointerEvents = "auto";
+  }
 
 
 }
+
