@@ -101,7 +101,7 @@ function secondlyUpdate(){
 
     var employees = player.employees;
 
-    var incomePerEmployee = (income / employees) / 10;
+    var incomePerEmployee = (income / employees) / 5;
 
 
     updateBalance("add", incomePerEmployee);
@@ -110,7 +110,7 @@ function secondlyUpdate(){
   if (player.interns>0) {
     var income = player.income;
     var interns = player.interns;
-    var incomePerIntern = (income / interns) / 100;
+    var incomePerIntern = (income / interns) / 10;
 
     updateBalance("add", incomePerIntern);
   }

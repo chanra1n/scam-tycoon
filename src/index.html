@@ -640,6 +640,73 @@
     margin-bottom: 5px!important;
     }
 
+    .uk-dropdown-nav {
+      position: sticky;
+    top: 0;
+    outline: 5px solid black;
+    background-color:black!important;
+    }
+
+    .credit-listing {
+      background-color: #00800050;
+    color: black;
+    font-family: 'pst';
+    padding: 5px;
+    display: block;
+    margin: 7.5px;
+    margin-left: 0px;
+    margin-right: 0px;
+    border: 1.5px dashed green;
+    }
+
+    .credit-listing h1 {
+      font-size: 20px;
+    color: black;
+    font-family: 'gamer';
+    margin: -5px;
+    padding: 0px;
+    background-color: green;
+    display: inline-block;
+    border: 5px solid green;
+    border-top: 0px;
+    vertical-align: top;
+    border-bottom: 0px;     
+    }
+
+    .credit-listing p {
+      font-size: 7px!important;
+    padding: 0px!important;
+    margin: 0px!important;
+    color:green!important;
+    }
+
+    .credit-listing button {
+      background-color: green;
+    border: none;
+    width: 100%;
+    display: block;
+    color: black;
+    font-family: 'pst';
+    font-size: 8px;
+    padding: 5px;
+    font-weight: 900;
+    margin: 5px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    }
+
+    .credit-listing button span {
+      display: inline-flex;
+    vertical-align: -webkit-baseline-middle;
+    margin: 0px;
+    padding: 0px;
+    }
+
+    .credit-listing button i {
+      font-size:12px;
+      float:left;
+    }
+
   </style>
   <link rel="stylesheet" href="css/zones.css">
   <link rel="stylesheet" href="css/buildings.css">
@@ -682,6 +749,28 @@
           <hr class="selectascamhr">
           <span class="datapointspan" id="credit_blurb" style="font-family:'pst'">DOWN ON YOUR LUCK? GET MONEY FAST,
             OPEN A LINE OF CREDIT! WHAT COULD GO WRONG?</span>
+            <div id = "credit-line-index-list">
+            <div class = "credit-listing">
+            <h1>L0AN$hArKz.COM</h1>
+            <p>Hey kid, need CA$H fast?</p>
+            <button><i class="ri-skip-up-fill"></i> <span>$10,000,000/mo.</span></button>
+            <button><i class="ri-percent-fill"></i> <span>+25%</span></button>
+            </div>
+
+            <div class = "credit-listing">
+              <h1>BANK OF ABEARICA</h1>
+              <p>Infinite growth. No excuses.</p>
+              <button><i class="ri-skip-up-fill"></i> <span>$1,000,000/mo.</span></button>
+              <button><i class="ri-percent-fill"></i> <span>+10%</span></button>
+            </div>
+
+            <div class = "credit-listing">
+              <h1>BOAST MENTAL CREDIT UNION</h1>
+              <p>Our members are mental!</p>
+              <button><i class="ri-skip-up-fill"></i> <span>$50,000/mo.</span></button>
+              <button><i class="ri-percent-fill"></i> <span>+5%</span></button>
+            </div>
+          </div>
         </ul>
       </div>
       <p id="player-datapoints"><i class="ri-database-2-fill"></i> 0</p>
@@ -908,7 +997,7 @@
     <p class = "listing_id" ><i>#</i> ${buildingID.replace('gridsquare_', '')}</p>
     <hr>
     <h2><i class = "ri-building-4-fill" ></i> ${building.dataset.type}</h2>
-    <h2> <i title = "Rent [Monthly]" style="font-weight:100;vertical-align:middle" class="ri-money-dollar-circle-line"></i> <span title = "Rent [Monthly]" style="vertical-align:middle;">${(parseFloat(building.dataset.rentValue) / 1000).toFixed(1)}K/mo.</span><br</h2>
+    <h2> <i title = "Rent [Monthly]" style="font-weight:100;vertical-align:middle;font-size:12px" class="ri-money-dollar-circle-line"></i> <span title = "Rent [Monthly]" style="vertical-align:middle;">-${(parseFloat(building.dataset.rentValue) / 1000).toFixed(1)}K/mo.</span><br</h2>
     </div>
     `;
       } else if (operation === "subtract") {
@@ -1463,6 +1552,35 @@
 
       document.getElementById('employee-count').innerHTML = `<i class="ri-user-5-fill"></i> ${player.employees + player.interns + player.lawyers}`;
 
+    }
+
+
+      //loan shark
+      var bank1 = {
+        name: "L0n3$hArKz.com",
+        interestRate: 0.25,
+        spendingLimit: 10000000,
+      };
+
+      //normal bank
+      var bank2 = {
+        name: "Bank of Abearica",
+        interestRate: 0.15,
+        spendingLimit: 1000000,
+      };
+
+      //credit union
+      var bank3 = {
+        name: "Boast Mental Credit Union",
+        interestRate: 0.05,
+        spendingLimit: 100000,
+      };
+
+
+    
+
+    function selectCreditLine(creditLine, interestRate, amount, length) {
+    
     }
 
 
