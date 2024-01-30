@@ -117,6 +117,28 @@
       }
     }
 
+    @keyframes pulse-notif {
+      0% {
+        outline: 1.5px solid green;
+        z-index:100000000;
+        background-size:100% 100%;
+        transition: steps(3, end);
+      }
+      50% {
+        outline: 3px solid green;
+        z-index:100000000;
+        background-color:#008000a0;
+        background-size:100% 100%;
+        transition: steps(3, end);
+      }
+      100% {
+        outline: 1.5px solid green;
+        z-index:100000000;
+        background-size:100% 100%;
+        transition: steps(3, end);
+      }
+    }
+
     @keyframes pulse-rent {
       0% {
         outline: 1.5px dashed #000;
