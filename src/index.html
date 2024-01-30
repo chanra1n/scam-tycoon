@@ -903,6 +903,115 @@
     .credit_line_listing_item:hover {
       opacity: 80%;
     }
+
+    .uk-notification-message {
+    width: 50vh;
+    float: right;
+    color: green;
+    background-color: black;
+    font-family: 'pst';
+    font-size: 9px;
+    filter: drop-shadow(5px 5px 0px green);
+    }
+
+    .uk-notification-close {
+      position: absolute;
+    right: 0;
+    margin-right: 15px;
+    background-color: black;
+    outline: 12px solid black;
+    top:unset!important;
+    }
+
+    #user-desk {
+      position: absolute;
+    bottom: -150%;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: #000000a0;
+    display: block;
+    pointer-events: none;
+    }
+
+    #tax-form {
+      position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    z-index: 1000000000000;
+    width: 80%;
+    padding: 20px;
+    height: 150%;
+    padding-top:15px;
+    padding-bottom:15px;
+    }
+
+    #tax-form hr {
+      margin: 0px;
+    padding: 0px;
+    margin-top:5px;
+    margin-bottom:5px;
+    border:1px solid green;
+    }
+
+    #tax-form h1 {
+      margin: 0px;
+    padding: 0px;
+    }
+
+    #tax-form h2 {
+      margin: 0px;
+    padding: 0px;
+    }
+
+    #tax-form h3 {
+      margin: 0px;
+    padding: 0px;
+    }
+
+    #tax-form input {
+      margin: 0px;
+    padding: 7.5px;
+    border: 2px dashed green;
+    width: fit-content;
+    color: #1a1a1a;
+    background-color: #00800055;
+    font-family: 'gamer';
+    font-size: 25px;
+    padding-top: 0px;
+    max-width: 50%;
+    padding-bottom: 2.5px;
+    }
+
+    #tax-form p {
+      font-family:'pst';
+      font-size:7.5px;
+    }
+
+    .smallhr {
+      margin: 0px!important;
+    border: 1px dotted #008000a0!important;
+    margin-top: -10px!important;
+    width: 100%!important;
+    margin-bottom: 10px!important;
+    }
+
+    #submit-tax-form {
+      float: right;
+    margin: 25px;
+    width: 30%;
+    border: 0px;
+    background-color: #008000a0;
+    color: black;
+    font-family: 'gamer';
+    font-size: 25px;
+    vertical-align: middle;
+    padding: 0px;
+    padding-bottom: 2.5px;
+    }
+
   </style>
   <link rel="stylesheet" href="css/zones.css">
   <link rel="stylesheet" href="css/buildings.css">
@@ -917,6 +1026,36 @@
       <a id="radio-link" href="https://lofi.cafe" target="_blank">lofi.cafe</a>
     </div>
 
+  </div>
+
+  <div id = "user-desk">
+    <!--let's make a mock tax form-->
+    <div id = "tax-form">
+      <h1 style = "font-family:'gamer';font-size:20px;">FORM C 8008-135</h1>
+      <hr>
+      <h2 style = "font-family:'pst';font-size:12px;">TAX FORM</h2>
+      <hr>
+      <p>Enter the total number of employed individuals at your company for the current reporting period.</p>
+      <hr class = "smallhr">
+      <input type = "number" id = "worker-tax-count" />
+
+      <p>Specify the current balance of monetary funds held in the savings account(s) of your corporate entity.</p>
+      <hr class = "smallhr">
+      <input type = "number" id = "income-tax-count" />
+
+      <p>Disclose the monetary valuation of any additional savings accounts held by your corporate entity.</p>
+      <hr class = "smallhr">
+      <input type = "number" id = "savings-tax-count" />
+
+      <p>List the number of operational premises affiliated with your corporate entity.</p>
+      <hr class = "smallhr">
+      <input type = "number" id = "location-tax-count" />
+
+
+      <button id = "submit-tax-form">SUBMIT</button>
+
+
+  </div>
   </div>
 
   <div id="topbar">
@@ -1154,7 +1293,6 @@
         <option value="tech_support">TECH SUPPORT</option>
         `;
 
-
     var player = {
       money: 0,
       income: 0,
@@ -1293,7 +1431,6 @@
       }
       document.getElementById("building-count").innerHTML = `<i class="ri-hotel-fill"></i> ${player.buildings}`;
     }
-
 
     function addExpense(amount) {
       player.expenses += amount;
@@ -1522,6 +1659,17 @@
       updateBalance("add", 500000);
       initToolbars();
       initIntervals();
+      $("#credit-input-dialog").dialog({
+        autoOpen: false,
+      }
+      );
+
+    UIkit.notification({
+    message: 'Welcome to SCAM CENTER TYCOON!',
+    status: 'primary',
+    pos: 'bottom-right',
+    timeout: 0
+});
     };
 
 
@@ -1981,15 +2129,6 @@
         resetCreditLineMonthly();
       }
     }
-
-
-    $(function () {
-      $("#credit-input-dialog").dialog({
-        autoOpen: false,
-      }
-      );
-    });
-
 
 
 
