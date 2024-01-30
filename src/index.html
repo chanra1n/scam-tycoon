@@ -932,6 +932,8 @@
     background-color: #000000a0;
     display: block;
     pointer-events: none;
+    transition: all 0.5s;
+    transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
     }
 
     #tax-form {
@@ -1011,6 +1013,7 @@
     padding: 0px;
     padding-bottom: 2.5px;
     }
+
 
   </style>
   <link rel="stylesheet" href="css/zones.css">
@@ -1275,14 +1278,21 @@
 
   <script src="js/custom/functionLibrary.js"></script>
   <script src="js/custom/layoutGen.js"></script>
-  <script src="js/custom/buildingMode.js"></script>
   <script src="js/custom/panZoomConfig.js"></script>
+
+  <script src="js/custom/buildingMode.js"></script>
   <script src="js/custom/buildingAppearance.js"></script>
   <script src="js/custom/buildingGen.js"></script>
+  <script src="js/custom/buildingFunctions.js"></script>
+
+  <script src="js/custom/updateFunctions.js"></script>
   <script src="js/custom/tippyConfig.js"></script>
   <script src="js/custom/scams.js"></script>
   <script src="js/custom/intervals.js"></script>
-  <script src="js/custom/thirdparties.js"></script>
+  <script src="js/custom/datachunkInfo.js"></script>
+  <script src="js/custom/creditFunctions.js"></script>
+  <script src="js/custom/workerFunctions.js"></script>
+  <script src="js/custom/initFunctions.js"></script>
   <script>
 
     var playerDecidedPay = 100;
@@ -1312,347 +1322,7 @@
       selectedBanks: [],
     };
 
-    function runScam(scam) {
-      if (scam === "identity_theft") {
-        runIdentityTheftScam();
-      } else if (scam === "credit_card") {
-        runCreditCardScam();
-      } else if (scam === "tech_support") {
-        runTechSupportScam();
-      } else {
-        console.log("error");
-      }
-    }
 
-
-
-    function updateBalance(operation, amount) {
-
-      if (operation === "add") {
-        player.money += amount + (amount * player.modifierRate);
-        // display player expenses in the current_monthly_expenses_display
-        document.getElementById("current_monthly_expenses_display").innerHTML = `- $${player.expenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/mo.`;
-      } else if (operation === "subtract") {
-        player.money -= amount;
-      } else {
-        console.log("error");
-      }
-      // show the amount that's been added or subtracted
-      document.getElementById("player-money").innerHTML = `<i class="ri-money-dollar-circle-fill"></i> ${player.money.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
-
-    function updateDatapoints(operation, amount) {
-
-      if (operation === "add") {
-        player.datapoints += amount + (amount * player.modifierRate);;
-      } else if (operation === "subtract") {
-        player.datapoints -= amount;
-      } else {
-        console.log("error");
-      }
-      // show the amount that's been added or subtracted
-      document.getElementById("player-datapoints").innerHTML = `<i class="ri-database-2-fill"></i> ${player.datapoints.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
-
-    function updateLevel() {
-      player.level += 1;
-      document.getElementById("player-level").innerHTML = `<i class="ri-shield-fill"></i> ${player.level}`;
-    }
-
-    function updateEmployeeCount(operation, amount) {
-      if (operation === "add") {
-        player.employees += amount;
-
-      } else if (operation === "subtract") {
-        player.employees -= amount;
-
-      } else {
-        console.log("error");
-      }
-      document.getElementById("employee-count").innerHTML = `<i class="ri-user-5-fill"></i> ${player.employees}`;
-      document.getElementById("current_employee_count").innerHTML = `EMPLOYEES: <span>${player.employees}</span>`;
-      //document.getElementById("current_modifier_rate").innerHTML = "+"+player.modifierRate.toFixed(2) + "%";
-    }
-
-    function updateInternCount(operation, amount) {
-      if (operation === "add") {
-        player.interns += amount;
-
-      } else if (operation === "subtract") {
-        player.interns -= amount;
-
-      } else {
-        console.log("error");
-      }
-      document.getElementById("current_intern_count").innerHTML = `INTERNS: <span>${player.interns}</span>`;
-
-    }
-
-    function updateLawyerCount(operation, amount) {
-      if (operation === "add") {
-        player.lawyers += amount;
-
-      } else if (operation === "subtract") {
-        player.lawyers -= amount;
-
-      } else {
-        console.log("error");
-      }
-      document.getElementById("current_lawyer_count").innerHTML = `LAWYERS: <span>${player.lawyers}</span>`;
-
-    }
-
-    function updateBuildingCount(operation, amount, buildingID) {
-      if (operation === "add") {
-        player.buildings += amount;
-        player.buildingsIndex.push(buildingID); // Add buildingID to the index
-        // get the background image's url from the buildingID square
-        var building = document.querySelector(`[data-name="${buildingID}"]`);
-        console.log(building.style.backgroundImage);
-        document.getElementById("building-index-list").innerHTML += `
-    <div class = "building_index_listing_item" id = "${buildingID}_index_listing">
-    <img src = "${building.style.backgroundImage.replace('url("', '')}" class = "listing_image">
-    <p class = "listing_id" ><i>#</i> ${buildingID.replace('gridsquare_', '')}</p>
-    <hr>
-    <h2><i class = "ri-building-4-fill" ></i> ${building.dataset.type}</h2>
-    <h2> <i title = "Rent [Monthly]" style="font-weight:100;vertical-align:middle;font-size:12px" class="ri-money-dollar-circle-line"></i> <span title = "Rent [Monthly]" style="vertical-align:middle;">-${(parseFloat(building.dataset.rentValue) / 1000).toFixed(1)}K/mo.</span><br</h2>
-    </div>
-    `;
-      } else if (operation === "subtract") {
-        player.buildings -= amount;
-        const index = player.buildingsIndex.indexOf(buildingID);
-        if (index > -1) {
-          player.buildingsIndex.splice(index, 1); // Remove buildingID from the index
-          // remove the building from the building index list
-          document.getElementById(buildingID + "_index_listing").remove();
-        }
-      } else {
-        console.log("error");
-      }
-      document.getElementById("building-count").innerHTML = `<i class="ri-hotel-fill"></i> ${player.buildings}`;
-    }
-
-    function addExpense(amount) {
-      player.expenses += amount;
-    }
-
-    function removeExpense(amount) {
-      player.expenses -= amount;
-    }
-
-
-    function buyBuilding(buildingID, buildingBuyValue) {
-      // check if player has enough money to buy building, and if they don't already own it
-      // if they do, subtract the cost from their balance and add the building to their index
-      // then, update the building's forSale value to false
-      if (player.money >= buildingBuyValue && !player.buildingsIndex.includes(buildingID)) {
-        updateBalance("subtract", buildingBuyValue);
-        updateBuildingCount("add", 1, buildingID);
-        // get the element with the data-building-id of the buildingID passed
-        console.log(buildingID);
-        var building = document.querySelector(`[data-name="${buildingID}"]`);
-        // get the data-resale-value of this building
-        var buildingResaleValue = building.dataset.resaleValue;
-        console.log("building rsale value: " + buildingResaleValue);
-        // detect what building this is based on its data-type attribute
-        var buildingType = building.dataset.type;
-        console.log("building type: " + buildingType);
-
-        if (buildingType === "Call Center") {
-          document.getElementById(buildingID + "_player_options").innerHTML = `
-        <h3 onclick = "sellBuilding('${buildingID}', ${buildingResaleValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> SELL</h3>
-        <hr class = "selectascamhr">
-        <p class = "selectascam" >ACTIVE SCAM</p>
-        <select class = "scam_options" id = "${buildingID}_scam_options">
-        <option value="none">CHOOSE A SCAM</option>
-        `+ unlockable_options + `
-      </select>
-        `;
-        } else if (buildingType === "Office") {
-
-          var employee_average_hire = Math.floor(Math.random() * 200) + 10;
-          // this modifier should be a percentage between 0 and 0.5. rounded to 2 decimal places
-          var employee_contributing_modifier = (Math.random()).toFixed(2);
-
-          player.modifierRate += parseFloat(employee_contributing_modifier);
-
-          document.getElementById(buildingID + "_player_options").innerHTML = `
-        <h3 onclick = "sellBuilding('${buildingID}', ${buildingResaleValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> SELL</h3>
-        <hr class = "selectascamhr">
-        <p class = "selectascam" >BUILDING BONUS</p>
-        <span class = "employee_bonus_text" > <i class = "ri-user-5-fill" ></i> <h1 id = "${buildingID}_emp_contribution" >+${employee_average_hire}</h1></span>
-        <span class = "employee_bonus_text" > <i class="ri-discount-percent-fill"></i> <h1 id = "${buildingID}_mod_contribution" >+${employee_contributing_modifier}%</h1>
-        `;
-
-          updateEmployeeCount("add", employee_average_hire);
-
-        } else {
-          alert('Something went wrong, please try again later.');
-        }
-
-
-        building.style.animation = "pulse 1s infinite";
-        document.getElementById('property_blurb').style.display = "none";
-      } else {
-        alert("You don't have enough money to buy this building!");
-      }
-    }
-
-    function rentBuilding(buildingID, buildingRentValue) {
-      // check if player has enough money to rent building, and if they don't already own it
-      // if they do, subtract the cost from their balance and add the building to their index
-      // then, update the building's forRent AND forSale value to false
-      if (player.money >= buildingRentValue && !player.buildingsIndex.includes(buildingID)) {
-        updateBalance("subtract", buildingRentValue);
-        updateBuildingCount("add", 1, buildingID);
-        addExpense(buildingRentValue);
-        // get the element with the data-building-id of the buildingID passed
-        console.log(buildingID);
-
-        var building = document.querySelector(`[data-name="${buildingID}"]`);
-        // detect what building this is based on its data-type attribute
-        var buildingType = building.dataset.type;
-        console.log("building type: " + buildingType);
-
-        // get the data-resale-value of this building
-        var buildingRentValue = building.dataset.rentValue;
-        console.log("building rsale value: " + buildingRentValue);
-
-        if (buildingType === "Call Center") {
-          document.getElementById(buildingID + "_player_options").innerHTML = `
-        <h3 onclick = "exitBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> CANCEL RENT</h3>
-        <hr class = "selectascamhr">
-        <p class = "selectascam" >ACTIVE SCAM</p>
-        <select class = "scam_options" id = "${buildingID}_scam_options">
-        <option value="none">CHOOSE A SCAM</option>
-        `+ unlockable_options + `
-      </select>
-        `;
-        } else if (buildingType === "Office") {
-
-          var employee_average_hire = Math.floor(Math.random() * 200) + 10;
-          // this modifier should be a percentage between 0 and 0.5. rounded to 2 decimal places
-          var employee_contributing_modifier = (Math.random()).toFixed(2);
-
-          player.modifierRate += parseFloat(employee_contributing_modifier);
-
-          document.getElementById(buildingID + "_player_options").innerHTML = `
-        <h3 onclick = "exitBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> CANCEL RENT</h3>
-        <hr class = "selectascamhr">
-        <p class = "selectascam" >BUILDING BONUS</p>
-        <span class = "employee_bonus_text" > <i class = "ri-user-5-fill" ></i> <h1 id = "${buildingID}_emp_contribution" >+${employee_average_hire}</h1></span>
-        <span class = "employee_bonus_text" > <i class="ri-discount-percent-fill"></i> <h1 id = "${buildingID}_mod_contribution" >+${employee_contributing_modifier}%</h1>
-        `;
-
-          updateEmployeeCount("add", employee_average_hire);
-
-        } else {
-          alert('Something went wrong, please try again later.');
-        }
-        building.style.animation = "pulse-rent 1s infinite";
-        document.getElementById('property_blurb').style.display = "none";
-      } else {
-        alert("You can't afford rent!");
-      }
-    }
-
-    function sellBuilding(buildingID, buildingSellValue) {
-      // check if player owns the building
-      // if they do, add the sell value to their balance and remove the building from their index
-      // then, update the building's forSale value to true
-      if (player.buildingsIndex.includes(buildingID)) {
-        updateBalance("add", buildingSellValue);
-        updateBuildingCount("subtract", 1, buildingID);
-        // get the element with the data-building-id of the buildingID passed
-        var building = document.querySelector(`[data-name="${buildingID}"]`);
-        // get the data-buy-value of this building
-        var buildingBuyValue = building.dataset.buyValue;
-        var buildingRentValue = building.dataset.rentValue;
-        console.log("building buy value: " + buildingBuyValue);
-        console.log("building rent value: " + buildingRentValue);
-        // detect if this is a restaurant or not, from this building's classList
-        var isResturant = Array.from(building.classList).some(cls => cls.includes('restaurant'));
-        console.log(building.classList);
-        if (isResturant) {
-          document.getElementById(buildingID + "_player_options").innerHTML = `
-        <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
-        `;
-        } else {
-          document.getElementById(buildingID + "_player_options").innerHTML = `
-        <h3 onclick = "rentBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-line"></i> FOR RENT</h3>
-        <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
-        `;
-        }
-        building.style.animation = "none";
-        // if the user has no buildings left, display the blurb again
-        if (player.buildingsIndex.length === 0) {
-          document.getElementById('property_blurb').style.display = "block";
-        }
-      } else {
-        alert("You already sold this building!");
-      }
-    }
-
-    function exitBuilding(buildingID, buildingRentValue) {
-      // check if player owns the building
-      // if they do, add the sell value to their balance and remove the building from their index
-      // then, update the building's forSale value to true
-      if (player.buildingsIndex.includes(buildingID)) {
-        updateBuildingCount("subtract", 1, buildingID);
-        removeExpense(buildingRentValue);
-        // get the element with the data-building-id of the buildingID passed
-        var building = document.querySelector(`[data-name="${buildingID}"]`);
-        // get the data-buy-value of this building
-        var buildingBuyValue = building.dataset.buyValue;
-        var buildingRentValue = building.dataset.rentValue;
-        console.log("building buy value: " + buildingBuyValue);
-        console.log("building rent value: " + buildingRentValue);
-        // detect if this is a restaurant or not, from this building's classList
-        var isResturant = Array.from(building.classList).some(cls => cls.includes('restaurant'));
-        console.log(building.classList);
-        if (isResturant) {
-          document.getElementById(buildingID + "_player_options").innerHTML = `
-        <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
-        `;
-        } else {
-
-          var buildingType = building.dataset.type;
-          console.log("building type: " + buildingType);
-
-          if (buildingType === "Office") {
-            console.log(buildingID + "_emp_contribution");
-            var employee_average_hire = parseFloat(document.getElementById(buildingID + "_emp_contribution").innerHTML.replace("+", ""));
-            var employee_contributing_modifier = document.getElementById(buildingID + "_mod_contribution").innerHTML;
-            updateEmployeeCount("subtract", employee_average_hire);
-            player.modifierRate -= parseFloat(employee_contributing_modifier.replace("+", "").replace("%", ""));
-          }
-
-          document.getElementById(buildingID + "_player_options").innerHTML = `
-        <h3 onclick = "rentBuilding('${buildingID}', ${buildingRentValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-line"></i> FOR RENT</h3>
-        <h3 onclick = "buyBuilding('${buildingID}', ${buildingBuyValue})" style = "display:block;color:red;vertical-align:middle"><i style = "vertical-align:top" class="ri-money-dollar-circle-fill"></i> FOR SALE</h3>
-        `;
-
-        }
-        building.style.animation = "none";
-        // if the user has no buildings left, display the blurb again
-        if (player.buildingsIndex.length === 0) {
-          document.getElementById('property_blurb').style.display = "block";
-        }
-      } else {
-        alert("You already sold this building!");
-      }
-    }
-
-    function initToolbars() {
-      document.getElementById("topbar").style.top = "0px";
-      document.getElementById("world-map").style.filter = "blur(0px)";
-    }
-
-    function initIntervals() {
-      setInterval(monthlyInterval);
-      setInterval(dailyInterval);
-      setInterval(secondlyInterval);
-    }
 
     window.onload = function () {
       initBuildingAppearance();
@@ -1672,15 +1342,6 @@
 });
     };
 
-
-    var monthlyMillisecondValue = 300000;
-    var testMonthlyMillisecondValue = monthlyMillisecondValue / 4;
-
-    var yearlyMillisecondValue = monthlyMillisecondValue * 12;
-    var testYearlyMillisecondValue = testMonthlyMillisecondValue * 12;
-
-    var testDailyMillisecondValue = testMonthlyMillisecondValue / 30;
-    var dailyMillisecondValue = monthlyMillisecondValue / 30;
 
     var dailyIncomeData = [];
     var modifierData = [];
@@ -1838,298 +1499,19 @@
 
     var secondlyInterval = setInterval(secondlyUpdate, secondlyRate);
 
-    var activeTradeCount = 0;
 
-    function removeTrade() {
-      activeTradeCount--;
-      if (activeTradeCount === 0) {
-        document.getElementById('datachunk_blurb').style.display = "block";
-      } else {
-        document.getElementById('datachunk_blurb').style.display = "none";
-      }
+    function beginTaxEvent() {
+      killTime();
+      document.getElementById('world-map').style.filter = "blur(10px)";
+      document.getElementById('user-desk').style.bottom = "-15%";
+      document.getElementById('user-desk').style.pointerEvents = "auto";
+      document.getElementById('radio-element').style.display = "none";
     }
 
-    function sendTradeOffer(company) {
-      document.getElementById('datachunk_blurb').style.display = "none";
-      activeTradeCount++;
-      // get a random trade from the company's trades array
-      var randomTrade = company.trades[Math.floor(Math.random() * company.trades.length)];
-      // check if the player has already been offered this trade
-      if (!randomTrade.offered) {
-        // if not, add it to the list
-        document.getElementById("datapoint-trade-list").innerHTML += `
-        <div class = "datapoint_trade_listing_item" id = "${randomTrade.name.replace(/\s/g, '')}">
-        <span>${randomTrade.name}</span>
-        <h3>${randomTrade.description}</h3>
-        <h4><i class = "ri-money-dollar-circle-fill"></i> ${randomTrade.payout}</h4>
-        <h4><i class="ri-time-fill"></i> ${randomTrade.duration} DAYS</h4>
-        <button onclick = "acceptTrade('${randomTrade.name.replace(/\s/g, '')}', ${randomTrade.payout}, ${randomTrade.cost})" ><i class="ri-database-2-fill"></i> ${randomTrade.cost} - ACCEPT</button>
-        <button style = "color:green;background-color:transparent" onclick = "document.getElementById('${randomTrade.name.replace(/\s/g, '')}').remove();removeTrade();" ><i class="ri-close-fill"></i> DECLINE</button>
-        </div>
-        `;
-        // mark the trade as offered
-        randomTrade.offered = true;
 
-        // set a timeout to remove the trade from the list after the duration has passed
-
-        setTimeout(function () {
-          document.getElementById(randomTrade.name.replace(/\s/g, '')).remove();
-        }, randomTrade.duration * dailyMillisecondValue);
-
-      } else {
-        // if the trade has already been offered, don't add it to the list
-        console.log("trade already offered");
-      }
-
-
+    function submitTaxForm(){
 
     }
-
-    function sendTradeOffers() {
-
-      // get a random number between 2 and 3, at the very most.
-      var numberOfOffers = Math.floor(Math.random() * (3 - 2 + 1) + 2);
-      // get a random number between 0 and 4
-      var randomCompanyIndex = Math.floor(Math.random() * (4 - 0 + 1) + 0);
-      // get a random company from the thirdPartyCompanies array
-      var randomCompany = thirdPartyCompanies[randomCompanyIndex];
-      // send a trade offer from the random company
-      for (var i = 0; i < numberOfOffers; i++) {
-        sendTradeOffer(randomCompany);
-      }
-
-      // give the #player-datapoints element a pulsing animation to indicate new trades available
-      document.getElementById('player-datapoints').style.animation = "pulse-notif 1s infinite";
-
-    }
-
-    function acceptTrade(name, payout, cost) {
-      // check if the player has enough datapoints to accept the trade
-      if (player.datapoints >= cost) {
-        // if they do, add the payout to their balance and subtract the cost from their datapoints
-        updateBalance("add", payout);
-        updateDatapoints("subtract", cost);
-        // remove the trade from the list
-        document.getElementById(name).remove();
-        // mark the trade as not offered
-        var company = thirdPartyCompanies.find(company => company.name === name);
-        var trade = company.trades.find(trade => trade.name === name);
-        trade.offered = false;
-      } else {
-        alert("You don't have enough datachunks to accept this trade!");
-      }
-    }
-
-    function hireExtraWorkers(workerType, amount) {
-      if (workerType === "employee") {
-
-        if (player.money < 3000 * amount) {
-          alert("You don't have enough money to hire this many employees!");
-        } else {
-          updateEmployeeCount("add", amount);
-          addExpense(3000 * amount);
-          updateBalance("subtract", 3000 * amount);
-        }
-
-      } else if (workerType === "intern") {
-
-        if (player.money < 1000 * amount) {
-          alert("You don't have enough money to hire this many interns!");
-        } else {
-
-          updateInternCount("add", amount);
-          addExpense(1000 * amount);
-          updateBalance("subtract", 1000 * amount);
-        }
-
-      } else if (workerType === "lawyer") {
-
-        if (player.money < 7500 * amount) {
-          alert("You don't have enough money to hire this many lawyers!");
-        } else {
-
-          updateLawyerCount("add", amount);
-          addExpense(7500 * amount);
-          updateBalance("subtract", 7500 * amount);
-        }
-
-
-      } else {
-        console.log("error");
-
-      }
-
-      document.getElementById('employee-count').innerHTML = `<i class="ri-user-5-fill"></i> ${player.employees + player.interns + player.lawyers}`;
-
-    }
-
-    function fireExtraWorkers(workerType, amount) {
-      if (workerType === "employee") {
-
-        if (player.employees < amount) {
-          alert("You don't have enough employees to fire this many!");
-        } else {
-          updateEmployeeCount("subtract", amount);
-          removeExpense(3000 * amount);
-        }
-
-      } else if (workerType === "intern") {
-
-        if (player.interns < amount) {
-          alert("You don't have enough interns to fire this many!");
-        } else {
-
-          updateInternCount("subtract", amount);
-          removeExpense(1000 * amount);
-        }
-
-      } else if (workerType === "lawyer") {
-
-        if (player.lawyers < amount) {
-          alert("You don't have enough lawyers to fire this many!");
-        } else {
-
-          updateLawyerCount("subtract", amount);
-          removeExpense(7500 * amount);
-        }
-      } else {
-        console.log("error");
-
-      }
-    }
-
-    //loan shark
-    var bank1 = {
-      name: "L0n3$hArKz.com",
-      spendingLimit: 5000000,
-      interestRate: 0.25,
-    };
-
-    //dank of abearica
-    var bank2 = {
-      name: "Dank of Abearica",
-      spendingLimit: 1000000,
-      interestRate: 0.10,
-    };
-
-    //wastercurd
-    var bank3 = {
-      name: "Wastercurd",
-      spendingLimit: 500000,
-      interestRate: 0.07,
-    };
-
-    //meesa inc
-    var bank4 = {
-      name: "Meesa Inc.",
-      spendingLimit: 100000,
-      interestRate: 0.05,
-    };
-
-    var banks = [bank1, bank2, bank3, bank4];
-
-    function selectCreditLine(creditLine, button) {
-      console.log(creditLine);
-      console.log(creditLine.name);
-      console.log(creditLine.spendingLimit);
-      console.log(creditLine.interestRate);
-      player.spendingLimit += creditLine.spendingLimit;
-      player.interestRate += creditLine.interestRate;
-      console.log(player.spendingLimit);
-
-      document.getElementById('spending_limit').innerHTML = "$" + player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      document.getElementById('current_interest').innerHTML = (player.interestRate * 100).toFixed(0) + "%";
-
-      button.innerHTML = "CANCEL ACCOUNT";
-      button.onclick = function () {
-        cancelCreditLine(creditLine, button);
-      };
-
-      button.parentElement.style.opacity = "100%";
-
-      player.selectedBanks.push(creditLine);
-
-    }
-
-    function cancelCreditLine(creditLine, button) {
-      player.spendingLimit -= creditLine.spendingLimit;
-      player.interestRate -= creditLine.interestRate;
-
-      document.getElementById('spending_limit').innerHTML = "$" + player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      document.getElementById('current_interest').innerHTML = (player.interestRate * 100).toFixed(0) + "%";
-
-      button.innerHTML = "OPEN ACCOUNT";
-      button.onclick = function () {
-        selectCreditLine(creditLine, button);
-      };
-
-      button.parentElement.style.opacity = "50%";
-
-      player.selectedBanks = player.selectedBanks.filter(bank => bank !== creditLine);
-
-    }
-
-    function creditCashOut(amount) {
-      if (player.spendingLimit < amount) {
-        alert("You don't have enough credit to cash out this amount!");
-      } else {
-        var numberAmount = parseFloat(amount);
-        console.log(numberAmount);
-        updateBalance("add", numberAmount);
-        player.spendingLimit -= numberAmount;
-        document.getElementById('spending_limit').innerHTML = "$" + player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        document.getElementById('amount_to_pay').innerHTML = "$" + numberAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        document.getElementById('total_to_pay').innerHTML = "$" + parseFloat(numberAmount + (numberAmount * player.interestRate)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        $('#credit-input-dialog').dialog('close');
-      }
-    }
-
-    function resetCreditLineMonthly() {
-      // get the banks that the player has selected
-      var selectedBanks = player.selectedBanks;
-      // for each bank, get the spending limit from that bank
-      var spendingLimits = selectedBanks.map(bank => bank.spendingLimit);
-      // add up all of the spending limits
-      var totalSpendingLimit = spendingLimits.reduce((a, b) => a + b, 0);
-      // set the player.spendingLimit to the totalSpendingLimit
-      player.spendingLimit = totalSpendingLimit;
-      document.getElementById('spending_limit').innerHTML = "$" + player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-      // now, let's take the outstanding balance from the element #total_to_pay, and write that value to amount_to_pay. then, add the interest rate to that, to get the new total for #total_to_pay.
-      var amountToPay = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));
-      document.getElementById('amount_to_pay').innerHTML = "$" + amountToPay.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      document.getElementById('total_to_pay').innerHTML = "$" + parseFloat(amountToPay + (amountToPay * player.interestRate)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    };
-
-    function payOffDebt() {
-
-      document.getElementById('payoffbutton').style.opacity = "50%";
-      document.getElementById('payoffbutton').style.pointerEvents = "none";
-
-      var debt = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));
-
-      if (player.money < debt) {
-        // the player does not have enough money to pay off the debt.
-        // spend all of their money, and set the remaining debt to a variable called "remaining debt".
-
-        var remainingDebt = debt - player.money;
-        updateBalance("subtract", player.money);
-        player.spendingLimit += remainingDebt;
-        document.getElementById('spending_limit').innerHTML = "$" + player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        document.getElementById('amount_to_pay').innerHTML = "$" + remainingDebt.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        document.getElementById('total_to_pay').innerHTML = "$" + parseFloat(remainingDebt + (remainingDebt * player.interestRate)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-      } else {
-        var amountToPay = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));
-        updateBalance("subtract", amountToPay);
-        document.getElementById('spending_limit').innerHTML = "$" + player.spendingLimit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        document.getElementById('amount_to_pay').innerHTML = "$0.00";
-        document.getElementById('total_to_pay').innerHTML = "$0.00";
-        resetCreditLineMonthly();
-      }
-    }
-
 
 
   </script>
