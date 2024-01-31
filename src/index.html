@@ -895,11 +895,11 @@
     }
 
     .credit_line_listing_item {
-      opacity: 50%;
+      opacity: 75%;
     }
 
     .credit_line_listing_item:hover {
-      opacity: 80%;
+      opacity: 100%;
     }
 
     .uk-notification-message {
@@ -1040,9 +1040,14 @@
     height: 80vh!important;
     padding-top: 0px;
     min-width:45vw;
+    overflow:hidden;
     }
 
-    #inbox {}
+    #inbox {
+      overflow: hidden;
+    overflow-y: scroll;
+    height: 90%;
+    }
 
     .mail-message h3 {
       margin: 0px;
@@ -1076,6 +1081,18 @@
     margin-bottom: 5px;
     }
     
+    #dismissbutton {
+      background-color: green;
+    border: none;
+    padding: 5px;
+    font-family: 'pst';
+    font-size: 7px;
+    position: absolute;
+    right: 0;
+    top: 0px;
+    margin: 12.5px;
+    color: black;
+    }
 
   </style>
   <link rel="stylesheet" href="css/zones.css">
@@ -1098,6 +1115,7 @@
       margin: 0px;
       padding: 0px;
       " >YOUR INBOX</span>
+      <button id ="dismissbutton" onclick = "document.getElementById('inbox').innerHTML ='';notifCounter=0">DISMISS ALL</button>
       <hr class = "selectascamhr">
       <span class="datapointspan" id="mail_blurb" style="font-family:'pst'">IMPORTANT MESSAGES SHOW UP HERE, SO BE SURE TO CHECK BACK!</span>
       <div id="inbox"></div>
@@ -1401,16 +1419,21 @@
         onOtherSavings: 0,
         onLocations: 0,
       },
-      chancesOfCommittingPayrollTaxFraud: 0,
-      chancesOfCommittingAccountingTaxFraud: 0,
-      chancesOfCommittingNonDisclosureFraud: 0,
-      chancesOfCommittingPropertyTaxFraud: 0
+      payrollTaxFraudCounts:0,
+      accountingFraudCounts:0,
+      nonDisclosureFraudCounts:0,
+      propertyTaxFraudCounts:0,
     };
 
     var police = {
       aggression: 1,
       awareness: 1,
     }
+
+    var payrollTaxFraudCommittedThisYear = 0;
+      var accountingFraudCommittedThisYear = 0;
+      var nonDisclosureFraudCommittedThisYear = 0;
+      var propertyTaxFraudCommittedThisYear = 0;
 
 
 
@@ -1432,12 +1455,8 @@
       }
       );
 
-      UIkit.notification({
-        message: 'Welcome to SCAM CENTER TYCOON!',
-        status: 'primary',
-        pos: 'bottom-right',
-        timeout: 0
-      });
+
+      notifyPlayer('Welcome to SCAM CENTER TYCOON!');
     };
 
     var secondlyRate = 2500;
@@ -1449,8 +1468,22 @@
     var secondlyInterval = setInterval(secondlyUpdate, secondlyRate);
 
 
+    function generatePercentage(average){
+      // take an input, like 0.1 (10%) and generate a random number between 0.1 and 0.2 (10% and 20%)
+      var random = Math.random();
+      var percentage = average + (random * average);
+      console.log(percentage);
+      return percentage;
+    }
+
+
     function beginTaxEvent() {
       killTime();
+
+      payrollTaxFraudCommittedThisYear = 0;
+      accountingFraudCommittedThisYear = 0;
+      nonDisclosureFraudCommittedThisYear = 0;
+      propertyTaxFraudCommittedThisYear = 0;
 
       document.getElementById('worker-tax-count').placeholder = player.employees + player.interns + player.lawyers;
       document.getElementById('savings-tax-count').placeholder = player.money;
@@ -1502,11 +1535,49 @@
       player.reportingAccuracy.onOtherSavings = otherSavingsTaxDifference;
       player.reportingAccuracy.onLocations = locationTaxDifference;
 
-      // Update chances of committing fraud based on reporting accuracy
-      player.chancesOfCommittingPayrollTaxFraud += (workerTaxDifference / player.employees) * 100 * 0.025;
-      player.chancesOfCommittingAccountingTaxFraud += (savingsTaxDifference / player.money) * 100 * 0.1;
-      player.chancesOfCommittingNonDisclosureFraud += (otherSavingsTaxDifference / player.datapoints) * 100 * 0.075;
-      player.chancesOfCommittingPropertyTaxFraud += (locationTaxDifference / player.buildings) * 100 * 0.05;
+      // let's generate some percentages
+  
+
+      // it's a crime if the player fails to report the amount of workers they have within 20% of the true value.
+      if (workerTaxDifference > Math.round(player.employees * generatePercentage(0.2))) {
+        player.payrollTaxFraudCounts++;
+        payrollTaxFraudCommittedThisYear++;
+        console.log('YOU COMMITTED A CRIME');
+        console.log(player.payrollTaxFraudCounts);
+      }
+
+      // it's a crime if the player fails to report the amount of money they have within 25% of the true value.
+      if (savingsTaxDifference > Math.round(player.money * generatePercentage(0.25))) {
+        player.accountingFraudCounts++;
+        accountingFraudCommittedThisYear++;
+        console.log('YOU COMMITTED A CRIME');
+        console.log(player.accountingFraudCounts);
+      }
+
+      // it's a crime if the player fails to report the amount of datapoints they have within 20% of the true value.
+      if (otherSavingsTaxDifference > Math.round(player.datapoints * generatePercentage(0.20))) {
+        player.nonDisclosureFraudCounts++;
+        nonDisclosureFraudCommittedThisYear++;
+        console.log('YOU COMMITTED A CRIME');
+        console.log(player.nonDisclosureFraudCounts);
+      }
+
+      // it's a crime if the player fails to report the amount of buildings they have within 50% of the true value.
+      if (locationTaxDifference > Math.round(player.buildings * generatePercentage(0.50))) {
+        player.propertyTaxFraudCounts++;
+        propertyTaxFraudCommittedThisYear++;
+        console.log('YOU COMMITTED A CRIME');
+        console.log(player.propertyTaxFraudCounts);
+      }
+
+      // let's calculate a tax rate.
+
+      var workerTaxRate = Math.round(player.employees * 0.0765);
+      var savingsTaxRate = Math.round(player.money * 0.10);
+      var otherSavingsTaxRate = Math.round(player.datapoints * 0.15);
+      var locationTaxRate = Math.round(player.buildings * 0.01);
+
+
 
 
       resumeTime();
@@ -1515,6 +1586,31 @@
       document.getElementById('user-desk').style.bottom = "-150%";
       document.getElementById('user-desk').style.pointerEvents = "none";
       document.getElementById('sidebar').style.display = "block";
+
+
+      setTimeout(function(){
+
+        var totalFraudCountsCommittedThisYear = payrollTaxFraudCommittedThisYear + accountingFraudCommittedThisYear + nonDisclosureFraudCommittedThisYear + propertyTaxFraudCommittedThisYear;
+        if (totalFraudCountsCommittedThisYear == 0) {
+          sendMail('TAX FORM SUBMITTED', `Your tax form has been submitted. Thank you for your cooperation.`);
+        } else if (totalFraudCountsCommittedThisYear==1) {
+          sendMail('TAX FORM SUBMITTED', `THIS IS A NOTICE. Some discrepancies were found in your tax form. Please be more careful in the future.`);
+        } else if (totalFraudCountsCommittedThisYear==2) {
+          sendMail('TAX FORM SUBMITTED', `THIS IS A WARNING. Some discrepancies were found in your tax form. Please be more careful in the future.`);
+        } else if (totalFraudCountsCommittedThisYear==3) {
+          sendMail('TAX FORM SUBMITTED', `YOU ARE BEING FINED. THIS IS A WARNING. Many discrepancies were found in your submitted tax form. You are being fined and are on notice. Please be more careful in the future.`
+          `<button onclick = "updateBalance('subtract', 250000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> PAY FINE [$250K]</button>`);
+        } else {
+          sendMail('TAX FORM SUBMITTED', `YOU ARE BEING FINED. THIS IS A WARNING. Many discrepancies were found in your submitted tax form. You are being fined and are on notice. Please insure that this does not happen again.
+          <button onclick = "updateBalance('subtract', 500000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> PAY FINE [$500K]</button>`);
+        }
+
+        updateBalance('subtract', workerTaxRate + savingsTaxRate + otherSavingsTaxRate + locationTaxRate);
+
+        notifyPlayer('TAXES PAID: $' + (workerTaxRate + savingsTaxRate + otherSavingsTaxRate + locationTaxRate));
+
+      },5000)
+
 
 
     }
@@ -1560,6 +1656,16 @@
         document.getElementById('mail-icon').style.animation = "none";
         document.getElementById('mail_blurb').style.display = "block";
       }
+    }
+
+
+    function notifyPlayer(message) {
+      UIkit.notification({
+        message: message,
+        status: 'primary',
+        pos: 'bottom-right',
+        timeout: 5000
+      });
     }
 
 

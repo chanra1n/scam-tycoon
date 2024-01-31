@@ -1,10 +1,7 @@
 var monthlyMillisecondValue = 300000;
-var testMonthlyMillisecondValue = monthlyMillisecondValue / 4;
 
 var yearlyMillisecondValue = monthlyMillisecondValue * 12;
-var testYearlyMillisecondValue = testMonthlyMillisecondValue * 12;
 
-var testDailyMillisecondValue = testMonthlyMillisecondValue / 30;
 var dailyMillisecondValue = monthlyMillisecondValue / 30;
 
 var day_counter = 0;
@@ -12,6 +9,8 @@ var currentMonth = 1; // Assuming January as the starting month
 var currentYear = 0;
 
 function dailyUpdate() {
+
+  console.log("DAILY FIRE")
 
   day_counter++;
   if (day_counter % 7 === 0) {
@@ -90,6 +89,8 @@ function monthlyUpdate() {
   // Monthly operations here...
 
   updateBalance("subtract", player.expenses);
+  console.log("MONTHLY FIRE");
+  notifyPlayer('EXPENSES PAID: $' + player.expenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
   // keep track of the current month
   var currentMonth = document.getElementById("calendar_month").innerHTML;
