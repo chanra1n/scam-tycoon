@@ -1,5 +1,3 @@
-var day_counter = 0;
-
 var monthlyMillisecondValue = 300000;
 var testMonthlyMillisecondValue = monthlyMillisecondValue / 4;
 
@@ -9,6 +7,9 @@ var testYearlyMillisecondValue = testMonthlyMillisecondValue * 12;
 var testDailyMillisecondValue = testMonthlyMillisecondValue / 30;
 var dailyMillisecondValue = monthlyMillisecondValue / 30;
 
+var day_counter = 0;
+var currentMonth = 1; // Assuming January as the starting month
+var currentYear = 0;
 
 function dailyUpdate() {
 
@@ -42,12 +43,25 @@ function dailyUpdate() {
   var currentDay = document.getElementById("calendar_day").innerHTML;
   var currentDayInt = parseInt(currentDay);
 
-  // if it's the last day of the month, reset the day to 1
-  if (currentDayInt >= 30) {
-    currentDayInt = 1;
-  } else {
-    currentDayInt += 1;
+// if it's the last day of the month, reset the day to 1 and increment the month
+if (currentDayInt >= 30) {
+  currentDayInt = 1;
+  currentMonth += 1;
+  // if it's the last month of the year, reset the month to 1 and increment the year
+  if (currentMonth > 12) {
+    currentMonth = 1;
+    currentYear += 1;
   }
+} else {
+  currentDayInt += 1;
+}
+
+// if it's the first day of the year, log it to the console
+if (currentDayInt === 1 && currentMonth === 1) {
+
+  beginTaxEvent();
+
+}
 
   //update the calendar widget, make sure that there's at least two digits for the day
   document.getElementById("calendar_day").innerHTML = currentDayInt.toString().padStart(2, '0');
@@ -79,7 +93,6 @@ function monthlyUpdate() {
 
   // keep track of the current month
   var currentMonth = document.getElementById("calendar_month").innerHTML;
-  var currentYear = 0;
   var currentMonthInt = 0;
 
   // get the current month's index

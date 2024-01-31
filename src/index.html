@@ -1070,7 +1070,6 @@
       border: 1.5px solid green;
     }
 
-
     #mail-dropdown hr {
       margin: 0px;
     margin-top: -2.5px;
@@ -1461,7 +1460,7 @@
       document.getElementById('world-map').style.filter = "blur(10px)";
       document.getElementById('user-desk').style.bottom = "-15%";
       document.getElementById('user-desk').style.pointerEvents = "auto";
-      document.getElementById('radio-element').style.display = "none";
+      document.getElementById('sidebar').style.display = "none";
     }
 
 
@@ -1510,9 +1509,15 @@
       player.chancesOfCommittingPropertyTaxFraud += (locationTaxDifference / player.buildings) * 100 * 0.05;
 
 
+      resumeTime();
+
+      document.getElementById('world-map').style.filter = "none";
+      document.getElementById('user-desk').style.bottom = "-150%";
+      document.getElementById('user-desk').style.pointerEvents = "none";
+      document.getElementById('sidebar').style.display = "block";
+
 
     }
-
 
     var notifCounter = 0;
 
