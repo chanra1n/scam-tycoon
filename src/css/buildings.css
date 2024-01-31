@@ -117,6 +117,30 @@
       }
     }
 
+    @keyframes pulse-mail {
+      0% {
+        background-color:green;
+        color:black;
+        z-index:100000000;
+        background-size:100% 100%;
+        transition: steps(3, end);
+      }
+      50% {
+        background-color:black;
+        color:green;
+        z-index:100000000;
+        background-size:100% 100%;
+        transition: steps(3, end);
+      }
+      100% {
+        background-color:green;
+        color:black;
+        z-index:100000000;
+        background-size:100% 100%;
+        transition: steps(3, end);
+      }
+    }
+
     @keyframes pulse-notif {
       0% {
         outline: 1.5px solid green;

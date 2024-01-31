@@ -82,35 +82,31 @@ function runCreditCardScam() {
 
 function runIdentityTheftScam() {
   const classRoll = Math.random();
-  const isPoor = classRoll < 0.2;
-  const isRich = classRoll < 0.1;
+  const isPoor = classRoll < 0.3; // Increased chance of poor person
+  const isRich = classRoll < 0.15; // Increased chance of rich person
 
   const person = {
     class: isPoor ? "poor" : isRich ? "rich" : "middle",
-    money: Math.floor(Math.random() * (isPoor ? 1000 : isRich ? 50000 : 3500) + (isPoor ? 250 : isRich ? 20000 : 1500)), // Increased monetary values for rich
-    defense: Math.floor(Math.random() * (isPoor ? 10 : 50)) + 1 // Increased defense values especially for rich
+    money: Math.floor(Math.random() * (isPoor ? 1000 : isRich ? 50000 : 3500) + (isPoor ? 250 : isRich ? 20000 : 1500)),
+    defense: Math.floor(Math.random() * (isPoor ? 10 : 50)) + 1
   };
 
-  person.defense = Math.max(0, person.defense - person.defense * (player.persuasiveness * 0.05)); // Lowered the impact of player's persuasiveness
+  person.defense = Math.max(0, person.defense - person.defense * (player.persuasiveness * 0.1)); // Increased the impact of player's persuasiveness
 
-  const randomNumbers = Array.from({ length: 3 }, () => Math.floor(Math.random() * (player.persuasiveness * 1.5))); // Lowered the impact of player's persuasiveness
+  const randomNumbers = Array.from({ length: 3 }, () => Math.floor(Math.random() * (player.persuasiveness * 1.2))); // Increased the impact of player's persuasiveness
   const scamSucceeded = randomNumbers.some(num => num >= person.defense);
 
   if (scamSucceeded) {
     const cut = person.money;
-    const datapoints = cut * 0.2; // Increased the percentage of cut
-    updateBalance("add", Math.ceil(cut - datapoints));
+    const datapoints = person.money; // Increased the percentage of cut to payout only in datapoints
     updateDatapoints("add", Math.ceil(datapoints));
-    player.persuasiveness += 0.5; // Lowered the increase in persuasiveness
-    player.income += Math.ceil(cut - datapoints);
-    return `scam succeeded, player got ${cut - datapoints} dollars and ${datapoints} datapoints`;
+    player.persuasiveness += 0.3; // Increased the increase in persuasiveness
+    return `scam succeeded, player got ${datapoints} datapoints`;
   } else {
     const consolation = (person.money / 2) * 0.01;
     const datapoints = consolation * 0.1;
-    player.persuasiveness -= 0.0025; // Decreased persuasiveness on failure
-    player.income += Math.ceil(consolation - datapoints);
-    updateBalance("add", Math.floor(consolation - datapoints));
+    player.persuasiveness -= 0.005; // Decreased persuasiveness on failure
     updateDatapoints("add", Math.floor(datapoints));
-    return `scam failed, player got ${consolation - datapoints} dollars and ${datapoints} datapoints`;
+    return `scam failed, player got ${datapoints} datapoints`;
   }
 }
