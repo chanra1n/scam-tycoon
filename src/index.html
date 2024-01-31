@@ -1448,6 +1448,7 @@
     <button onclick="updateBalance('add', 500000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> ACCEPT [$500K]</button>
     `);
       updateBalance("add", 0);
+      //updateBalance("add", 10000000000000);
       initToolbars();
       initIntervals();
       $("#credit-input-dialog").dialog({
@@ -1667,6 +1668,31 @@
         timeout: 5000
       });
     }
+
+
+    function dictatePoliceActions(){
+      // get the location of each police station in the policeBuildings array by their #id.
+      // get the location of each building in buildingIndex array by their #id.
+
+      // for each building, calculate the distance to each police station.
+
+      // get the coordinates for each police building in pixels.
+      var police_x = document.getElementById(policeBuildings[0]).getBoundingClientRect().x;
+      var police_y = document.getElementById(policeBuildings[0]).getBoundingClientRect().y;
+
+      // get the coordinates for each building in pixels.
+      var building_x = document.getElementById(player.buildingsIndex[0]).getBoundingClientRect().x;
+      var building_y = document.getElementById(player.buildingsIndex[0]).getBoundingClientRect().y;
+
+      // calculate the distance between the police station and the building.
+      var distance = Math.sqrt(Math.pow(police_x - building_x, 2) + Math.pow(police_y - building_y, 2));
+
+      console.log(Math.round(distance));
+
+    }
+
+
+    // 8 bit number, 2's compliment. convert to decimal: 0x92 
 
 
   </script>

@@ -83,6 +83,8 @@ if (currentDayInt === 1 && currentMonth === 1) {
   // Update the chart
   income_myChart.update();
 
+  //dictatePoliceActions();
+
 }
 
 function monthlyUpdate() {

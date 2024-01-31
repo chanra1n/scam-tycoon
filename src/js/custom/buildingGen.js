@@ -1,3 +1,5 @@
+var policeBuildings = [];
+
 class Building {
   constructor(name, type, resaleValue, buyValue, rentValue, location, forSale, forRent) {
     this.name = name;
@@ -9,7 +11,6 @@ class Building {
     this.forSale = forSale;
     this.forRent = forRent;
   }
-
 
       // make an embed for the rent status
       get isforrent() {
@@ -108,6 +109,7 @@ class Building {
         numba = index;
         item.dataset.forSale = false;
         item.dataset.forRent = false;
+        policeBuildings.push(item.id);
       } else if (Array.from(item.classList).some(cls => cls.includes('fire'))) {
         buildingType = "Fire Station";
         prefix = 'F';
