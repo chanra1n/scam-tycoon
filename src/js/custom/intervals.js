@@ -8,6 +8,8 @@ var day_counter = 0;
 var currentMonth = 1; // Assuming January as the starting month
 var currentYear = 0;
 
+var suspiciousIncomeCounter = 0;
+
 function dailyUpdate() {
 
   console.log("DAILY FIRE")
@@ -82,15 +84,44 @@ if (currentDayInt === 1 && currentMonth === 1) {
 
   // Update the chart
   income_myChart.update();
+  police.awareness += Math.random() * 0.5;
+  dictatePoliceActions();
 
-  //dictatePoliceActions();
+  if (player.income > 1000000) {
+    suspiciousIncomeCounter+=1;
+  }
+
+  if (player.income > 500000) {
+    suspiciousIncomeCounter+=0.5;
+  }
+
+  if (player.income < 500000) {
+    suspiciousIncomeCounter-=1;
+  }
+
+  if (suspiciousIncomeCounter < 0) {
+    suspiciousIncomeCounter = 0;
+  }
+
+  if (suspiciousIncomeCounter > 30) {
+    sendMail('NOTICE OF ILLEGAL ACTIVITY', `YOU ARE BEING FINED. THIS IS A WARNING. Your business has been reported for illegal activity. You are being fined and are on notice. Please insure that this does not happen again.
+    <button onclick = "updateBalance('subtract', 30000000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> PAY FINE [$30M]</button>`);
+  suspiciousIncomeCounter = 0;
+  }
+
+  if (suspiciousIncomeCounter > 15){
+    sendMail('NOTICE OF SUSPICIOUS ACTIVITY', `THIS IS A WARNING. Your business has been reported for suspicious activity. You are on notice. Please insure that this does not happen again.`);
+  }
+  
 
 }
 
 function monthlyUpdate() {
-  // Monthly operations here...
-
   updateBalance("subtract", player.expenses);
+  
+  dictatePoliceActions();
+
+
   console.log("MONTHLY FIRE");
   notifyPlayer('EXPENSES PAID: $' + player.expenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 

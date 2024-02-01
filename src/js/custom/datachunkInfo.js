@@ -294,6 +294,7 @@ function sendTradeOffers() {
 }
 
 function acceptTrade(name, payout, cost) {
+  player.dataTraffickingCounts+=1;
   // check if the player has enough datapoints to accept the trade
   if (player.datapoints >= cost) {
     // if they do, add the payout to their balance and subtract the cost from their datapoints

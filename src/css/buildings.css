@@ -196,3 +196,18 @@
       background-color: red; /* Or any color you want for the car */
       animation: moveCar 5s linear infinite; /* Adjust the duration based on how fast you want the car to move */
     }
+
+
+    .police-station {
+      animation: pulse-police 5s infinite;
+    }
+
+    @keyframes pulse-police {
+      0% {
+        box-shadow: 0 0 0 0px rgba(255, 0, 0, 0.5);
+      }
+      100% {
+        box-shadow: 0 0 0 20px rgba(255, 0, 0, 0);
+      }
+    }
+    

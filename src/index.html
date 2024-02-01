@@ -1034,19 +1034,19 @@
 
     #mail-dropdown {
       background-color: black;
-    padding: 12.5px;
-    width: max-content;
-    max-width: 50vh !important;
-    height: 80vh!important;
-    padding-top: 0px;
-    min-width:45vw;
-    overflow:hidden;
+      padding: 12.5px;
+      width: max-content;
+      max-width: 50vh !important;
+      height: 80vh !important;
+      padding-top: 0px;
+      min-width: 45vw;
+      overflow: hidden;
     }
 
     #inbox {
       overflow: hidden;
-    overflow-y: scroll;
-    height: 90%;
+      overflow-y: scroll;
+      height: 90%;
     }
 
     .mail-message h3 {
@@ -1077,21 +1077,31 @@
 
     #mail-dropdown hr {
       margin: 0px;
-    margin-top: -2.5px;
-    margin-bottom: 5px;
+      margin-top: -2.5px;
+      margin-bottom: 5px;
     }
-    
+
     #dismissbutton {
       background-color: green;
-    border: none;
-    padding: 5px;
-    font-family: 'pst';
-    font-size: 7px;
-    position: absolute;
-    right: 0;
-    top: 0px;
-    margin: 12.5px;
-    color: black;
+      border: none;
+      padding: 5px;
+      font-family: 'pst';
+      font-size: 7px;
+      position: absolute;
+      right: 0;
+      top: 0px;
+      margin: 12.5px;
+      color: black;
+    }
+
+
+    #battleFrame {
+      position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #a1a1a1;
+    z-index: 1000000000000;
+    display:none;
     }
 
   </style>
@@ -1108,16 +1118,18 @@
     </div>
 
     <i id="mail-icon" class="sidebar-icon ri-mail-fill"></i>
-    
-    <div id="mail-dropdown" onmouseenter = "document.getElementById('mail-icon').style.animation = 'none'" uk-dropdown>
-      <span style = "
+
+    <div id="mail-dropdown" onmouseenter="document.getElementById('mail-icon').style.animation = 'none'" uk-dropdown>
+      <span style="
       font-size: 18px;
       margin: 0px;
       padding: 0px;
-      " >YOUR INBOX</span>
-      <button id ="dismissbutton" onclick = "document.getElementById('inbox').innerHTML ='';notifCounter=0">DISMISS ALL</button>
-      <hr class = "selectascamhr">
-      <span class="datapointspan" id="mail_blurb" style="font-family:'pst'">IMPORTANT MESSAGES SHOW UP HERE, SO BE SURE TO CHECK BACK!</span>
+      ">YOUR INBOX</span>
+      <button id="dismissbutton" onclick="document.getElementById('inbox').innerHTML ='';notifCounter=0">DISMISS
+        ALL</button>
+      <hr class="selectascamhr">
+      <span class="datapointspan" id="mail_blurb" style="font-family:'pst'">IMPORTANT MESSAGES SHOW UP HERE, SO BE SURE
+        TO CHECK BACK!</span>
       <div id="inbox"></div>
     </div>
   </div>
@@ -1353,18 +1365,20 @@
 
   </div>
 
-  <div id="player-class-display">
-    <h1 id="player-class-number">0</h1>
-    <div id="player-class-list" uk-dropdown>
-      <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px;font-family:'gamer'">CURRENT CLASS
-          MODIFIERS</span>
-        <hr class="selectascamhr">
-        <span class="datapointspan" id="class_blurb" style="font-family:'pst'">AS YOUR BUSINESS GROWS,
-          YOUR CLASS LEVEL WILL INCREASE, UNLOCKING NEW ABILITIES AND MODIFIERS.</span>
-      </ul>
-    </div>
+
+  <div id = "battleFrame">
+    <div id = "playerHP">
+      <p id = "playerHPText">HP: 100</p>
+      <div id = "playerHPBar"></div>
+      </div>
+
+      <div id = "enemyHP">
+      <p id = "enemyHPText">HP: 100</p>
+      <div id = "enemyHPBar"></div>
+      </div>
 
   </div>
+
 
   <div id="world-map" class="grid-container"></div>
 
@@ -1419,10 +1433,11 @@
         onOtherSavings: 0,
         onLocations: 0,
       },
-      payrollTaxFraudCounts:0,
-      accountingFraudCounts:0,
-      nonDisclosureFraudCounts:0,
-      propertyTaxFraudCounts:0,
+      payrollTaxFraudCounts: 0,
+      accountingFraudCounts: 0,
+      nonDisclosureFraudCounts: 0,
+      propertyTaxFraudCounts: 0,
+      dataTraffickingCounts: 0,
     };
 
     var police = {
@@ -1431,9 +1446,9 @@
     }
 
     var payrollTaxFraudCommittedThisYear = 0;
-      var accountingFraudCommittedThisYear = 0;
-      var nonDisclosureFraudCommittedThisYear = 0;
-      var propertyTaxFraudCommittedThisYear = 0;
+    var accountingFraudCommittedThisYear = 0;
+    var nonDisclosureFraudCommittedThisYear = 0;
+    var propertyTaxFraudCommittedThisYear = 0;
 
 
 
@@ -1441,10 +1456,10 @@
       initBuildingAppearance();
       //updateBalance("add", 500000);
       sendMail('Welcome to SCAM CENTER TYCOON!', `Be sure to read the game manual if you haven't already.`);
-    sendMail('NOTICE OF REGISTRATION', `This notice is to inform you that your business has officially been registered.
+      sendMail('NOTICE OF REGISTRATION', `This notice is to inform you that your business has officially been registered.
     Please ensure that your business maintains compliance with all local laws and regulations.`);
 
-    sendMail('SUSPICIOUS ANGEL INVESTOR', `Make it count.`, `
+      sendMail('SUSPICIOUS ANGEL INVESTOR', `Make it count.`, `
     <button onclick="updateBalance('add', 500000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> ACCEPT [$500K]</button>
     `);
       updateBalance("add", 0);
@@ -1469,7 +1484,7 @@
     var secondlyInterval = setInterval(secondlyUpdate, secondlyRate);
 
 
-    function generatePercentage(average){
+    function generatePercentage(average) {
       // take an input, like 0.1 (10%) and generate a random number between 0.1 and 0.2 (10% and 20%)
       var random = Math.random();
       var percentage = average + (random * average);
@@ -1537,7 +1552,7 @@
       player.reportingAccuracy.onLocations = locationTaxDifference;
 
       // let's generate some percentages
-  
+
 
       // it's a crime if the player fails to report the amount of workers they have within 20% of the true value.
       if (workerTaxDifference > Math.round(player.employees * generatePercentage(0.2))) {
@@ -1589,18 +1604,18 @@
       document.getElementById('sidebar').style.display = "block";
 
 
-      setTimeout(function(){
+      setTimeout(function () {
 
         var totalFraudCountsCommittedThisYear = payrollTaxFraudCommittedThisYear + accountingFraudCommittedThisYear + nonDisclosureFraudCommittedThisYear + propertyTaxFraudCommittedThisYear;
         if (totalFraudCountsCommittedThisYear == 0) {
           sendMail('TAX FORM SUBMITTED', `Your tax form has been submitted. Thank you for your cooperation.`);
-        } else if (totalFraudCountsCommittedThisYear==1) {
+        } else if (totalFraudCountsCommittedThisYear == 1) {
           sendMail('TAX FORM SUBMITTED', `THIS IS A NOTICE. Some discrepancies were found in your tax form. Please be more careful in the future.`);
-        } else if (totalFraudCountsCommittedThisYear==2) {
+        } else if (totalFraudCountsCommittedThisYear == 2) {
           sendMail('TAX FORM SUBMITTED', `THIS IS A WARNING. Some discrepancies were found in your tax form. Please be more careful in the future.`);
-        } else if (totalFraudCountsCommittedThisYear==3) {
+        } else if (totalFraudCountsCommittedThisYear == 3) {
           sendMail('TAX FORM SUBMITTED', `YOU ARE BEING FINED. THIS IS A WARNING. Many discrepancies were found in your submitted tax form. You are being fined and are on notice. Please be more careful in the future.`
-          `<button onclick = "updateBalance('subtract', 250000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> PAY FINE [$250K]</button>`);
+            `<button onclick = "updateBalance('subtract', 250000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> PAY FINE [$250K]</button>`);
         } else {
           sendMail('TAX FORM SUBMITTED', `YOU ARE BEING FINED. THIS IS A WARNING. Many discrepancies were found in your submitted tax form. You are being fined and are on notice. Please insure that this does not happen again.
           <button onclick = "updateBalance('subtract', 500000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> PAY FINE [$500K]</button>`);
@@ -1610,7 +1625,7 @@
 
         notifyPlayer('TAXES PAID: $' + (workerTaxRate + savingsTaxRate + otherSavingsTaxRate + locationTaxRate));
 
-      },5000)
+      }, 5000)
 
 
 
@@ -1624,7 +1639,7 @@
 
       if (customButton) {
 
-      document.getElementById('inbox').innerHTML += `
+        document.getElementById('inbox').innerHTML += `
       <div class="mail-message">
               <span>${title}</span>
               <h3>${message}</h3>
@@ -1635,14 +1650,14 @@
 
       } else {
 
-      document.getElementById('inbox').innerHTML += `
+        document.getElementById('inbox').innerHTML += `
       <div class="mail-message">
               <span>${title}</span>
               <h3>${message}</h3>
               <button onclick="removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-close-fill"></i> DISMISS</button>
             </div>
       `;
-          }
+      }
 
       notifCounter++;
       document.getElementById('mail-icon').style.animation = "pulse-mail 1s infinite";
@@ -1669,31 +1684,225 @@
       });
     }
 
+    // create an array to store the distances between all buildings and police stations
+    var distances = [];
 
-    function dictatePoliceActions(){
+
+
+    function dictatePoliceActions() {
       // get the location of each police station in the policeBuildings array by their #id.
       // get the location of each building in buildingIndex array by their #id.
+      // iterate through each building
+      for (var i = 0; i < player.buildingsIndex.length; i++) {
+        // get the coordinates for the current building in pixels
+        var building_x = document.getElementById(player.buildingsIndex[i]).getBoundingClientRect().x;
+        var building_y = document.getElementById(player.buildingsIndex[i]).getBoundingClientRect().y;
 
-      // for each building, calculate the distance to each police station.
+        // iterate through each police station
+        for (var j = 0; j < policeBuildings.length; j++) {
+          // get the coordinates for the current police station in pixels
+          var police_x = document.getElementById(policeBuildings[j]).getBoundingClientRect().x;
+          var police_y = document.getElementById(policeBuildings[j]).getBoundingClientRect().y;
 
-      // get the coordinates for each police building in pixels.
-      var police_x = document.getElementById(policeBuildings[0]).getBoundingClientRect().x;
-      var police_y = document.getElementById(policeBuildings[0]).getBoundingClientRect().y;
+          // calculate the distance between the police station and the building
+          var distance = Math.sqrt(Math.pow(police_x - building_x, 2) + Math.pow(police_y - building_y, 2));
 
-      // get the coordinates for each building in pixels.
-      var building_x = document.getElementById(player.buildingsIndex[0]).getBoundingClientRect().x;
-      var building_y = document.getElementById(player.buildingsIndex[0]).getBoundingClientRect().y;
+          // push the distance to the distances array
+          distances.push(distance);
+        }
+      }
 
-      // calculate the distance between the police station and the building.
-      var distance = Math.sqrt(Math.pow(police_x - building_x, 2) + Math.pow(police_y - building_y, 2));
+      // log the distances array to the console
+      console.log(distances);
 
-      console.log(Math.round(distance));
+      // Use your judgment to determine if the player has decided to avoid police presence or be near them based on the distances array.
+      // You can add your logic here to analyze the distances and make a decision.
+      // For example, you can check if the minimum distance is below a certain threshold to determine if the player is near police presence.
+      // Alternatively, you can check if all distances are above a certain threshold to determine if the player is avoiding police presence.
+      // Modify the code below to implement your logic.
+
+      var minDistance = Math.min(...distances);
+      var maxDistance = Math.max(...distances);
+
+      if (minDistance < 1000) {
+        console.log("Player is near police presence");
+        police.awareness += 1;
+      } else if (maxDistance > 5000) {
+        console.log("Player is avoiding police presence");
+        police.awareness -= 0.5;
+      } else {
+        console.log("Player is neither near nor avoiding police presence");
+        police.awareness += 0.25;
+      }
+
+      // set the outline color of the police stations to the number of pixels their awareness is, times 5.
+
+      for (var i = 0; i < policeBuildings.length; i++) {
+        document.getElementById(policeBuildings[i]).style.boxShadow = `0 0 0 ${police.awareness * 10}px rgba(255, 0, 0, 0)`;
+
+      }
+
+      // calculate how much money the user is making in one day. 
+      // basically a good rule of thumb is that the police awareness should increase exponentially (meaning a log function) the more money the user makes.
+      // player.income is daily income, you jackass
+
+      if (player.income >= 1000000) {
+        // Increase exponentially for income over a million
+        police.awareness += Math.log(player.income) / Math.log(10);
+      } else if (player.income >= 250000 && player.income < 500000) {
+        // Increase gradually for income between 250K and 500K
+        police.awareness += 0.25;
+      } else if (player.income < 50000) {
+        // Decrease gradually for income less than 50K, but not below zero
+        police.awareness = Math.max(police.awareness - 0.05, 0);
+      }
+
+
+
+
+
+      // Calculate the average distance
+      var totalDistance = distances.reduce((acc, curr) => acc + curr, 0);
+      var averageDistance = totalDistance / distances.length;
+
+      // Calculate the standard deviation of distances
+      var squaredDistances = distances.map(distance => Math.pow(distance - averageDistance, 2));
+      var variance = squaredDistances.reduce((acc, curr) => acc + curr, 0) / distances.length;
+      var standardDeviation = Math.sqrt(variance);
+
+
+      // DIFFERENCE BETWEEN AWARENESS AND AGGRESSION:
+      // the higher awareness is, the more likely the player is to encounter the police.
+      // the higher aggression is, the harder the police will be to defeat in battle.
+
+      // check the number of datapoints the player has. since canonically this is illegal activity, 
+      // the more datapoints the player is sitting on, the more likely they are to be caught.
+      // define a threshold for the number of datapoints that the player has to be sitting on before they are more likely to be caught.
+
+      if (player.datapoints > 1000000) {
+        police.awareness += 1;
+      } else if (player.datapoints < 1000) {
+        police.awareness -= 0.5;
+      } else {
+        police.awareness += 0.005;
+      }
+
+      // check how accurate the player has been in reporting their taxes.
+      // if the player has been consistently inaccurate, they are more likely to be caught.
+      // define a threshold for the number of fraud counts that the player has to be sitting on before they are more likely to be caught.
+
+      if (player.payrollTaxFraudCounts > 5 || player.accountingFraudCounts > 5 || player.nonDisclosureFraudCounts > 5 || player.propertyTaxFraudCounts > 5) {
+        police.awareness += 1;
+      } else if (player.payrollTaxFraudCounts < 1 || player.accountingFraudCounts < 1 || player.nonDisclosureFraudCounts < 1 || player.propertyTaxFraudCounts < 1) {
+        police.awareness -= 0.5;
+      } else {
+        police.awareness += 0.005;
+      }
+
+      if (police.awareness < 0) {
+        police.awareness = 0;
+        police.awareness += 0.01;
+      }
+
+      if (police.aggression < 0) {
+        police.aggression = 0;
+        police.aggression += 0.01;
+      }
+
+      if (police.awareness > 150) {
+        police.awareness = 50;
+      }
+
+      if (police.aggression > 150) {
+        police.aggression = 50;
+      }
+
+
+      if (police.awareness > 50 && police.aggression > 50) {
+        var arrestStatus = shouldArrestPlayer(player);
+
+        if (arrestStatus) {
+          alert('YOU HAVE BEEN ARRESTED');
+        } else {
+          console.log("Player is not being arrested");
+        }
+
+      }
+
+
+      console.log("Police awareness: " + police.awareness);
+      console.log("Police aggression: " + police.aggression);
+
+
 
     }
 
+    function shouldArrestPlayer(player) {
+      // Initialize a score to determine the likelihood of arrest
+      let arrestScore = 0;
 
-    // 8 bit number, 2's compliment. convert to decimal: 0x92 
+      // Increase the score based on the number of fraud counts
+      arrestScore += player.payrollTaxFraudCounts;
+      arrestScore += player.accountingFraudCounts;
+      arrestScore += player.nonDisclosureFraudCounts;
+      arrestScore += player.propertyTaxFraudCounts;
+      arrestScore += player.dataTraffickingCounts / 10;
 
+
+      if (police.awareness < 100 || police.aggression < 100) {
+        return false;
+      } else {
+
+        if (arrestScore > 50) {
+
+          var FinalArrestScore = 0;
+
+          if (player.accountingFraudCommittedThisYear > 0 && player.accountingFraudCounts > 1) {
+            FinalArrestScore += 1;
+          } else {
+            FinalArrestScore -= 0.5;
+          }
+
+          if (player.payrollTaxFraudCommittedThisYear > 0 && player.payrollTaxFraudCounts > 5) {
+            FinalArrestScore += 1;
+          } else {
+            FinalArrestScore -= 0.5;
+          }
+
+          if (player.nonDisclosureFraudCommittedThisYear > 0 && player.nonDisclosureFraudCounts > 2) {
+            FinalArrestScore += 1;
+          } else {
+            FinalArrestScore -= 0.5;
+          }
+
+          if (player.propertyTaxFraudCommittedThisYear > 0 && player.propertyTaxFraudCounts > 3) {
+            FinalArrestScore += 1;
+          } else {
+            FinalArrestScore -= 0.5;
+          }
+
+          if (player.dataTraffickingCounts > 100) {
+            FinalArrestScore += 1;
+          } else {
+            FinalArrestScore -= 0.5;
+          }
+
+          if (FinalArrestScore > 3) {
+            return true;
+          } else {
+            return false;
+          }
+
+        } else {
+        }
+
+      }
+    }
+
+
+    function beginBattleEvent (){
+      console.log('woo');
+    }
 
   </script>
 </body>

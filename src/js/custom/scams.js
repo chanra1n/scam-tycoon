@@ -33,11 +33,13 @@ function runTechSupportScam() {
     updateDatapoints("add", Math.ceil(datapoints));
     player.persuasiveness += 1;
     player.income += Math.ceil(cut - datapoints);
+    police.aggression += Math.random()*0.05;
     return `scam succeeded, player got ${cut - datapoints} dollars and ${datapoints} datapoints`;
   } else {
     const consolation = (person.money / 2) * 0.01;
     const datapoints = consolation * 0.1;
     player.persuasiveness += 0.0025;
+    police.aggression -= Math.random()*0.05;
     player.income += Math.ceil(consolation - datapoints);
     updateBalance("add", Math.floor(consolation - datapoints));
     updateDatapoints("add", Math.floor(datapoints));
@@ -65,6 +67,7 @@ function runCreditCardScam() {
     const cut = person.money;
     updateBalance("add", Math.ceil(cut));
     player.income += Math.ceil(cut);
+    police.aggression += Math.random()*0.020;
     if (player.persuasiveness > 5) {
       player.persuasiveness += 0.01;
     } else {
@@ -74,6 +77,7 @@ function runCreditCardScam() {
   } else {
     const consolation = (person.money / 2) * 0.01;
     player.persuasiveness += 0.0025;
+    police.aggression -= Math.random()*0.025;
     player.income += Math.floor(consolation);
     updateBalance("add", Math.floor(consolation));
     return `scam failed, player got ${consolation} dollars`;
@@ -98,6 +102,7 @@ function runIdentityTheftScam() {
 
   if (scamSucceeded) {
     const cut = person.money;
+    police.aggression += Math.random()*0.5;
     const datapoints = person.money; // Increased the percentage of cut to payout only in datapoints
     updateDatapoints("add", Math.ceil(datapoints));
     player.persuasiveness += 0.3; // Increased the increase in persuasiveness
@@ -105,6 +110,7 @@ function runIdentityTheftScam() {
   } else {
     const consolation = (person.money / 2) * 0.01;
     const datapoints = consolation * 0.1;
+    police.aggression -= Math.random()*0.5;
     player.persuasiveness -= 0.005; // Decreased persuasiveness on failure
     updateDatapoints("add", Math.floor(datapoints));
     return `scam failed, player got ${datapoints} datapoints`;
