@@ -1101,8 +1101,110 @@
     height: 100%;
     background-color: #a1a1a1;
     z-index: 1000000000000;
-    display:none;
+    box-sizing: border-box;
+    top:150%;
     }
+
+    .left {
+      float:left;
+    }
+
+    .right{
+      float:right;
+    }
+
+    #playerBattleUI, #enemyBattleUI {
+      background-color: green;
+    color: #a1a1a1;
+    padding: 10px;
+    font-size: 25px;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    padding-top:0px;
+    box-sizing:border-box;
+    }
+
+    #enemyBattleUI {
+      top:0;
+      bottom:unset!important;
+    }
+
+    #playerHP, #enemyHP {
+      margin: 5px;
+    padding: 0px;
+    line-height: normal;
+    margin-left: 0px;
+    margin-right: 0px;
+    }
+
+    #playerHealthBar-outer, #enemyHealthBar-outer {
+      height: 15px;
+    background-color: #1a1a1a;
+    padding: 0px;
+    margin: 0px;
+    }
+
+    #playerHealthBar-inner, #enemyHealthBar-inner {
+      background-color:#a1a1a1;
+      height: 100%;
+    }
+
+    #enemyBattleUI .right {
+      text-align:right;
+    }
+
+    #playerBattleOptions, #enemyBattleOptions {
+      width: 30%;
+    float: right;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    margin: 15px;
+    background-color: green;
+    padding: 15px;
+    margin-right: 30px;
+    padding-top:5px;
+    padding-bottom:5px;
+    }
+
+    #playerBattleOptions button, #enemyBattleOptions button {
+      width: 100%;
+    border: 0px;
+    padding: 10px;
+    font-family: 'pst';
+    font-size: 9px;
+    background-color: #1a1a1a;
+    color: #a1a1a1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    }
+
+    #playerBattleOptions button:hover {
+      transform:scale(1.05);
+    }
+
+    #playerBattleOptions button i, #enemyBattleOptions button i {
+      float: left;
+    font-size: 8px;
+    transform: scale(1.5);
+    }
+
+    #playerBattleOptions hr {
+      margin: 0px;
+    border-color: #a1a1a1;
+    border-width: 2.5px;
+    }
+
+    #playerBattleOptions span {
+      font-size: 16px;
+    margin: 0px;
+    padding: 0px;
+    display: block;
+    }
+
 
   </style>
   <link rel="stylesheet" href="css/zones.css">
@@ -1367,14 +1469,48 @@
 
 
   <div id = "battleFrame">
-    <div id = "playerHP">
-      <p id = "playerHPText">HP: 100</p>
-      <div id = "playerHPBar"></div>
+
+
+    <div id = "playerBattleUI">
+
+      <div style = "width:45%" class = "left">
+
+        <p id = "playerHP" >HP: 100</p>
+        <div id = "playerHealthBar-outer">
+          <div id = "playerHealthBar-inner"></div>
+        </div>
+
+      </div>
+      <div class = "right">
+
+        <div id = "playerBattleOptions">
+          <span>AVAILABLE ATTACKS</span>
+          <hr>
+          <button onclick = ""><i class="ri-sword-fill"></i> OBJECTION SLAM</button>
+          <button onclick = ""><i class="ri-shield-fill"></i> LEGAL BINDING</button>
+          <button onclick = ""><i class="ri-dice-fill"></i> SUMMON JURY</button>
+
       </div>
 
-      <div id = "enemyHP">
-      <p id = "enemyHPText">HP: 100</p>
-      <div id = "enemyHPBar"></div>
+    </div>
+    </div>
+
+    <div id = "enemyBattleUI">
+
+      <div style = "width:45%" class = "right">
+
+        <p id = "enemyHP" >HP: 100</p>
+        <div id = "enemyHealthBar-outer">
+          <div id = "enemyHealthBar-inner"></div>
+        </div>
+
+      </div>
+      <div class = "left">
+
+
+
+      </div>
+
       </div>
 
   </div>
