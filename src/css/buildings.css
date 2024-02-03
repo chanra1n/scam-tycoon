@@ -13,7 +13,7 @@
       image-rendering: optimizeSpeed;
       background-size:auto;
       transform: scale(1.1);
-      transition: all 0.25s, background-color 0s, transform 0.5s;
+      transition: all 0.25s, background-color 0s, transform 0.5s, filter 7.5s;
       transition-timing-function:cubic-bezier(0.8,0,0,1);
       z-index: 100000;
       filter: saturate(1.1);

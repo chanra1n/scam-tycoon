@@ -19,6 +19,10 @@ function dailyUpdate() {
     sendTradeOffers();
   }
 
+  if (day_counter % 5 == 0) {
+    decideWeather();
+  }
+
   player.income = 0;
 
   // Define the number of times to run scams in a day

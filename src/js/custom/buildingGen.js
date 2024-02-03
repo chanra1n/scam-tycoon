@@ -152,6 +152,7 @@ class Building {
         numba = index;
         item.dataset.forSale = false;
         item.dataset.forRent = false;
+
       } else if (Array.from(item.classList).some(cls => cls.includes('water'))) {
         buildingType = "Water";
         prefix = 'W';
