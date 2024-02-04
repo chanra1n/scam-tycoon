@@ -1,0 +1,252 @@
+/*  these are all the menu items that pop up in the menus, like messages, listings, etc.
+    eventually these will all look the same 
+*/
+
+   .datapoint_trade_listing_item span,
+    .credit_line_listing_item span {
+        background-color: green;
+        color: black;
+        margin: 0px;
+        padding: 5px;
+        display: block;
+        width: min-content;
+        vertical-align: top;
+        white-space: nowrap;
+        font-family: 'pst';
+        font-size: 6px;
+        font-weight: 900;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        margin-bottom: 0px;
+    }
+
+    .datapoint_trade_listing_item h3,
+    .credit_line_listing_item h3,
+    .mail-message h3 {
+        font-size: 7px;
+        color: green;
+        font-family: 'pst';
+        text-overflow: ellipsis;
+        padding: 5px;
+        border: 1px solid green;
+        margin: 0px;
+        display: block;
+        border-top: 1px solid green;
+        margin-bottom: 2.5px;
+    }
+
+    .datapoint_trade_listing_item h4,
+    .credit_line_listing_item h4,
+    .mail-message h4 {
+        display: inline-block;
+        width: 40%;
+        font-family: 'gamer';
+        margin: 5px;
+        padding: 0px;
+        font-size: 20px;
+        color: green;
+        vertical-align: middle;
+        white-space: nowrap;
+        margin-top: -5px;
+        margin-bottom: 0px;
+        margin-right: -5px;
+    }
+
+    .credit_line_listing_item h4,
+    .mail-message h4 {
+        width: fit-content;
+        margin-right: 2.5px;
+    }
+
+    .datapoint_trade_listing_item h4 i,
+    .credit_line_listing_item h4 i,
+    .mail-message h4 i {
+        font-size: 10px;
+        vertical-align: middle;
+    }
+
+    .credit_line_listing_item h4 i,
+    .mail-message h4 i {
+        font-size: 16px;
+    }
+
+    .datapoint_trade_listing_item button,
+    .credit_line_listing_item button,
+    .mail-message button {
+        width: 100%;
+        vertical-align: middle;
+        padding: 2.5px;
+        padding-left: 0px;
+        padding-right: 0px;
+        border: 1px solid green;
+        color: black;
+        font-family: 'gamer';
+        font-size: 20px;
+        background-color: green;
+        text-align: center;
+        padding-top: 0px;
+        cursor: pointer;
+        margin-top: 2.5px;
+    }
+
+    .datapoint_trade_listing_item button i,
+    .credit_line_listing_item button i,
+    .mail-message button i {
+        vertical-align: unset;
+        font-weight: 900;
+        font-size: 10px;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #building-index-list h2 {
+        font-size: 8px;
+        font-family: 'pst';
+        display: block;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .listing_image {
+        width: 15px;
+        height: 15px;
+        vertical-align: middle;
+    }
+
+    .listing_id {
+        border: none !important;
+        margin: 0px !important;
+        display: inline !important;
+        padding: 0px !important;
+    }
+
+    .credit_line_listing_item {
+        opacity: 75%;
+    }
+
+    .credit_line_listing_item:hover {
+        opacity: 100%;
+    }
+
+    .building_index_listing_item {
+        display: block;
+        box-sizing: border-box;
+        padding: 5px;
+        padding-top: 0px;
+        padding-bottom: 7.5px;
+        border: 5px solid black;
+        border-left: none;
+        border-right: 0px;
+        border-top: 0px;
+        margin: 0px;
+  
+      }
+  
+      .building_index_listing_item:nth-child(even) {
+        background-color: transparent;
+      }
+  
+      .building_index_listing_item:nth-child(odd) {
+        background-color: #1a1a1a;
+      }
+
+
+      .listing_id {
+        font-size: 25px;
+        vertical-align: baseline;
+      }
+  
+      .building_index_listing_item hr {
+        width: 60%;
+        margin: 2.5px !important;
+        margin-left: 0px !important;
+        margin-top: 0px !important;
+        margin-bottom: 5px !important;
+      }
+  
+  
+      .credit-listing,
+      .mail-message {
+        background-color: #00800050;
+        color: black;
+        font-family: 'pst';
+        padding: 5px;
+        display: block;
+        margin: 7.5px;
+        margin-left: 0px;
+        margin-right: 0px;
+        border: 1.5px dashed green;
+      }
+  
+      .credit-listing span,
+      .mail-message span {
+        background-color: green;
+        padding: 5px;
+        font-size: 8px;
+      }
+  
+      .credit-listing h1,
+      .mail-message h1 {
+        font-size: 20px;
+        color: black;
+        font-family: 'gamer';
+        margin: -5px;
+        padding: 0px;
+        background-color: green;
+        display: inline-block;
+        border: 5px solid green;
+        border-top: 0px;
+        vertical-align: top;
+        border-bottom: 0px;
+      }
+  
+      .credit-listing p,
+      .mail-message p {
+        font-size: 7px !important;
+        padding: 0px !important;
+        margin: 0px !important;
+        color: green !important;
+      }
+  
+      .credit-listing button,
+      .mail-message button {
+        background-color: green;
+        border: none;
+        width: 100%;
+        display: block;
+        color: black;
+        font-family: 'pst';
+        font-size: 8px;
+        padding: 5px;
+        font-weight: 900;
+        margin: 5px;
+        margin-left: 0px;
+        margin-bottom: 0px;
+      }
+  
+      .credit-listing button span,
+      .mail-message button span {
+        display: inline-flex;
+        vertical-align: -webkit-baseline-middle;
+        margin: 0px;
+        padding: 0px;
+      }
+  
+      .credit-listing button i,
+      .mail-message button i {
+        font-size: 12px;
+        float: left;
+      }
+  
+  
+      .wages {
+        font-family: 'gamer'!important;
+        display: inline-block!important;
+        width: 40%!important;
+        background-color: black!important;
+        color: green!important;
+        padding: 0px!important;
+        margin: 0px!important;
+        font-size: 16px!important;
+        opacity: 75%!important;
+      }

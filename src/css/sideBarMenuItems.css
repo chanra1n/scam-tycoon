@@ -1,0 +1,49 @@
+    #world-map {
+      transition: filter 5s;
+      width: 100%;
+      height: 100%;
+    }
+
+
+
+    #radio-element:hover {
+      opacity: 100%;
+      cursor: pointer;
+    }
+
+    #radio-dropdown {
+      margin: 0px;
+      width: max-content;
+      padding: 10px;
+      background-color: black;
+      filter: grayscale(1);
+      opacity: 100%;
+      image-rendering: pixelated;
+    }
+
+    #radio-dropdown:hover {
+      opacity: 100%;
+    }
+
+    #radio-dropdown iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #radio-link {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: 10px;
+      margin-bottom: 0px;
+      background-color: black;
+      padding: 10px;
+      padding-bottom: 2.5px;
+      padding-top: 0px;
+      opacity: 60%;
+    }
+
+    #radio-link:hover {
+      opacity: 100%;
+    }

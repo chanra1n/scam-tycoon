@@ -1,0 +1,58 @@
+    .uk-notification-message {
+      width: 50vh;
+      float: right;
+      color: green;
+      background-color: black;
+      font-family: 'pst';
+      font-size: 9px;
+      filter: drop-shadow(5px 5px 0px green);
+    }
+
+    .uk-notification-close {
+      position: absolute;
+      right: 0;
+      margin-right: 15px;
+      background-color: black;
+      outline: 12px solid black;
+      top: unset !important;
+    }
+
+    .ui-dialog {
+      background-color: black;
+      color: green;
+      font-family: 'pst';
+      font-size: 10px;
+      border: 1.5px dashed green;
+      padding: 5px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%);
+      padding: 15px;
+      border: none;
+      filter: drop-shadow(5px 5px 0px green);
+      outline: 1000px solid #00800050;
+      z-index: 10000000000000000000000;
+    }
+
+    .ui-dialog-titlebar-close {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 10px;
+      border: none;
+      background-color: transparent;
+      color: green;
+      font-family: 'pst';
+    }
+
+    .uk-dropdown-nav {
+      position: sticky;
+      top: 0;
+      outline: 5px solid black;
+      background-color: black !important;
+    }

@@ -1,0 +1,90 @@
+    #user-desk {
+      position: absolute;
+      bottom: -150%;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      background-color: #000000a0;
+      display: block;
+      pointer-events: none;
+      transition: all 0.5s;
+      transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
+    }
+
+    #tax-form {
+      position: absolute;
+      top: 75%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      z-index: 1000000000000;
+      width: 80%;
+      padding: 20px;
+      height: 150%;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    #tax-form hr {
+      margin: 0px;
+      padding: 0px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border: 1px solid green;
+    }
+
+    #tax-form h1 {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #tax-form h2 {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #tax-form h3 {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #tax-form input {
+      margin: 0px;
+      padding: 7.5px;
+      border: 2px dashed green;
+      width: fit-content;
+      color: #1a1a1a;
+      background-color: #00800055;
+      font-family: 'gamer';
+      font-size: 25px;
+      padding-top: 0px;
+      max-width: 50%;
+      padding-bottom: 2.5px;
+    }
+
+    #tax-form p {
+      font-family: 'pst';
+      font-size: 7.5px;
+    }
+
+    .smallhr {
+      margin: 0px !important;
+      border: 1px dotted #008000a0 !important;
+      margin-top: -10px !important;
+      width: 100% !important;
+      margin-bottom: 10px !important;
+    }
+
+    #submit-tax-form {
+      float: right;
+      margin: 25px;
+      width: 30%;
+      border: 0px;
+      background-color: #008000a0;
+      color: black;
+      font-family: 'gamer';
+      font-size: 25px;
+      vertical-align: middle;
+      padding: 0px;
+      padding-bottom: 2.5px;
+    }

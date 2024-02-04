@@ -1,0 +1,220 @@
+    #calendar_widget {
+      display: block;
+      text-align: center;
+      aspect-ratio: 1/1;
+      box-sizing: border-box;
+    }
+
+    #calendar_month {
+      display: grid;
+      font-size: 12px;
+      margin: -2.5px;
+      padding: 0px;
+      text-align: center;
+      align-content: center;
+      justify-content: center;
+      align-items: end;
+      justify-items: center;
+      box-sizing: border-box;
+    }
+
+    #calendar_day {
+      display: grid;
+      margin: 0px;
+      text-align: center;
+      background-color: green;
+      color: black;
+      align-content: end;
+      justify-content: center;
+      justify-items: center;
+      aspect-ratio: 1/1;
+      vertical-align: middle;
+      font-size: 32px;
+      box-sizing: border-box;
+      padding: 5px;
+      width: 40px;
+      margin-bottom: -100%;
+    }
+
+
+    #datapoint-trade-list,
+    #building-index-list,
+    #credit-line-list,
+    #player-class-list,
+    #employee-index-list {
+
+      width: 40%;
+      padding-bottom: 10px !important;
+    }
+
+
+    #building-index-list {
+      width: 25%;
+    }
+
+
+    .datapoint_trade_listing_item,
+    .credit_line_listing_item {
+
+      background-color: #1a1a1a;
+      border: 10px solid black;
+      border-left: 0;
+      border-right: 0;
+      width: 100%;
+      overflow: hidden;
+      border-bottom: 5px;
+
+    }
+
+    #current_monthly_expenses_display {
+      font-family: 'gamer';
+      font-size: 25px;
+      display: math;
+      width: 100%;
+      background-color: green;
+      color: black;
+      box-sizing: border-box;
+      margin: 0px;
+      padding: 0px;
+      font-weight: 900;
+      vertical-align: middle;
+      border: 5px solid green;
+      border-top: 2.5px solid green;
+    }
+
+    #current_daily_income_display,
+    #current_monthly_income_display {
+      font-size: 20px;
+      border: 5px solid black;
+      margin: 0px;
+      border-top: 0px;
+      border-bottom: 0px;
+    }
+
+    #current_monthly_income_display {
+      background-color: transparent;
+      color: green;
+      border: none;
+      opacity: 50%;
+      font-size: 16px;
+    }
+
+    #income_chart,
+    #employee_productivity_chart {
+      width: 100% !important;
+      border: 1.5px dashed green;
+      padding: 5px;
+    }
+
+    #employee-index-list button {
+      background-color: black;
+      color: green;
+      font-family: 'pst';
+      border: 2.5px solid green;
+      padding: 5px;
+      font-size: 7px;
+      display: inline-block;
+      margin: 7.5px;
+      margin-bottom: 2.5px;
+      box-sizing: border-box;
+      margin-left: 0px;
+      margin-right: 0px;
+      cursor: pointer;
+      width: fit-content;
+    }
+
+    #employee_index_div h2 {
+      font-size: 10px;
+      font-family: 'pst';
+      margin: 7.5px;
+      display: block;
+      padding: 0px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    #employee_index_div {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 2.5px;
+    }
+
+    #employee_index_div h2 span {
+      color: green;
+      font-family: 'gamer';
+      font-size: 30px;
+      display: inline-block;
+      filter: drop-shadow(3px 3px 0px #00800050);
+      margin: -5px;
+      margin-left: -5px;
+      margin-top: -10px;
+      margin-bottom: -10px;
+    }
+
+    .cashoutbutton {
+        width: 100%;
+        border: none;
+        background-color: green;
+        color: black;
+        font-family: 'pst';
+        padding: 7.5px;
+        font-size: 8px;
+        margin-bottom: -15px;
+        display: block;
+      }
+  
+      #total_to_pay {
+        font-size: 35px;
+        border: 1px dashed green;
+        padding: 5px;
+        padding-top: 0px;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+  
+      #cashout-amount {
+        border: 1px dashed green;
+        background-color: black;
+        color: green;
+        font-family: 'pst';
+        width: 100%;
+        padding: 5px;
+        font-size: 12px;
+        display: block;
+        box-sizing: border-box;
+      }
+  
+      #cashout-button {
+        font-family: 'pst';
+        width: 100%;
+        font-size: 12px;
+        display: block;
+        background-color: green;
+        border: none;
+        padding: 7.5px;
+        margin: 7.5px;
+        box-sizing: border-box;
+        margin-left: 0px;
+        margin-right: 0px;
+      }
+
+
+    .bigcreditnumber {
+        font-size: 30px;
+        font-family: 'gamer';
+        margin: 0px;
+        padding: 0px;
+        display: inline-block;
+        border: 0px;
+        outline: 0px;
+        color: green;
+        line-height: normal;
+      }
+  
+      .hire {
+        background-color: green !important;
+        color: black !important;
+      }
+  

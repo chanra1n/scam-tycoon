@@ -1,0 +1,61 @@
+    #mail-dropdown {
+      background-color: black;
+      padding: 12.5px;
+      width: max-content;
+      max-width: 50vh !important;
+      height: 80vh !important;
+      padding-top: 0px;
+      min-width: 45vw;
+      overflow: hidden;
+    }
+
+    #inbox {
+      overflow: hidden;
+      overflow-y: scroll;
+      height: 90%;
+    }
+
+    .mail-message h3 {
+      margin: 0px;
+      display: block;
+      vertical-align: top;
+      margin-top: -17.5px;
+      border: 1px dashed green;
+    }
+
+    .mail-message span {
+      font-size: 6px;
+      vertical-align: top;
+      outline: none;
+      width: fit-content;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      white-space: nowrap;
+      margin: -5px;
+      max-width: 100%;
+      margin-bottom: 0px;
+    }
+
+    .mail-message {
+      border: 1.5px solid green;
+    }
+
+    #mail-dropdown hr {
+      margin: 0px;
+      margin-top: -2.5px;
+      margin-bottom: 5px;
+    }
+
+    #dismissbutton {
+      background-color: green;
+      border: none;
+      padding: 5px;
+      font-family: 'pst';
+      font-size: 7px;
+      position: absolute;
+      right: 0;
+      top: 0px;
+      margin: 12.5px;
+      color: black;
+    }
