@@ -44,14 +44,14 @@
     }
 
     .office-building {
-      background-image: url('../sprites/office_building_1.png');
+      background-image: url('../../sprites/office_building_1.png');
       background-size: contain;
       z-index: 1000;
       transform: scale(1.05);
     }
 
     .gas-station {
-      background-image: url('../sprites/gas_station.png');
+      background-image: url('../../sprites/gas_station.png');
       background-size: 50% 75%;
       filter: grayscale(100%);
       background-position: center;
@@ -59,37 +59,37 @@
     }
 
     .library {
-      background-image: url('../sprites/library.png');
+      background-image: url('../../sprites/library.png');
       background-size: contain;
       filter:grayscale(100%)
 
     }
 
     .police-station {
-      background-image: url('../sprites/police_station.png');
+      background-image: url('../../sprites/police_station.png');
       background-size: contain;
     }
 
     .fire-station {
-      background-image: url('../sprites/fire_station.png');
+      background-image: url('../../sprites/fire_station.png');
       filter:grayscale(100%);
       background-size: contain;
     }
 
     .admin-buildings {
-      background-image: url('../sprites/office_building_1.png');
+      background-image: url('../../sprites/office_building_1.png');
       background-size:contain;
     }
 
     .restaurants {
-      background-image: url('../sprites/rest_1.png');
+      background-image: url('../../sprites/rest_1.png');
       filter: grayscale(100%);
       background-size: 85%;
       background-position: center;
     }
 
     .homes {
-      background-image: url('../sprites/house_1.png');
+      background-image: url('../../sprites/house_1.png');
       background-size: 50%;
       background-repeat: round;
       filter:grayscale(100%)
