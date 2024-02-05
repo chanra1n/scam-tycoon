@@ -964,21 +964,20 @@
         document.getElementById('fog_filter').style.opacity = "15%";
         document.getElementById('weather_filter').style.opacity = "0%";
         console.log('clear skies');
+        return 'clear';
 
       } else {
 
         //rain/fog.
         document.getElementById('fog_filter').style.opacity = "25%";
-        document.getElementById('weather_filter').style.opacity = "50%";
+        document.getElementById('weather_filter').style.opacity = "100%";
         console.log('foggy');
-
+        return 'foggy';
 
 
       }
 
     }
-
-
 
   </script>
 </body>
