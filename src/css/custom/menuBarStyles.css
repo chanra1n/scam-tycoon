@@ -108,7 +108,7 @@
 }
 
 
-.sidebar-icon {
+.sidebar-icon, .rightbar-icon {
       display: block;
       background-color: black;
       padding: 7.5px;
@@ -118,7 +118,7 @@
       cursor: pointer;
     }
 
-    #sidebar {
+    #sidebar, #rightbar {
       position: absolute;
       background-color: transparent;
       bottom: 0;
@@ -126,4 +126,8 @@
       width: fit-content;
       font-size: 25px;
       box-sizing: border-box;
+    }
+
+    #rightbar {
+      right:0;
     }

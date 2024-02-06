@@ -60,6 +60,7 @@
       height: 100%;
       position: relative;
       margin: 0px;
+      transition: all 0.25s linear;
     }
 
     .grid-item {
@@ -77,6 +78,48 @@
       cursor: pointer;
     }
 
+    #player {
+      width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 100000;
+    opacity:0%;
+    background-color: transparent;
+    transform:scale(0.5);
+    transition: top 0.25s, left 0.25s, opacity 0.1s, transform 0.25s;
+    background-size: 100%;
+    filter: invert(1) brightness(75%) grayscale(1)  contrast(250%) drop-shadow(0px 0px 15px #1a1a1a);
+    background-image:url('sprites/character/cat/black/front/front2.png');
+    }
+
+    #world-map {
+      transition: all 0.25s linear, filter 5s auto;
+      width: 100%;
+      height: 100%;
+    }
+
+#fps {
+  position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #a1a1a1;
+    background-color: black;
+    z-index: 100;
+    margin: 7.5px;
+    width: 12.5vh;
+    text-align: center;
+    box-shadow: 4px 4px 0px green;
+    font-size: 8px;
+    padding: 5px;
+    white-space: nowrap;
+    font-family: 'pst';
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+}
+
+
   </style>
   <link rel="stylesheet" href="css/custom/menuBarDropdownItemStyles.css">
   <link rel="stylesheet" href="css/custom/menuItemStyles.css">
@@ -93,6 +136,7 @@
 </head>
 
 <body>
+  <span id="fps"></span>
   <div id = "crt-lines"style = "opacity:20%" ></div>
   <div id = "vignette" style = "opacity:40%" ></div>
   <div id="weather_filter" class="weather_filter back-row-toggle splat-toggle">
@@ -100,7 +144,18 @@
     <div class="rain back-row"></div>
   </div>
   <div id="fog_filter"></div>
+  <div id = "player"></div>
   <div id="sidebar">
+    <i id = "help-icon" class="sidebar-icon ri-questionnaire-fill"></i>
+    <div id="help-dropdown" uk-dropdown>
+      <h1>Getting started</h1>
+      <button class = "guide_container">Buying & Selling Buildings</button>
+      <button class = "guide_container">How Expenses Work</button>
+      <button class = "guide_container">Intro to Credit 101</button>
+      <button class = "guide_container">Hiring Workers</button>
+      <button class = "guide_container">Types of Currency</button>
+      </div>  
+     
     <i id="radio-icon" class="sidebar-icon ri-radio-fill"></i>
     <div id="radio-dropdown" uk-dropdown>
       <iframe src="https://lofi.cafe"></iframe>
@@ -122,6 +177,7 @@
         TO CHECK BACK!</span>
       <div id="inbox"></div>
     </div>
+
   </div>
 
   <div id="user-desk">
@@ -435,6 +491,8 @@
 
   <script>
 
+    var panZoomModeEnabled = true;
+
     var playerDecidedPay = 100;
 
     var unlockable_options = `
@@ -486,6 +544,8 @@
 
 
     window.onload = function () {
+      initTime();
+      movePlayer();
       initBuildingAppearance();
       //updateBalance("add", 500000);
       sendMail('Welcome to SCAM CENTER TYCOON!', `Be sure to read the game manual if you haven't already.`);
@@ -979,6 +1039,90 @@
 
     }
 
+
+    // let's write a function that allows the player to walk around the map. the code should:
+    // 1. generate a player character
+    // 2. allow the player to move the character around the map via the arrow keys
+    // 3. make sure that the player can't walk through buildings
+    // 4. make sure that the player can't walk off the map
+    // 5. make sure that the player can't walk through police stations
+    // 6. make sure that the player can't walk on water
+
+    function movePlayer() {
+      panZoomModeEnabled = false;
+
+    }
+
+
+    
+// keyup event listener.
+// when the key is up, get the backgroundimage of player.
+// swap it out for a still image based on the direction the player is facing.
+
+document.addEventListener('keyup', function (event) {
+  if (event.key === 'ArrowUp') {
+    document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/back/back2.png')";
+  } else if (event.key === 'ArrowDown') {
+    document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/front/front2.png')";
+  } else if (event.key === 'ArrowLeft') {
+    document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/right/right2.png')";
+  } else if (event.key === 'ArrowRight') {
+    document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/left/left2.png')";
+  }
+});
+
+
+
+window.requestAnimFrame = (function() {
+    return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.ieRequestAnimationFrame ||
+        function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+        };
+})();
+
+let fpsElement = document.getElementById("fps");
+
+let frameCount = 0;
+let lastUpdateTime = Date.now();
+let fps = 0;
+let lastFps = null;
+
+let render = function() {
+    // count the number of frames
+    frameCount++;
+
+    // get the current time
+    let now = Date.now();
+
+    // calculate the time difference
+    let diff = now - lastUpdateTime;
+
+    // if the time difference is greater than 1 second
+    if (diff > 1000) {
+        // calculate the fps
+        fps = frameCount / (diff / 1000);
+
+        // reset the frame count
+        frameCount = 0;
+
+        // update the last update time
+        lastUpdateTime = now;
+
+        // update the fps element only if the fps value has changed
+        if (fps.toFixed(1) !== lastFps) {
+            fpsElement.innerText = fps.toFixed(0) + " FPS";
+            lastFps = fps.toFixed(0);
+        }
+    }
+
+    requestAnimFrame(render);
+};
+
+render();
+      
   </script>
 </body>
 

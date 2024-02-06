@@ -1,17 +1,9 @@
-    #world-map {
-      transition: filter 5s;
-      width: 100%;
-      height: 100%;
-    }
-
-
-
-    #radio-element:hover {
+    #radio-element:hover, #help-element:hover {
       opacity: 100%;
       cursor: pointer;
     }
 
-    #radio-dropdown {
+    #radio-dropdown, #help-dropdown {
       margin: 0px;
       width: max-content;
       padding: 10px;
@@ -21,17 +13,17 @@
       image-rendering: pixelated;
     }
 
-    #radio-dropdown:hover {
+    #radio-dropdown:hover, #help-dropdown:hover {
       opacity: 100%;
     }
 
-    #radio-dropdown iframe {
+    #radio-dropdown iframe, #help-dropdown iframe{
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    #radio-link {
+    #radio-link, #help-link {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -44,6 +36,6 @@
       opacity: 60%;
     }
 
-    #radio-link:hover {
+    #radio-link:hover, #help-link:hover {
       opacity: 100%;
     }
