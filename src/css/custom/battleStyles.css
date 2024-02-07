@@ -8,25 +8,29 @@
     top:150%;
     }
 
-    .left {
+    #battleFrame .left {
       float:left;
+      outline:20px solid #1a1a1a;
+      background-color:#1a1a1a;
     }
 
-    .right{
+    #battleFrame .right{
       float:right;
+      outline:20px solid #1a1a1a;
+      background-color:#1a1a1a;
     }
 
     #playerBattleUI, #enemyBattleUI {
-      background-color: green;
-    color: #a1a1a1;
-    padding: 10px;
-    font-size: 25px;
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
-    left: 0px;
-    padding-top:0px;
-    box-sizing:border-box;
+      background-color: black;
+      color: #a1a1a1;
+      padding: 14px;
+      font-size: 25px;
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
+      left: 0px;
+      padding-top: 0px;
+      box-sizing: border-box;
     }
 
     #enemyBattleUI {

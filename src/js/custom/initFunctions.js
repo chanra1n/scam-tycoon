@@ -4,6 +4,7 @@
       makeItRain();
       dayNightCycle();
       dayNightCycle();
+      render();
     }
 
     function initIntervals() {

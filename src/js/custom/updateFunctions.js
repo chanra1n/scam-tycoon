@@ -31,7 +31,7 @@ function updateDatapoints(operation, amount) {
         console.log("error");
     }
     // show the amount that's been added or subtracted
-    document.getElementById("player-datapoints").innerHTML = `<i class="ri-database-2-fill"></i> ${player.datapoints.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    document.getElementById("player-datapoints").innerHTML = `<i class="ri-database-2-fill"></i> ${Math.floor(player.datapoints)}`;
 }
 
 function updateLevel() {
