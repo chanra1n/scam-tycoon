@@ -42,20 +42,20 @@
     html {
       margin: 0;
       padding: 0px;
-      width:100vh;
+      width: 100vh;
       font-family: 'gamer';
       filter: sepia(1) hue-rotate(45deg);
       user-select: none !important;
       background-color: black;
-      width:100vh;
+      width: 100vh;
       overflow: hidden;
     }
 
     body {
-      transform:translate(-50%,-50%);
-      position:absolute;
-      top:50%;
-      left:50%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
     }
 
     .grid-container {
@@ -63,12 +63,12 @@
       grid-template-columns: repeat(48, 1fr);
       grid-template-rows: repeat(48, 1fr);
       background-color: #ccc;
-      width:100%;
-      height:100%;
+      width: 100%;
+      height: 100%;
       position: relative;
       margin: 0px;
       transition: all 0.25s linear;
-      background-color: #a1a1a1!important;
+      background-color: #a1a1a1 !important;
     }
 
     .grid-item {
@@ -80,7 +80,7 @@
       background-repeat: no-repeat;
       image-rendering: optimizeSpeed;
       transition: opacity 0.25s linear;
-      background-color:#a1a1a1!important;
+      background-color: #a1a1a1 !important;
 
     }
 
@@ -90,85 +90,84 @@
 
     #player {
       width: 32px;
-    height: 32px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 100000;
-    opacity:0%;
-    background-color: transparent;
-    transform:scale(0.5);
-    transition: top 0.25s, left 0.25s, opacity 0.1s, transform 0.25s;
-    background-size: 100%;
-    filter: invert(1) brightness(75%) grayscale(1)  contrast(250%) drop-shadow(0px 0px 15px #1a1a1a);
-    background-image:url('sprites/character/cat/black/front/front2.png');
+      height: 32px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 100000;
+      opacity: 0%;
+      background-color: transparent;
+      transform: scale(0.5);
+      transition: top 0.25s, left 0.25s, opacity 0.1s, transform 0.25s;
+      background-size: 100%;
+      filter: invert(1) brightness(75%) grayscale(1) contrast(250%) drop-shadow(0px 0px 15px #1a1a1a);
+      background-image: url('sprites/character/cat/black/front/front2.png');
     }
 
     #world-map {
       transition: all 0.25s linear, filter 5s auto;
-      width:100vh;
-      height:100vh;
+      width: 100vh;
+      height: 100vh;
     }
 
-#fps {
-  position: absolute;
-    bottom: 0;
-    right: 0;
-    color: #a1a1a1;
-    background-color: black;
-    z-index: 100;
-    margin: 7.5px;
-    width: 10vh;
-    text-align: center;
-    box-shadow: 4px 4px 0px green;
-    font-size: 8px;
-    padding: 5px;
-    white-space: nowrap;
-    font-family: 'pst';
-}
+    #fps {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      color: #a1a1a1;
+      background-color: black;
+      z-index: 100;
+      margin: 7.5px;
+      width: 10vh;
+      text-align: center;
+      box-shadow: 4px 4px 0px green;
+      font-size: 8px;
+      padding: 5px;
+      white-space: nowrap;
+      font-family: 'pst';
+    }
 
-.police-car {
-  position: absolute;
-    top: 0;
-    left: 0;
-    background-color: black;
-    width: 8px;
-    height: 8px;
-}
+    .police-car {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: black;
+      width: 8px;
+      height: 8px;
+    }
 
-  #help-dropdown {
-    padding:15px!important;
-  }
+    #help-dropdown {
+      padding: 15px !important;
+    }
 
-  .guide_container {
-    background-color: green;
-    color: black;
-    font-family: 'pst';
-    border: none;
-    padding: 7.5px;
-    font-size: 8px;
-    display: block;
-    margin: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-left: 0px;
-    margin-right: 0px;
-    line-break: normal;
-    vertical-align: middle;
-  }
+    .guide_container {
+      background-color: green;
+      color: black;
+      font-family: 'pst';
+      border: none;
+      padding: 7.5px;
+      font-size: 8px;
+      display: block;
+      margin: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-left: 0px;
+      margin-right: 0px;
+      line-break: normal;
+      vertical-align: middle;
+    }
 
-  .guide_container i {
-    float: left;
-    vertical-align: middle;
-    transform: scale(1.1);
-  }
-
+    .guide_container i {
+      float: left;
+      vertical-align: middle;
+      transform: scale(1.1);
+    }
   </style>
   <link rel="stylesheet" href="css/custom/menuBarDropdownItemStyles.css">
   <link rel="stylesheet" href="css/custom/menuItemStyles.css">
   <link rel="stylesheet" href="css/custom/sideBarMenuItems.css">
   <link rel="stylesheet" href="css/custom/uikitMods.css">
-  <link rel="stylesheet" href="css/custom/menuBarStyles.css" >
+  <link rel="stylesheet" href="css/custom/menuBarStyles.css">
   <link rel="stylesheet" href="css/custom/tippyConfig.css">
   <link rel="stylesheet" href="css/custom/taxformStyles.css">
   <link rel="stylesheet" href="css/custom/mailStyles.css">
@@ -180,28 +179,28 @@
 
 <body>
   <span id="fps"></span>
-  <div id = "crt-lines"style = "opacity:10%" ></div>
-  <div id = "vignette" style = "opacity:40%" ></div>
+  <div id="crt-lines" style="opacity:10%"></div>
+  <div id="vignette" style="opacity:40%"></div>
   <div id="weather_filter" class="weather_filter back-row-toggle splat-toggle">
     <div class="rain front-row"></div>
     <div class="rain back-row"></div>
   </div>
   <div id="fog_filter"></div>
-  <div id = "player"></div>
+  <div id="player"></div>
 
   <div id="sidebar">
-    <i id = "help-icon" class="sidebar-icon ri-questionnaire-fill"></i>
+    <i id="help-icon" class="sidebar-icon ri-questionnaire-fill"></i>
     <div id="help-dropdown" uk-dropdown>
-      <h1 class = "selectascam" >NEED SOME HELP?</h1>
+      <h1 class="selectascam">NEED SOME HELP?</h1>
       <hr class="selectascamhr">
-      <button class = "guide_container"><i class="ri-building-4-fill"></i> BUILDING BASICS</button>
-      <button class = "guide_container"><i class="ri-money-dollar-circle-fill"></i> EXPENSES GUIDE</button>
-      <button class = "guide_container"><i class="ri-bank-card-fill"></i> INTRO TO CREDIT</button>
-      <button class = "guide_container"><i class="ri-star-smile-fill"></i> HIRING INFO</button>
-      <button class = "guide_container"><i class="ri-database-2-fill"></i> CURRENCY TYPES</button>
-      <button class = "guide_container"><i class="ri-hand-coin-fill"></i> SCAM TYPES</button>
-      </div>  
-     
+      <button class="guide_container"><i class="ri-building-4-fill"></i> BUILDING BASICS</button>
+      <button class="guide_container"><i class="ri-money-dollar-circle-fill"></i> EXPENSES GUIDE</button>
+      <button class="guide_container"><i class="ri-bank-card-fill"></i> INTRO TO CREDIT</button>
+      <button class="guide_container"><i class="ri-star-smile-fill"></i> HIRING INFO</button>
+      <button class="guide_container"><i class="ri-database-2-fill"></i> CURRENCY TYPES</button>
+      <button class="guide_container"><i class="ri-hand-coin-fill"></i> SCAM TYPES</button>
+    </div>
+
     <i id="radio-icon" class="sidebar-icon ri-radio-fill"></i>
     <div id="radio-dropdown" uk-dropdown>
       <iframe src="https://lofi.cafe"></iframe>
@@ -375,7 +374,8 @@
         <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">AVAILABLE DATACHUNK TRADES</span>
           <hr class="selectascamhr">
           <span class="datapointspan" id="datachunk_blurb" style="font-family:'pst'">DATACHUNKS ARE OBTAINED THROUGH
-            TECH SUPPORT OR IDENTITY THEFT SCAMS. THEY CAN BE USED FOR TRADE WITH INTERESTED PARTIES TO EARN HIGHER PAYOUTS.</span>
+            TECH SUPPORT OR IDENTITY THEFT SCAMS. THEY CAN BE USED FOR TRADE WITH INTERESTED PARTIES TO EARN HIGHER
+            PAYOUTS.</span>
         </ul>
       </div>
 
@@ -457,46 +457,24 @@
   </div>
 
 
+
+
   <div id="battleFrame">
 
 
-    <div id="playerBattleUI">
 
-      <div style="width:45%" class="left">
 
-        <p id="playerHP">HP: 100</p>
-        <div id="playerHealthBar-outer">
-          <div id="playerHealthBar-inner"></div>
-        </div>
+    <div id="battleTextDiv">
 
+      <div id="battleText">
+
+        <p id="battleTextContent">A wild POLICE OFFICER appeared! Time to review your legal options...</p>
       </div>
-      <div class="right">
 
-        <div id="playerBattleOptions">
-          <span>AVAILABLE ATTACKS</span>
-          <hr>
-          <button onclick=""><i class="ri-sword-fill"></i> OBJECTION SLAM</button>
-          <button onclick=""><i class="ri-shield-fill"></i> LEGAL BINDING</button>
-          <button onclick=""><i class="ri-dice-fill"></i> SUMMON JURY</button>
+      <div id="playerOptionsMenu">
 
-        </div>
-
-      </div>
-    </div>
-
-    <div id="enemyBattleUI">
-
-      <div style="width:45%" class="right">
-
-        <p id="enemyHP">HP: 100</p>
-        <div id="enemyHealthBar-outer">
-          <div id="enemyHealthBar-inner"></div>
-        </div>
-
-      </div>
-      <div class="left">
-
-
+        <button id="playerAttackButton" onclick="playerAttack()"><i class="ri-auction-fill"></i> OBJECT</button>
+        <button id="playerFleeButton" onclick="playerFlee()"><i class="ri-run-fill"></i> RUN</button>
 
       </div>
 
@@ -611,6 +589,7 @@
       }
       );
       notifyPlayer('Welcome to SCAM CENTER TYCOON!');
+      beginBattleEvent();
     };
 
     var secondlyRate = 2500;
@@ -1109,54 +1088,54 @@
     }
 
 
-    
-// keyup event listener.
-// when the key is up, get the backgroundimage of player.
-// swap it out for a still image based on the direction the player is facing.
 
-document.addEventListener('keyup', function (event) {
-  if (event.key === 'ArrowUp') {
-    document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/back/back2.png')";
-  } else if (event.key === 'ArrowDown') {
-    document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/front/front2.png')";
-  } else if (event.key === 'ArrowLeft') {
-    document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/right/right2.png')";
-  } else if (event.key === 'ArrowRight') {
-    document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/left/left2.png')";
-  }
-});
+    // keyup event listener.
+    // when the key is up, get the backgroundimage of player.
+    // swap it out for a still image based on the direction the player is facing.
+
+    document.addEventListener('keyup', function (event) {
+      if (event.key === 'ArrowUp') {
+        document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/back/back2.png')";
+      } else if (event.key === 'ArrowDown') {
+        document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/front/front2.png')";
+      } else if (event.key === 'ArrowLeft') {
+        document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/right/right2.png')";
+      } else if (event.key === 'ArrowRight') {
+        document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/left/left2.png')";
+      }
+    });
 
 
 
-window.requestAnimFrame = (function() {
-    return window.requestAnimationFrame ||
+    window.requestAnimFrame = (function () {
+      return window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.ieRequestAnimationFrame ||
-        function(callback) {
-            window.setTimeout(callback, 1000 / 60);
+        function (callback) {
+          window.setTimeout(callback, 1000 / 60);
         };
-})();
+    })();
 
-let fpsElement = document.getElementById("fps");
+    let fpsElement = document.getElementById("fps");
 
-let frameCount = 0;
-let lastUpdateTime = Date.now();
-let fps = 0;
-let lastFps = null;
+    let frameCount = 0;
+    let lastUpdateTime = Date.now();
+    let fps = 0;
+    let lastFps = null;
 
-let render = function() {
-    // count the number of frames
-    frameCount++;
+    let render = function () {
+      // count the number of frames
+      frameCount++;
 
-    // get the current time
-    let now = Date.now();
+      // get the current time
+      let now = Date.now();
 
-    // calculate the time difference
-    let diff = now - lastUpdateTime;
+      // calculate the time difference
+      let diff = now - lastUpdateTime;
 
-    // if the time difference is greater than 1 second
-    if (diff > 1000) {
+      // if the time difference is greater than 1 second
+      if (diff > 1000) {
         // calculate the fps
         fps = frameCount / (diff / 1000);
 
@@ -1168,57 +1147,16 @@ let render = function() {
 
         // update the fps element only if the fps value has changed
         if (fps.toFixed(1) !== lastFps) {
-            fpsElement.innerText = fps.toFixed(0) + " FPS";
-            lastFps = fps.toFixed(0);
+          fpsElement.innerText = fps.toFixed(0) + " FPS";
+          lastFps = fps.toFixed(0);
         }
-    }
+      }
 
-    requestAnimFrame(render);
-};
-
-
-function spawnPoliceCars() {
-  // if the police.awareness property is greater than 0, spawn a police car.
-  if (police.awareness > 0) {
-    // create a police car
-// Assuming you have a function getRoadPath that returns an array of road positions
-var roadPath = getRoadPath();
-
-var policeCar = document.createElement('div');
-policeCar.classList.add('police-car');
-policeCar.style.left = roadPath[0].x + 'px';
-policeCar.style.top = roadPath[0].y + 'px';
-document.getElementById('world-map').appendChild(policeCar);
-
-var currentRoadIndex = 0;
-
-setInterval(function() {
-  currentRoadIndex++;
-  if (currentRoadIndex < roadPath.length) {
-    policeCar.style.left = roadPath[currentRoadIndex].x + 'px';
-    policeCar.style.top = roadPath[currentRoadIndex].y + 'px';
-  }
-}, 1000);
-  }
-}
+      requestAnimFrame(render);
+    };
 
 
-function getRoadPath() {
-  var roads = document.querySelectorAll('.road');
-  var roadPath = [];
-
-  roads.forEach(function(road) {
-    var rect = road.getBoundingClientRect();
-    roadPath.push({ x: rect.left, y: rect.top });
-  });
-
-  return roadPath;
-}
-
-
-      
   </script>
 </body>
 
 </html>
-
