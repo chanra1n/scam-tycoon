@@ -1052,6 +1052,7 @@
         document.getElementById('topbar').style.display = "none";
         document.getElementById('sidebar').style.display = "none";
         document.getElementById('crt-lines').style.opacity = "10%";
+        document.getElementById('crt-lines').style.zIndex = "10000";
         document.getElementById('fps').style.display = "none";
 
         setTimeout(function () {
@@ -1084,6 +1085,7 @@
   document.getElementById('fps').style.display = "block";
 
   document.getElementById('enemy_battle_sprite').style.opacity = "0";
+  document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_disappointed.png')";
   document.getElementById('enemy_battle_sprite').style.transform = "translate(-50%,-50%) scale(0.5)";
   document.getElementById('world-map').style.opacity = "100%";
   

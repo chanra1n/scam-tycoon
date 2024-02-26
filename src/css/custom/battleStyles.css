@@ -76,7 +76,7 @@
   left: 50%;
   transform: translate(-50%,-50%) scale(0.25);
   width: 50vh;
-  image-rendering: pixelated;
+  image-rendering: optimizeSpeed;
   transition: transform 1.5s ease-in-out, opacity 1.5s steps(5, end), filter 1.5s;
   transition-timing-function:cubic-bezier(0.8,0,0,1);
   filter: blur(2.5px) drop-shadow(5px 5px 0px #1a1a1a);
