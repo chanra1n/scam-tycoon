@@ -88,4 +88,3 @@ var observer = new IntersectionObserver(function(entries, observer) {
 elements.forEach(element => {
   observer.observe(element);
 });
-

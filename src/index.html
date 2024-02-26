@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/custom/crt.css">
   <link rel="stylesheet" href="css/custom/vig.css">
   <link rel="stylesheet" href="css/custom/filters.css">
+  <link rel="stylesheet" href="css/custom/lines.css">
   <script src='js/lib/panzoom.js'></script>
   <script src="js/lib/popper.js"></script>
   <script src="js/lib/tippy.js"></script>
@@ -49,6 +50,10 @@
       background-color: black;
       width: 100vh;
       overflow: hidden;
+      background-image: url("sprites/street.gif");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     }
 
     body {
@@ -461,8 +466,25 @@
 
   <div id="battleFrame">
 
+    <div id="light">
+      <div id="lineh1"></div>
+      <div id="lineh2"></div>
+      <div id="lineh3"></div>
+      <div id="lineh4"></div>
+      <div id="lineh5"></div>
+      <div id="lineh6"></div>
+      <div id="lineh7"></div>
+      <div id="lineh8"></div>
+      <div id="lineh9"></div>
+      <div id="lineh10"></div>
+      <div id="lineh11"></div>
+      <div id="lineh12"></div>
+      <div id="lineh13"></div>
+      <div id="lineh14"></div>
+      <div id="lineh15"></div>
+    </div>
 
-
+    <div id="enemy_battle_sprite" src="sprites/officer_approaches.png"></div>
 
     <div id="battleTextDiv">
 
@@ -474,7 +496,7 @@
       <div id="playerOptionsMenu">
 
         <button id="playerAttackButton" onclick="playerAttack()"><i class="ri-auction-fill"></i> OBJECT</button>
-        <button id="playerFleeButton" onclick="playerFlee()"><i class="ri-run-fill"></i> RUN</button>
+        <button id="playerFleeButton" onclick="endBattleEvent()"><i class="ri-run-fill"></i> RUN</button>
 
       </div>
 
@@ -589,7 +611,7 @@
       }
       );
       notifyPlayer('Welcome to SCAM CENTER TYCOON!');
-      beginBattleEvent();
+      //beginBattleEvent();
     };
 
     var secondlyRate = 2500;
@@ -1018,16 +1040,75 @@
 
     function beginBattleEvent() {
       killTime();
-
       document.getElementById('battleFrame').style.top = "0";
+      document.getElementById('battleFrame').style.filter = "none";
+      document.getElementById('battleFrame').style.transform = "scale(1)";
+      document.getElementById('battleFrame').style.opacity = "100%";
+      document.getElementById('battleFrame').style.pointerEvents = "auto";
       document.getElementById('weather_filter').style.display = "none";
       document.getElementById('fog_filter').style.display = "none";
       document.getElementById('vignette').style.display = "none";
       document.getElementById('world-map').style.filter = "blur(10px)";
-      document.getElementById('topbar').style.display = "none";
-      document.getElementById('sidebar').style.display = "none";
-      document.getElementById('crt-lines').style.opacity = "10%";
-      document.getElementById('fps').style.display = "none";
+        document.getElementById('topbar').style.display = "none";
+        document.getElementById('sidebar').style.display = "none";
+        document.getElementById('crt-lines').style.opacity = "10%";
+        document.getElementById('fps').style.display = "none";
+
+        setTimeout(function () {
+          document.getElementById('enemy_battle_sprite').style.opacity = "100%";
+          policeApproachingAnimation();
+         
+          document.getElementById('world-map').style.opacity = "50%";
+          document.body.style.backgroundImage = 'url("sprites/street.gif")';
+
+        }, 500);
+
+        document.getElementById('battleTextDiv').style.opacity = "100%";
+        document.getElementById('battleTextDiv').style.pointerEvents = "auto";
+
+      }
+
+
+      function endBattleEvent() {
+  // Assuming the original styles are the opposite of what's set in beginBattleEvent
+  document.getElementById('battleFrame').style.top = "";
+  document.getElementById('battleFrame').style.opacity = "0";
+  document.getElementById('battleFrame').style.pointerEvents = "none";
+  document.getElementById('weather_filter').style.display = "block";
+  document.getElementById('fog_filter').style.display = "block";
+  document.getElementById('vignette').style.display = "block";
+  document.getElementById('world-map').style.filter = "none";
+  document.getElementById('topbar').style.display = "block";
+  document.getElementById('sidebar').style.display = "block";
+  document.getElementById('crt-lines').style.opacity = "0%";
+  document.getElementById('fps').style.display = "block";
+
+  document.getElementById('enemy_battle_sprite').style.opacity = "0";
+  document.getElementById('enemy_battle_sprite').style.transform = "translate(-50%,-50%) scale(0.5)";
+  document.getElementById('world-map').style.opacity = "100%";
+  
+  document.body.style.backgroundImage = '';
+
+  document.getElementById('battleTextDiv').style.opacity = "0";
+  document.getElementById('battleTextDiv').style.pointerEvents = "none";
+}
+
+
+    function policeApproachingAnimation() {
+      document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_approaches.png')";
+      document.getElementById('enemy_battle_sprite').style.transform = "translate(-50%,-50%) scale(1.1)";
+      document.getElementById('enemy_battle_sprite').style.filter = "blur(0px) drop-shadow(15px 15px 0px #1a1a1a)";
+      setTimeout(function () {
+        document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_approaches_l.png')";
+
+        setTimeout(function () {
+          document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_approaches.png')";
+        }, 250);
+
+
+
+      }, 250);
+
     }
 
 

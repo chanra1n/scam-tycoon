@@ -1,13 +1,19 @@
 #battleFrame {
-  top:150%;
+  transform:scale(1.5);
+  top:0%;
   background-color: #00800050;
   position: fixed;
-  top: 0;
-  left: 0;
+  left: 0%;
   width: 100%;
   height: 100%;
   z-index: 10;
+  opacity:0%;
   padding:15px;
+  pointer-events:none;
+  transition: all 1.5s;
+  box-sizing: border-box;
+  transition-timing-function:cubic-bezier(0.8,0,0,1);
+  filter:blur(5px);
 }
 
 #battleTextDiv {
@@ -17,6 +23,8 @@
   background-color: #1a1a1a;
   box-sizing: border-box;
   height: 20%;
+  opacity:0%;
+  pointer-events: none;
 }
 
 #battleText {
@@ -26,7 +34,7 @@
   font-family: 'pst';
   padding: 10px;
   margin: 10px;
-  width: 75%;
+  width: 70%;
   height: -webkit-fill-available;
 }
 
@@ -59,5 +67,52 @@
 
 #playerOptionsMenu button i {
   font-weight: 900;
-  font-size: 13px;
+  font-size: 15px;
+}
+
+#enemy_battle_sprite {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) scale(0.25);
+  width: 50vh;
+  image-rendering: pixelated;
+  transition: transform 1.5s ease-in-out, opacity 1.5s steps(5, end), filter 1.5s;
+  transition-timing-function:cubic-bezier(0.8,0,0,1);
+  filter: blur(2.5px) drop-shadow(5px 5px 0px #1a1a1a);
+  opacity: 0%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  animation-fill-mode: forwards;
+}
+
+@keyframes scaleAnimation {
+  0% {
+    transition: background 0s!important;
+    opacity:0%;
+    transform: translate(-50%,-50%) scale(0.75);
+    background-image:url('../../sprites/officer_approaches.png');
+  }
+  50% {
+    transition: background 0s!important;
+    opacity:50%;
+    transform: translate(-50%,-50%) scale(1.0);
+    background-image:url('../../sprites/officer_approaches_l.png');
+  }
+  100% {
+    transition: background 0s!important;
+    opacity:100%;
+    transform: translate(-50%,-50%) scale(1.25);
+    background-image:url('../../sprites/officer_approaches.png');
+  }
+}
+
+
+
+#player_battle_sprite {
+
 }

@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/chanrain/Documents/scam_tycoon",
+      "program": "/Users/chanrain/Documents/scam_tycoon/build/Debug/outDebug"
+    }
+  ]
+}

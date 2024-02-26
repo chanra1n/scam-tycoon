@@ -1,0 +1,155 @@
+#light{
+    top: 25%;
+    width: 250%;
+    height: 100%;
+    position: absolute;
+    left: -50%;
+    opacity: 15%;
+    transform: rotate(45deg);
+}
+
+#lineh1{
+    position: absolute;
+    left: 0;
+    height: 5px;
+    background: white;
+    animation: lineH 4s 5s infinite linear;
+}
+
+#lineh2{
+    position: absolute;
+    left: 0;
+    top: 7.5%;
+    height: 5px;
+    background: white;
+    animation: lineH 5s 0.5s infinite linear;
+}
+
+#lineh3{
+    position: absolute;
+    left: 0;
+    top: 15%;
+    height: 5px;
+    background: white;
+    animation: lineH 5s 2s infinite linear;
+}
+
+#lineh4{
+    position: absolute;
+    right: 0;
+    top: 22.5%;
+    height: 5px;
+    background: white;
+    animation: lineH 5s 1s infinite linear;
+}
+
+#lineh5{
+    position: absolute;
+    left: 0;
+    top: 30%;
+    height: 5px;
+    background: white;
+    animation: lineH 5s 4s infinite linear;
+}
+
+#lineh6{
+    position: absolute;
+    right: 0;
+    top: 37.5%;
+    height: 5px;
+    background: white;
+    animation: lineH 4s 1s infinite linear;
+}
+
+#lineh7{
+    position: absolute;
+    right: 0;
+    top: 45%;
+    height: 5px;
+    background: white;
+    animation: lineH 4s 0s infinite linear;
+}
+
+#lineh8{
+    position: absolute;
+    left: 0;
+    top: 52.5%;
+    height: 5px;
+    background: white;
+    animation: lineH 4s 1.5s infinite linear;
+}
+
+#lineh9{
+    position: absolute;
+    left: 0;
+    top: 60%;
+    height: 5px;
+    background: white;
+    animation: lineH 5s 2s infinite linear;
+}
+
+#lineh10{
+    position: absolute;
+    right: 0;
+    top: 67.5%;   
+    height: 5px;
+    background: white;
+    animation: lineH 4s 3s infinite linear;
+}
+
+#lineh11{
+    position: absolute;
+    right: 0;
+    top: 75%;
+    height: 5px;
+    background: white;
+    animation: lineH 4s 1s infinite linear;
+}
+
+#lineh12{
+    position: absolute;
+    right: 0;
+    top: 82.5%;
+    height: 5px;
+    background: white;
+    animation: lineH 6s 1s infinite linear;
+}
+
+#lineh13{
+    position: absolute;
+    right: 0;
+    top: 90%;
+    height: 5px;
+    background: white;
+    animation: lineH 7s 1s infinite linear;
+}
+
+#lineh14{
+    position: absolute;
+    right: 0;
+    top: 97.5%;
+    height: 5px;
+    background: white;
+    animation: lineH 4s 1s infinite linear;
+}
+
+#lineh15{
+    position: absolute;
+    right: 0;
+    top: 105%;
+    height: 5px;
+    background: white;
+    animation: lineH 6s 1s infinite linear;
+}
+
+@keyframes lineH{
+    0%{
+        width: 0%;
+        filter:hue-rotate(0deg);
+    }
+    100%{
+        width: 95%;
+        opacity: 0;
+        filter:hue-rotate(180deg);
+    }
+}
