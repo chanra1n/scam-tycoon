@@ -21,8 +21,8 @@
   <script src="js/lib/tippy.js"></script>
   <script src="js/lib/jquery.js"></script>
   <script src="js/lib/jquery-ui.js"></script>
+  <script src="js/lib/typed.js"></script>
   <style>
-    /*add my custom fonts*/
 
     @font-face {
       font-family: "gamer";
@@ -167,6 +167,28 @@
       vertical-align: middle;
       transform: scale(1.1);
     }
+
+#bannerText {
+  position: absolute;
+    top: 50%;
+    left: -150%;
+    transform: translate(-50%,-50%);
+    z-index: 10000;
+    font-size: 15px;
+    font-family: 'pst';
+    text-align: center;
+    background-color: black;
+    width: 100%;
+    padding: 20px;
+    color: #a1a1a1;
+    box-shadow: 7.5px 7.5px 0px #a1a1a1;
+}
+
+#typed-cursor, .typed-cursor {
+  display:none!important;
+}
+
+
   </style>
   <link rel="stylesheet" href="css/custom/menuBarDropdownItemStyles.css">
   <link rel="stylesheet" href="css/custom/menuItemStyles.css">
@@ -184,6 +206,7 @@
 
 <body>
   <span id="fps"></span>
+  <span id = "bannerText">TIME TO FILE YOUR TAXES!</span>
   <div id="crt-lines" style="opacity:10%"></div>
   <div id="vignette" style="opacity:40%"></div>
   <div id="weather_filter" class="weather_filter back-row-toggle splat-toggle">
@@ -461,9 +484,6 @@
 
   </div>
 
-
-
-
   <div id="battleFrame">
 
     <div id="light">
@@ -488,14 +508,14 @@
 
     <div id="battleTextDiv">
 
-      <div id="battleText">
+      <div id="battleText" class = "wrapper">
 
-        <p id="battleTextContent">A wild POLICE OFFICER appeared! Time to review your legal options...</p>
+        <p id="battleTextContent" class = "typing"></p>
       </div>
 
       <div id="playerOptionsMenu">
 
-        <button id="playerAttackButton" onclick="playerAttack()"><i class="ri-auction-fill"></i> OBJECT</button>
+        <button id="playerAttackButton" onclick="beginBattleAttack()"><i class="ri-auction-fill"></i> OBJECT</button>
         <button id="playerFleeButton" onclick="endBattleEvent()"><i class="ri-run-fill"></i> RUN</button>
 
       </div>
@@ -581,6 +601,10 @@
     var police = {
       aggression: 1,
       awareness: 1,
+      hp: 0,
+      attack: 0,
+      defense: 0,
+      speed: 0
     }
 
     var payrollTaxFraudCommittedThisYear = 0;
@@ -852,14 +876,9 @@
       }
 
       // log the distances array to the console
-      console.log(distances);
+      //console.log(distances);
 
-      // Use your judgment to determine if the player has decided to avoid police presence or be near them based on the distances array.
-      // You can add your logic here to analyze the distances and make a decision.
-      // For example, you can check if the minimum distance is below a certain threshold to determine if the player is near police presence.
-      // Alternatively, you can check if all distances are above a certain threshold to determine if the player is avoiding police presence.
-      // Modify the code below to implement your logic.
-
+     
       var minDistance = Math.min(...distances);
       var maxDistance = Math.max(...distances);
 
@@ -1040,6 +1059,7 @@
 
     function beginBattleEvent() {
       killTime();
+      displayText('A wild POLICE OFFICER appeared! Time to review your legal options...');
       document.getElementById('battleFrame').style.top = "0";
       document.getElementById('battleFrame').style.filter = "none";
       document.getElementById('battleFrame').style.transform = "scale(1)";
@@ -1071,6 +1091,10 @@
 
 
       function endBattleEvent() {
+        document.getElementById('battleTextDiv').style.pointerEvents = "none";
+        displayText('You ran away...');
+        setTimeout(function(){
+
   // Assuming the original styles are the opposite of what's set in beginBattleEvent
   document.getElementById('battleFrame').style.top = "";
   document.getElementById('battleFrame').style.opacity = "0";
@@ -1089,12 +1113,51 @@
   document.getElementById('enemy_battle_sprite').style.transform = "translate(-50%,-50%) scale(0.5)";
   document.getElementById('world-map').style.opacity = "100%";
   
+  
   document.body.style.backgroundImage = '';
 
   document.getElementById('battleTextDiv').style.opacity = "0";
   document.getElementById('battleTextDiv').style.pointerEvents = "none";
+        },5000);
 }
 
+    function beginBattleAttack(){
+
+      if (player.lawyers <= 0){
+        document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_disappointed.png')";
+        document.getElementById('battleTextDiv').style.pointerEvents = "none";
+        displayText('You have no LAWYERS to represent you!');
+        setTimeout(function(){
+          endBattleEvent();
+        }, 5000);
+      } else {
+        displayText('"You are being detained!"');
+        document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_rest.png')";
+        initBattle();
+      }
+
+    }
+
+    function initBattle(){
+      document.getElementById('enemy_battle_sprite').style.left = "150%";
+      document.getElementById('enemy_attack_sprite').style.right = "0";
+      police.hp = police.awareness * 10;
+      police.attack = police.aggression * 5;
+
+      var playerAttack = player.lawyers * 5;
+
+      console.log('Player attack: ' + playerAttack);
+      console.log('Police attack: ' + police.attack);
+      console.log('Police hp: ' + police.hp);
+    }
+
+    function displayText(text) {
+      document.getElementById('battleTextContent').innerHTML = "";
+      var typed = new Typed('#battleTextContent', {
+      strings: [text],
+      typeSpeed: 5,
+    });
+    }
 
     function policeApproachingAnimation() {
       document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_approaches.png')";

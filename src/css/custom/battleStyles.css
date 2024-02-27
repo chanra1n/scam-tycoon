@@ -65,6 +65,11 @@
   filter: drop-shadow(-5px 5px 0px #000000);
 }
 
+#playerOptionsMenu button:hover {
+  background-color: #a1a1a1;
+  
+}
+
 #playerOptionsMenu button i {
   font-weight: 900;
   font-size: 15px;
