@@ -95,6 +95,22 @@
       filter:grayscale(100%)
     }
 
+    .road-end-top {
+      background-image: url('../../sprites/road_end_top.png');
+    }
+
+    .road-end-bottom {
+      background-image: url('../../sprites/road_end_bottom.png');
+    }
+
+    .road-end-left {
+      background-image: url('../../sprites/road_end_left.png');
+    }
+
+    .road-end-right {
+      background-image: url('../../sprites/road_end_right.png');
+    }
+
 
     @keyframes pulse {
       0% {

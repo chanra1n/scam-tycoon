@@ -11,7 +11,7 @@ worldMap.addEventListener('mouseout', function() {
 
 var panZoomController = panzoom(worldMap, {
   bounds: true,
-  maxZoom: 3.9,
+  maxZoom: 3.95,
   minZoom: 1,
   boundsPadding: 1,
   beforeWheel: function(e) {

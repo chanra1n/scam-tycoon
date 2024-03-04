@@ -228,31 +228,6 @@ function secondlyUpdate() {
   }
 
 
-
-  if (player.money < 75000) {
-    document.getElementById('hire_10_lawyers_button').style.opacity = "50%";
-    document.getElementById('hire_10_lawyers_button').style.pointerEvents = "none";
-  } else {
-    document.getElementById('hire_10_lawyers_button').style.opacity = "100%";
-    document.getElementById('hire_10_lawyers_button').style.pointerEvents = "auto";
-  }
-
-  if (player.money < 375000) {
-    document.getElementById('hire_50_lawyers_button').style.opacity = "50%";
-    document.getElementById('hire_50_lawyers_button').style.pointerEvents = "none";
-  } else {
-    document.getElementById('hire_50_lawyers_button').style.opacity = "100%";
-    document.getElementById('hire_50_lawyers_button').style.pointerEvents = "auto";
-  }
-
-  if (player.money < 750000) {
-    document.getElementById('hire_100_lawyers_button').style.opacity = "50%";
-    document.getElementById('hire_100_lawyers_button').style.pointerEvents = "none";
-  } else {
-    document.getElementById('hire_100_lawyers_button').style.opacity = "100%";
-    document.getElementById('hire_100_lawyers_button').style.pointerEvents = "auto";
-  }
-
   var totalToPay = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));
 
   if (totalToPay == 0) {

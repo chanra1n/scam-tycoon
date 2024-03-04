@@ -23,7 +23,6 @@
   <script src="js/lib/jquery-ui.js"></script>
   <script src="js/lib/typed.js"></script>
   <style>
-
     @font-face {
       font-family: "gamer";
       src: url("fonts/gamer.ttf");
@@ -51,9 +50,9 @@
       width: 100vh;
       overflow: hidden;
       background-image: url("sprites/street.gif");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
 
     body {
@@ -84,7 +83,7 @@
       background-size: 100%;
       background-repeat: no-repeat;
       image-rendering: optimizeSpeed;
-      transition: opacity 0.25s linear;
+      transition: opacity 0.25s ease-in-out;
       background-color: #a1a1a1 !important;
 
     }
@@ -168,27 +167,29 @@
       transform: scale(1.1);
     }
 
-#bannerText {
-  position: absolute;
-    top: 50%;
-    left: -150%;
-    transform: translate(-50%,-50%);
-    z-index: 10000;
-    font-size: 15px;
-    font-family: 'pst';
-    text-align: center;
-    background-color: black;
-    width: 100%;
-    padding: 20px;
-    color: #a1a1a1;
-    box-shadow: 7.5px 7.5px 0px #a1a1a1;
-}
+    #bannerText {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scaleY(0);
+      z-index: 10000;
+      font-size: 15px;
+      font-family: 'pst';
+      text-align: center;
+      background-color: black;
+      width: 100%;
+      padding: 20px;
+      color: #a1a1a1;
+      box-shadow: 7.5px 7.5px 0px #a1a1a1;
+      transition: all 0.5s;
+      transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
+      opacity: 0%;
+    }
 
-#typed-cursor, .typed-cursor {
-  display:none!important;
-}
-
-
+    #typed-cursor,
+    .typed-cursor {
+      display: none !important;
+    }
   </style>
   <link rel="stylesheet" href="css/custom/menuBarDropdownItemStyles.css">
   <link rel="stylesheet" href="css/custom/menuItemStyles.css">
@@ -206,7 +207,7 @@
 
 <body>
   <span id="fps"></span>
-  <span id = "bannerText">TIME TO FILE YOUR TAXES!</span>
+  <span id="bannerText"></span>
   <div id="crt-lines" style="opacity:10%"></div>
   <div id="vignette" style="opacity:40%"></div>
   <div id="weather_filter" class="weather_filter back-row-toggle splat-toggle">
@@ -217,6 +218,7 @@
   <div id="player"></div>
 
   <div id="sidebar">
+   
     <i id="help-icon" class="sidebar-icon ri-questionnaire-fill"></i>
     <div id="help-dropdown" uk-dropdown>
       <h1 class="selectascam">NEED SOME HELP?</h1>
@@ -229,14 +231,83 @@
       <button class="guide_container"><i class="ri-hand-coin-fill"></i> SCAM TYPES</button>
     </div>
 
-    <i id="radio-icon" class="sidebar-icon ri-radio-fill"></i>
-    <div id="radio-dropdown" uk-dropdown>
-      <iframe src="https://lofi.cafe"></iframe>
-      <a id="radio-link" href="https://lofi.cafe" target="_blank">lofi.cafe</a>
-    </div>
+    <style>
+      #lawyer-dropdown {
+        width: 40vw!important;
+    max-width: unset!important;
+      }
+
+      #lawyer-dropdown h2 {
+        font-family: 'gamer';
+        font-size: 15px;
+        margin: 0px;
+        padding: 0px;
+        margin-bottom: -5px;
+    margin-top: 2.5px;
+      }
+
+      .party-slot {
+        width: 100%;
+    border: 1.5px dashed green;
+    text-align: center;
+    box-sizing: border-box;
+    margin-left: 0px;
+    margin-right: 0px;
+    font-family: 'pst';
+    font-size: 7.5px;
+    padding: 10px;
+    opacity: 50%;
+    margin-bottom:2.5px;
+    margin-top:7.5px;
+      }
+
+      #lawyer-dropdown button {
+        border: none;
+    font-family: 'pst';
+    padding: 7.5px;
+    font-size: 9px;
+    width: 100%;
+    background-color: black!important;
+    color: green!important;
+    border: 2.5px solid green;
+      }
+
+      #current_lawyer_count {
+
+      }
+    </style>
+
+    <i id = "lawyer-icon" class="sidebar-icon ri-scales-fill"></i>
+    <div id="lawyer-dropdown" uk-dropdown>
+      <span style="
+    font-size: 18px;
+    margin: -5px;
+    padding: 0px;
+    display: block;
+    margin-left: 0px;
+    margin-right: 0px;
+      ">LEGAL TEAM</span>
+
+      <hr class="selectascamhr">
+
+      <span class="datapointspan" id="lawyer_blurb" style="font-family:'pst'">ADD LAWYERS TO YOUR LEGAL TEAM, THEY COULD COME IN HANDY WITH THE LAW!</span>
+      
+      
+        <button class="hire" id="hire_1_lawyer_button" onclick="hireExtraWorkers('lawyer', 1)">HIRE LAWYERS</button>
+    
+
+      <div id = "lawyer-party">
+        <h2>YOUR TEAM</h2>
+        <div class = "party-slot">[SLOT EMPTY]</div>
+        <div class = "party-slot">[SLOT EMPTY]</div>
+        <div class = "party-slot">[SLOT EMPTY]</div>
+        <div class = "party-slot">[SLOT EMPTY]</div>
+        <div class = "party-slot">[SLOT EMPTY]</div>
+        <div class = "party-slot">[SLOT EMPTY]</div>
+      </div>
+      </div>
 
     <i id="mail-icon" class="sidebar-icon ri-mail-fill"></i>
-
     <div id="mail-dropdown" onmouseenter="document.getElementById('mail-icon').style.animation = 'none'" uk-dropdown>
       <span style="
       font-size: 18px;
@@ -427,7 +498,6 @@
 
           <h2 id="current_employee_count">EMPLOYEES: <span>0</span></h2>
           <h2 id="current_intern_count">INTERNS: <span>0</span></h2>
-          <h2 id="current_lawyer_count">LAWYERS: <span>0</span></h2>
 
         </div>
 
@@ -457,17 +527,7 @@
         <button class="fire" id="fire_100_interns_button" onclick="fireExtraWorkers('intern', 100)">-100</button>
         <br>
 
-        <span style="display:inline-block;font-size:16px;">HIRE LAWYERS</span>
-        <span class="datapointspan wages" style="font-family:'pst';font-size:6.5px">$7.5K/mo.</span>
-        <hr class="selectascamhr">
-        <button class="hire" id="hire_10_lawyers_button" onclick="hireExtraWorkers('lawyer', 10)">+10</button>
-        <button class="hire" id="hire_50_lawyers_button" onclick="hireExtraWorkers('lawyer', 50)">+50</button>
-        <button class="hire" id="hire_100_lawyers_button" onclick="hireExtraWorkers('lawyer', 100)">+100</button>
-        <br>
-        <button class="fire" id="fire_10_lawyers_button" onclick="fireExtraWorkers('lawyer', 10)">-10</button>
-        <button class="fire" id="fire_50_lawyers_button" onclick="fireExtraWorkers('lawyer', 50)">-50</button>
-        <button class="fire" id="fire_100_lawyers_button" onclick="fireExtraWorkers('lawyer', 100)">-100</button>
-
+      
       </div>
 
 
@@ -484,45 +544,7 @@
 
   </div>
 
-  <div id="battleFrame">
-
-    <div id="light">
-      <div id="lineh1"></div>
-      <div id="lineh2"></div>
-      <div id="lineh3"></div>
-      <div id="lineh4"></div>
-      <div id="lineh5"></div>
-      <div id="lineh6"></div>
-      <div id="lineh7"></div>
-      <div id="lineh8"></div>
-      <div id="lineh9"></div>
-      <div id="lineh10"></div>
-      <div id="lineh11"></div>
-      <div id="lineh12"></div>
-      <div id="lineh13"></div>
-      <div id="lineh14"></div>
-      <div id="lineh15"></div>
-    </div>
-
-    <div id="enemy_battle_sprite" src="sprites/officer_approaches.png"></div>
-
-    <div id="battleTextDiv">
-
-      <div id="battleText" class = "wrapper">
-
-        <p id="battleTextContent" class = "typing"></p>
-      </div>
-
-      <div id="playerOptionsMenu">
-
-        <button id="playerAttackButton" onclick="beginBattleAttack()"><i class="ri-auction-fill"></i> OBJECT</button>
-        <button id="playerFleeButton" onclick="endBattleEvent()"><i class="ri-run-fill"></i> RUN</button>
-
-      </div>
-
-    </div>
-
-  </div>
+  <iframe id = "battleFrame"></iframe>
 
   <div id="world-map" class="grid-container"></div>
 
@@ -581,6 +603,56 @@
       modifierRate: 0,
       interns: 0,
       lawyers: 0,
+      lawyerParty: {
+        lawyer1: {
+          name: "Lawyer1",
+          health: 100,
+          attack: 10,
+          defense: 5,
+          speed: 5,
+          luck: 5
+        },
+        lawyer2: {
+          name: "Lawyer2",
+          health: 100,
+          attack: 10,
+          defense: 5,
+          speed: 5,
+          luck: 5
+        },
+        lawyer3: {
+          name: "Lawyer3",
+          health: 100,
+          attack: 10,
+          defense: 5,
+          speed: 5,
+          luck: 5
+        },
+        lawyer4: {
+          name: "Lawyer4",
+          health: 100,
+          attack: 10,
+          defense: 5,
+          speed: 5,
+          luck: 5
+        },
+        lawyer5: {
+          name: "Lawyer5",
+          health: 100,
+          attack: 10,
+          defense: 5,
+          speed: 5,
+          luck: 5
+        },
+        lawyer6: {
+          name: "Lawyer6",
+          health: 100,
+          attack: 10,
+          defense: 5,
+          speed: 5,
+          luck: 5
+        },
+      },
       spendingLimit: 0,
       creditScore: 600,
       interestRate: 0,
@@ -655,24 +727,38 @@
       return percentage;
     }
 
+    function writeBanner(text) {
+      document.getElementById('bannerText').innerHTML = text;
+    }
+
 
     function beginTaxEvent() {
       killTime();
 
-      payrollTaxFraudCommittedThisYear = 0;
-      accountingFraudCommittedThisYear = 0;
-      nonDisclosureFraudCommittedThisYear = 0;
-      propertyTaxFraudCommittedThisYear = 0;
-
-      document.getElementById('worker-tax-count').placeholder = player.employees + player.interns + player.lawyers;
-      document.getElementById('savings-tax-count').placeholder = player.money;
-      document.getElementById('otherSavings-tax-count').placeholder = player.datapoints;
-      document.getElementById('location-tax-count').placeholder = player.buildings;
-
+      document.body.style.pointerEvents = "none";
+      writeBanner('TIME TO FILE YOUR TAXES!');
       document.getElementById('world-map').style.filter = "blur(10px)";
-      document.getElementById('user-desk').style.bottom = "-15%";
-      document.getElementById('user-desk').style.pointerEvents = "auto";
-      document.getElementById('sidebar').style.display = "none";
+
+      setTimeout(function () {
+
+        document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
+        document.getElementById('bannerText').style.opacity = "0%";
+
+        payrollTaxFraudCommittedThisYear = 0;
+        accountingFraudCommittedThisYear = 0;
+        nonDisclosureFraudCommittedThisYear = 0;
+        propertyTaxFraudCommittedThisYear = 0;
+
+        document.getElementById('worker-tax-count').placeholder = player.employees + player.interns + player.lawyers;
+        document.getElementById('savings-tax-count').placeholder = player.money;
+        document.getElementById('otherSavings-tax-count').placeholder = player.datapoints;
+        document.getElementById('location-tax-count').placeholder = player.buildings;
+
+        document.getElementById('user-desk').style.bottom = "-15%";
+        document.getElementById('user-desk').style.pointerEvents = "auto";
+        document.getElementById('sidebar').style.display = "none";
+        document.body.style.pointerEvents = "auto";
+      }, 2500);
     }
 
 
@@ -878,7 +964,7 @@
       // log the distances array to the console
       //console.log(distances);
 
-     
+
       var minDistance = Math.min(...distances);
       var maxDistance = Math.max(...distances);
 
@@ -1058,124 +1144,38 @@
     }
 
     function beginBattleEvent() {
+      document.getElementById('battleFrame').src = `
+      battle.html?playerName=John&l1H=100&l1A=50&l1D=30&l1S=20&l1L=10&l2H=90&l2A=45&l2D=35&l2S=25&l2L=15&l3H=80&l3A=40&l3D=40&l3S=30&l3L=20&l4H=70&l4A=35&l4D=45&l4S=35&l4L=25&l5H=60&l5A=30&l5D=50&l5S=40&l5L=30&l6H=50&l6A=25&l6D=55&l6S=45&l6L=35&pH=200&pA=100&pD=100&pS=100&pL=100
+
+      `;
       killTime();
-      displayText('A wild POLICE OFFICER appeared! Time to review your legal options...');
-      document.getElementById('battleFrame').style.top = "0";
-      document.getElementById('battleFrame').style.filter = "none";
-      document.getElementById('battleFrame').style.transform = "scale(1)";
-      document.getElementById('battleFrame').style.opacity = "100%";
-      document.getElementById('battleFrame').style.pointerEvents = "auto";
-      document.getElementById('weather_filter').style.display = "none";
-      document.getElementById('fog_filter').style.display = "none";
-      document.getElementById('vignette').style.display = "none";
+
+      document.body.style.pointerEvents = "none";
+      writeBanner('HEY! STOP RIGHT THERE!');
       document.getElementById('world-map').style.filter = "blur(10px)";
-        document.getElementById('topbar').style.display = "none";
-        document.getElementById('sidebar').style.display = "none";
-        document.getElementById('crt-lines').style.opacity = "10%";
-        document.getElementById('crt-lines').style.zIndex = "10000";
-        document.getElementById('fps').style.display = "none";
 
-        setTimeout(function () {
-          document.getElementById('enemy_battle_sprite').style.opacity = "100%";
-          policeApproachingAnimation();
-         
-          document.getElementById('world-map').style.opacity = "50%";
-          document.body.style.backgroundImage = 'url("sprites/street.gif")';
+      document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(1)";
+      document.getElementById('bannerText').style.opacity = "100%";
 
-        }, 500);
-
-        document.getElementById('battleTextDiv').style.opacity = "100%";
-        document.getElementById('battleTextDiv').style.pointerEvents = "auto";
-
-      }
-
-
-      function endBattleEvent() {
-        document.getElementById('battleTextDiv').style.pointerEvents = "none";
-        displayText('You ran away...');
-        setTimeout(function(){
-
-  // Assuming the original styles are the opposite of what's set in beginBattleEvent
-  document.getElementById('battleFrame').style.top = "";
-  document.getElementById('battleFrame').style.opacity = "0";
-  document.getElementById('battleFrame').style.pointerEvents = "none";
-  document.getElementById('weather_filter').style.display = "block";
-  document.getElementById('fog_filter').style.display = "block";
-  document.getElementById('vignette').style.display = "block";
-  document.getElementById('world-map').style.filter = "none";
-  document.getElementById('topbar').style.display = "block";
-  document.getElementById('sidebar').style.display = "block";
-  document.getElementById('crt-lines').style.opacity = "0%";
-  document.getElementById('fps').style.display = "block";
-
-  document.getElementById('enemy_battle_sprite').style.opacity = "0";
-  document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_disappointed.png')";
-  document.getElementById('enemy_battle_sprite').style.transform = "translate(-50%,-50%) scale(0.5)";
-  document.getElementById('world-map').style.opacity = "100%";
-  
-  
-  document.body.style.backgroundImage = '';
-
-  document.getElementById('battleTextDiv').style.opacity = "0";
-  document.getElementById('battleTextDiv').style.pointerEvents = "none";
-        },5000);
-}
-
-    function beginBattleAttack(){
-
-      if (player.lawyers <= 0){
-        document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_disappointed.png')";
-        document.getElementById('battleTextDiv').style.pointerEvents = "none";
-        displayText('You have no LAWYERS to represent you!');
-        setTimeout(function(){
-          endBattleEvent();
-        }, 5000);
-      } else {
-        displayText('"You are being detained!"');
-        document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_rest.png')";
-        initBattle();
-      }
-
-    }
-
-    function initBattle(){
-      document.getElementById('enemy_battle_sprite').style.left = "150%";
-      document.getElementById('enemy_attack_sprite').style.right = "0";
-      police.hp = police.awareness * 10;
-      police.attack = police.aggression * 5;
-
-      var playerAttack = player.lawyers * 5;
-
-      console.log('Player attack: ' + playerAttack);
-      console.log('Police attack: ' + police.attack);
-      console.log('Police hp: ' + police.hp);
-    }
-
-    function displayText(text) {
-      document.getElementById('battleTextContent').innerHTML = "";
-      var typed = new Typed('#battleTextContent', {
-      strings: [text],
-      typeSpeed: 5,
-    });
-    }
-
-    function policeApproachingAnimation() {
-      document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_approaches.png')";
-      document.getElementById('enemy_battle_sprite').style.transform = "translate(-50%,-50%) scale(1.1)";
-      document.getElementById('enemy_battle_sprite').style.filter = "blur(0px) drop-shadow(15px 15px 0px #1a1a1a)";
       setTimeout(function () {
-        document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_approaches_l.png')";
 
-        setTimeout(function () {
-          document.getElementById('enemy_battle_sprite').style.backgroundImage = "url('sprites/officer_approaches.png')";
-        }, 250);
+        document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
+        document.getElementById('bannerText').style.opacity = "0%";
+        document.getElementById('battleFrame').style.opacity = "100%";
+        document.getElementById('battleFrame').style.pointerEvents = "auto";
 
-
-
-      }, 250);
+      }, 2500);
 
     }
 
+    function endBattleEvent() {
+      document.getElementById('battleFrame').style.pointerEvents = "none";
+      document.getElementById('battleFrame').style.opacity = "0%";
+      setTimeout(function () {
+        document.getElementById('world-map').style.filter = "none";
+
+      }, 2500);
+    }
 
     VANTA.FOG({
       el: "#fog_filter",
@@ -1300,6 +1300,9 @@
 
       requestAnimFrame(render);
     };
+
+
+
 
 
   </script>

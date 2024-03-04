@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/custom/lines.css">
+    <link rel="stylesheet" href="css/lib/remixicon.css" />
+    <title>Document</title>
+</head>
+<body>
+    
+
+<div id = "battleFrame">
+
+<div id = "light">
+
+<div id = "lineh1"></div>
+<div id = "lineh2"></div>
+<div id = "lineh3"></div>
+<div id = "lineh4"></div>
+<div id = "lineh5"></div>
+<div id = "lineh6"></div>
+<div id = "lineh7"></div>
+<div id = "lineh8"></div>
+<div id = "lineh9"></div>
+<div id = "lineh10"></div>
+<div id = "lineh11"></div>
+<div id = "lineh12"></div>
+<div id = "lineh13"></div>
+<div id = "lineh14"></div>
+<div id = "lineh15"></div>
+
+</div>
+
+
+<div id = "topbar"></div>
+
+</div>
+
+</body>
+
+<script>
+    window.onclick = function(event) {
+       //reload page
+       window.location.reload(true);
+       initPlayer();
+       writePlayerPoliceTest();
+       console.log(player);
+       console.log(police);
+    }
+
+    var player = {
+        name: "Player",
+        lawyers: {
+            // the player can have multiple lawyers
+            lawyer1: {
+                name: "Lawyer1",
+                health: 100,
+                attack: 10,
+                defense: 5,
+                speed: 5,
+                luck: 5
+            },
+            lawyer2: {
+                name: "Lawyer2",
+                health: 100,
+                attack: 10,
+                defense: 5,
+                speed: 5,
+                luck: 5
+            },
+            lawyer3: {
+                name: "Lawyer3",
+                health: 100,
+                attack: 10,
+                defense: 5,
+                speed: 5,
+                luck: 5
+            },
+            lawyer4: {
+                name: "Lawyer4",
+                health: 100,
+                attack: 10,
+                defense: 5,
+                speed: 5,
+                luck: 5
+            },
+            lawyer5: {
+                name: "Lawyer5",
+                health: 100,
+                attack: 10,
+                defense: 5,
+                speed: 5,
+                luck: 5
+            },
+            lawyer6: {
+                name: "Lawyer6",
+                health: 100,
+                attack: 10,
+                defense: 5,
+                speed: 5,
+                luck: 5
+            },
+        }
+    }
+
+    var police = {
+        name: "Police",
+        health: 100,
+        attack: 10,
+        defense: 5,
+        speed: 5,
+        luck: 5
+    }
+
+    function initPlayer() {
+    var e = new URLSearchParams(window.location.search);
+    player.name = e.get("playerName");
+    for (let n = 1; n <= 6; n++) {
+        player.lawyers["lawyer" + n].health = e.get("l" + n + "H");
+        player.lawyers["lawyer" + n].attack = e.get("l" + n + "A");
+        player.lawyers["lawyer" + n].defense = e.get("l" + n + "D");
+        player.lawyers["lawyer" + n].speed = e.get("l" + n + "S");
+        player.lawyers["lawyer" + n].luck = e.get("l" + n + "L");
+    }
+    police.health = e.get("pH");
+    police.attack = e.get("pA");
+    police.defense = e.get("pD");
+    police.speed = e.get("pS");
+    police.luck = e.get("pL");
+}
+
+
+function writePlayerPoliceTest() {
+    initPlayer();
+    document.getElementById("battleFrame").innerHTML = "Player: " + player.name + "<br>";
+    for (let n = 1; n <= 6; n++) {
+        document.getElementById("battleFrame").innerHTML += "Lawyer" + n + ": " + player.lawyers["lawyer" + n].health + " " + player.lawyers["lawyer" + n].attack + " " + player.lawyers["lawyer" + n].defense + " " + player.lawyers["lawyer" + n].speed + " " + player.lawyers["lawyer" + n].luck + "<br>";
+    }
+    document.getElementById("battleFrame").innerHTML += "Police: " + police.health + " " + police.attack + " " + police.defense + " " + police.speed + " " + police.luck + "<br>";
+}
+
+
+
+    
+
+</script>
+
+</html>

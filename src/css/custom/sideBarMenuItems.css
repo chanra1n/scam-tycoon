@@ -1,9 +1,9 @@
-    #radio-element:hover, #help-element:hover {
+    #radio-element:hover, #help-element:hover, #lawyer-element:hover {
       opacity: 100%;
       cursor: pointer;
     }
 
-    #radio-dropdown, #help-dropdown {
+    #radio-dropdown, #help-dropdown, #lawyer-dropdown {
       margin: 0px;
       width: max-content;
       padding: 10px;
@@ -13,17 +13,17 @@
       image-rendering: pixelated;
     }
 
-    #radio-dropdown:hover, #help-dropdown:hover {
+    #radio-dropdown:hover, #help-dropdown:hover, #lawyer-dropdown:hover {
       opacity: 100%;
     }
 
-    #radio-dropdown iframe, #help-dropdown iframe{
+    #radio-dropdown iframe, #help-dropdown iframe, #lawyer-dropdown iframe{
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    #radio-link, #help-link {
+    #radio-link, #help-link, #lawyer-link {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -36,6 +36,6 @@
       opacity: 60%;
     }
 
-    #radio-link:hover, #help-link:hover {
+    #radio-link:hover, #help-link:hover, #lawyer-link:hover {
       opacity: 100%;
     }

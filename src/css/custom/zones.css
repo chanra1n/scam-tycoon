@@ -11,11 +11,60 @@
 
     }
 
-    .natural {
-      background-color: #b8db88;
-      background-image: url('../../sprites/grass.png');
-      background-size: 100%;
-      background-repeat: no-repeat;
+    .natural, .natural_1, .natural_2, .natural_2_pos_1 {
+      background-image: url('../../sprites/forest_2.png');
+      background-size: 50%;
+      background-repeat: repeat!important;
+      filter: contrast(50%) blur(2.5px) drop-shadow(0 0 2.5px #409c62);
+      background-color: #409c62!important;
+      box-shadow: 0 0 2.5px #409c62;
+    }
+
+    .natural_1 {
+      background-image: url('../../sprites/forest_2.png');
+      background-size: 50%;
+      background-repeat: repeat!important;
+      filter:contrast(50%);
+      background-color:#409c62;
+    }
+
+    .natural_2, .natural_2_pos_1, .natural_2_pos_2, .natural_2_pos_3, .natural_2_pos_4, .natural_2_pos_5{
+      background-image: url('../../sprites/forest_2.png');
+      background-size: 70%;
+      background-position: 0 0;
+      background-repeat: no-repeat!important;
+      background-color:#409c62!important;
+    }
+
+    .natural_2_pos_1 {
+      background-position: 50% 25%;
+      background-size: 75%;
+      background-color:#409c62!important;
+    }
+
+    .natural_2_pos_2 {
+      background-position: 0 0;
+      background-size: 50%;
+      background-repeat: round!important;
+      background-color: #409c62!important;
+    }
+
+    .natural_2_pos_3 {
+      background-position: 0 0;
+      background-size: 50%;
+      background-color: #409c62!important;
+    }
+
+    .natural_2_pos_4 {
+      background-position: 75% 100%;
+      background-color:#409c62!important;
+      background-size: 55%;
+    }
+
+    .natural_2_pos_5 {
+      background-position: 75% 50%;
+      background-color:#409c62;
+      background-size: 80%;
     }
 
     .water {
@@ -32,6 +81,20 @@
       background-size: 100%;
       background-repeat: no-repeat;
       image-rendering: pixelated;
+    }
+
+    .road-path {
+      background-color:red;
+      border: 5px solid red;
+    }
+
+    .car {
+      position: absolute;
+      top: 150px;
+      left: 150px;
+      width:20px;
+      height:20px;
+      background-color: red;
     }
 
     .horizontal {
@@ -64,6 +127,22 @@
       background-repeat: no-repeat;
     }
 
+    .intersection-left {
+      background-image: url('../../sprites/intersection-left.png');
+    }
+
+    .intersection-right {
+      background-image: url('../../sprites/intersection-right.png');
+    }
+
+    .intersection-top {
+      background-image: url('../../sprites/intersection-top.png');
+    }
+
+    .intersection-bottom {
+      background-image: url('../../sprites/intersection-bottom.png');
+    }
+
     .habitable {
       background-color: #e9e9e9;
     }
@@ -82,10 +161,18 @@
       border-radius: 0%;
     }
 
-    .beach {
-      background-color: #f6d4a4;
-      background-image: none;
-      z-index: 1000;
+    .beach, .beach_1 {
+      background-color: green!important;
+      background-image: url('../../sprites/sand.png');
+      background-position: 0 0;
+      background-size: 100%;
+      background-repeat: repeat;
+      image-rendering: pixelated;
+      filter: brightness(100%) contrast(50%);
+    }
+
+    .beach_1 {
+      background-image: url('../../sprites/sand_1.png');
     }
 
     .night {
@@ -224,5 +311,6 @@
     .single-toggle .drop:nth-child(10) {
       display: block;
     }
+
 
 
