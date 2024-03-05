@@ -79,7 +79,6 @@ function generateCityLayout(size) {
   const turnChance = Math.random() * 0.2 + 0.1; // Randomize the chance of a road turning
 
 
-
   // Create a grid of "residential", "industrial", "natural", and "water" areas
   for (let i = 0; i < size; i++) {
     layout[i] = [];
@@ -161,8 +160,10 @@ function generateCityLayout(size) {
       }
     }
   }
+  
+  
 
-
+  
 
   // Post-processing to add beach squares
   for (let i = 0; i < size; i++) {
@@ -194,6 +195,7 @@ function generateCityLayout(size) {
     }
   }
 
+
   const buildingTypes = ["office-building", "gas-station", "library", "police-station", "fire-station", "admin-buildings", "restaurants", "homes"];
   const buildingLimits = {
     "gas-station": 10,
@@ -214,7 +216,7 @@ function generateCityLayout(size) {
   const habitableLocations = [];
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
-      if (layout[i][j] === "habitable") {
+      if (layout[i][j] && layout[i][j].indexOf("habitable") !== -1) {
         habitableLocations.push([i, j]);
       }
     }
@@ -359,6 +361,92 @@ function generatePath() {
 
 
 
+
+// create a function that identifies the corners of the block
+// here are the rules for the corners:
+// top-left-corner - a square where the current square is habitable, the square above it is a road, and the square to the left of it is a road.
+// top-right-corner - a square where the current square is habitable, the square above it is a road, and the square to the right of it is a road.
+// bottom-left-corner - a square where the current square is habitable, the square below it is a road, and the square to the left of it is a road.
+// bottom-right-corner - a square where the current square is habitable, the square below it is a road, and the square to the right of it is a road.
+
+function generateBlockCorners() {
+  const blockCorners = {
+    topLeft: [],
+    topRight: [],
+    bottomLeft: [],
+    bottomRight: []
+  };
+
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      const gridItem = document.getElementById(`gridsquare_${i}${j}`);
+      if (gridItem.classList.contains("habitable")) {
+        const isRoadAbove = i > 0 && document.getElementById(`gridsquare_${i - 1}${j}`).classList.contains("road");
+        const isRoadBelow = i < gridSize - 1 && document.getElementById(`gridsquare_${i + 1}${j}`).classList.contains("road");
+        const isRoadLeft = j > 0 && document.getElementById(`gridsquare_${i}${j - 1}`).classList.contains("road");
+        const isRoadRight = j < gridSize - 1 && document.getElementById(`gridsquare_${i}${j + 1}`).classList.contains("road");
+
+        if (isRoadAbove && isRoadLeft) {
+          blockCorners.topLeft.push([i, j]);
+        }
+        if (isRoadAbove && isRoadRight) {
+          blockCorners.topRight.push([i, j]);
+        }
+        if (isRoadBelow && isRoadLeft) {
+          blockCorners.bottomLeft.push([i, j]);
+        }
+        if (isRoadBelow && isRoadRight) {
+          blockCorners.bottomRight.push([i, j]);
+        }
+      }
+    }
+  }
+
+  return blockCorners;
+}
+
+
+
+// now, append an img element with the class .streetlamp to each of the elements in the blockCorners arrays
+
+function addStreetLamps() {
+  const blockCorners = generateBlockCorners();
+
+  for (const [cornerType, corner] of Object.entries(blockCorners)) {
+    for (const [i, j] of corner) {
+      const img = document.createElement("img");
+      img.src = "sprites/streetlamp.png";
+      img.classList.add("streetlamp");
+      img.id = `streetlamp_${i}${j}`;
+      console.log(img.id);
+
+      // Set the position based on the corner type
+      switch(cornerType) {
+        case 'topLeft':
+          img.style.top = '0';
+          img.style.left = '0';
+          break;
+        case 'topRight':
+          img.style.top = '0';
+          img.style.right = '0';
+          break;
+        case 'bottomLeft':
+          img.style.bottom = '0';
+          img.style.left = '0';
+          break;
+        case 'bottomRight':
+          img.style.bottom = '0';
+          img.style.right = '0';
+          break;
+      }
+
+      const gridSquare = document.getElementById(`gridsquare_${i}${j}`);
+      gridSquare.appendChild(img);
+    }
+  }
+}
+
+addStreetLamps();
 
 
 
