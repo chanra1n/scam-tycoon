@@ -229,8 +229,8 @@
 
     .streetlamp, .stoplight {
       position: absolute;
-      width: 1px;
-      height: 4px;
+      width: 2px;
+      height: 8px;
       z-index: 100000000000;
       background-color: transparent;
       filter: drop-shadow(0px -5px 1px white);
@@ -238,13 +238,19 @@
       margin: 1px;
     }
 
-    .stoplight {
-      width: 4px;
-      height: 5px;
+    .stoplight, .stoplight-back {
+      width: 6px;
+      height: 8px;
       margin: 0px;
-      margin-top: -50%;
+      margin-top: -8.5px;
       image-rendering: optimizespeed;
       filter: drop-shadow(0px 0px 6px white);
+      margin-left: -1px;
+    }
+
+    .stoplight-back {
+    margin-top:25%;
+    opacity:50%;
     }
 
     .boat {

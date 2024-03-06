@@ -504,6 +504,14 @@ function addBoats() {
 function addStopLights() {
   const intersections = document.querySelectorAll('.intersection');
   for (const intersection of intersections) {
+    // Get the top left adjacent square
+    const topLeftSquare = intersection.previousElementSibling;
+
+    // Check if the top left square is a building
+    if (topLeftSquare && topLeftSquare.classList.contains('building')) {
+      continue; // If it is a building, skip this iteration
+    }
+
     const img = document.createElement('img');
     img.src = 'sprites/stoplight.png';
     img.classList.add('stoplight');
@@ -511,6 +519,21 @@ function addStopLights() {
     img.style.left = '0px';
     img.style.top = '0px';
     intersection.appendChild(img);
+
+    // Check if the intersection is a normal intersection
+    if (!intersection.classList.contains('intersection-bottom') &&
+        !intersection.classList.contains('intersection-left') &&
+        !intersection.classList.contains('intersection-right')) {
+      // Create and add another stoplight img element in the bottom-right corner
+      const imgBack = document.createElement('img');
+      imgBack.src = 'sprites/stoplight_back.png';
+      imgBack.classList.add('stoplight');
+      imgBack.classList.add('stoplight-back');
+      imgBack.style.position = 'absolute';
+      imgBack.style.right = '0px';
+      imgBack.style.bottom = '0px';
+      intersection.appendChild(imgBack);
+    }
   }
 }
 

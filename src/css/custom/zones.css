@@ -125,6 +125,7 @@
       background-image: url('../../sprites/street.png');
       background-size: 100%;
       background-repeat: no-repeat;
+      z-index:1000000000;
     }
 
     .intersection-left {
