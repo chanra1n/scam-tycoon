@@ -234,3 +234,21 @@
       z-index: 100000000;
       background-color: transparent;
     }
+
+    .boat {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: transparent;
+      animation: moveBoat 5s ease-in-out infinite;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    /* let's make a boat animation that makes it bob slightly up and down */
+
+    @keyframes moveBoat {
+      0% { transform: translateY(0);}
+      50% { transform: translateY(-0.5px); }
+      100% { transform: translateY(0); }
+    }

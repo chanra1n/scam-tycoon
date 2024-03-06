@@ -441,12 +441,83 @@ function addStreetLamps() {
       }
 
       const gridSquare = document.getElementById(`gridsquare_${i}${j}`);
+      // if grid is water, do not place streetlamp
+      if (gridSquare.classList.contains("water")) {
+        continue;
+      }
       gridSquare.appendChild(img);
     }
   }
 }
 
+// generate a function that adds boats to water squares if they meet these conditions - 
+// 1. the square is water
+// 2. there are at least 3 water squares to its top, left, right, or bottom
+// 3. there are no boats within 3 spaces of the current square
+// 4. there are 4 spaces between the border of the grid and the current square
+
+
+function addBoats() {
+  const waterSquares = [];
+  let boatGenerated = false;
+  for (let i = 4; i < gridSize - 4; i++) {
+    for (let j = 4; j < gridSize - 4; j++) {
+      const gridItem = document.getElementById(`gridsquare_${i}${j}`);
+      if (gridItem.classList.contains("water")) {
+        waterSquares.push([i, j]);
+      }
+    }
+  }
+
+  for (const [i, j] of waterSquares) {
+    const neighbors = [
+      [i - 1, j],
+      [i + 1, j],
+      [i, j - 1],
+      [i, j + 1]
+    ].filter(([i, j]) => i >= 0 && i < gridSize && j >= 0 && j < gridSize);
+
+    const waterNeighbors = neighbors.filter(([i, j]) => {
+      const gridItem = document.getElementById(`gridsquare_${i}${j}`);
+      return gridItem.classList.contains("water");
+    });
+
+    const boatNeighbors = [];
+    for (let x = i - 3; x <= i + 3; x++) {
+      for (let y = j - 3; y <= j + 3; y++) {
+        if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
+          const gridItem = document.getElementById(`gridsquare_${x}${y}`);
+          if (gridItem.querySelector(".boat")) {
+            boatNeighbors.push([x, y]);
+          }
+        }
+      }
+    }
+
+    if (waterNeighbors.length >= 3 && !boatNeighbors.length && !boatGenerated) {
+      const img = document.createElement("img");
+      img.src = "sprites/boat.png";
+      img.classList.add("boat");
+      img.id = `boat_${i}${j}`;
+      const gridSquare = document.getElementById(`gridsquare_${i}${j}`);
+      const rect = gridSquare.getBoundingClientRect();
+      img.style.position = 'absolute';
+      img.style.left = `${rect.left}px`;
+      img.style.top = `${rect.top}px`;
+      document.getElementById('world-map').appendChild(img);
+      boatGenerated = true;
+      break;
+    }
+    
+    if (boatGenerated) {
+    break;
+    }
+
+  if (!boatGenerated) {
+    console.log("No boats");
+  }
+}
+}
+
 addStreetLamps();
-
-
-
+addBoats();
