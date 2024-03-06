@@ -317,8 +317,6 @@ function generateCityLayout(size) {
   return layout;
 }
 
-// get the roadSquares array, and generate a path for the cars to follow
-
 function generatePath() {
   if (!roadSquares.length) {
     throw new Error('roadSquares array is empty');
@@ -359,16 +357,6 @@ function generatePath() {
   return path;
 }
 
-
-
-
-// create a function that identifies the corners of the block
-// here are the rules for the corners:
-// top-left-corner - a square where the current square is habitable, the square above it is a road, and the square to the left of it is a road.
-// top-right-corner - a square where the current square is habitable, the square above it is a road, and the square to the right of it is a road.
-// bottom-left-corner - a square where the current square is habitable, the square below it is a road, and the square to the left of it is a road.
-// bottom-right-corner - a square where the current square is habitable, the square below it is a road, and the square to the right of it is a road.
-
 function generateBlockCorners() {
   const blockCorners = {
     topLeft: [],
@@ -405,17 +393,18 @@ function generateBlockCorners() {
   return blockCorners;
 }
 
-
-
-// now, append an img element with the class .streetlamp to each of the elements in the blockCorners arrays
-
 function addStreetLamps() {
   const blockCorners = generateBlockCorners();
 
   for (const [cornerType, corner] of Object.entries(blockCorners)) {
     for (const [i, j] of corner) {
       const img = document.createElement("img");
+      // if isNight is true, set the src to "sprites/streetlamp_night.png"
+      if (!isNight) {
+        img.src = "sprites/streetlamp_night.png";
+      } else {
       img.src = "sprites/streetlamp.png";
+      }
       img.classList.add("streetlamp");
       img.id = `streetlamp_${i}${j}`;
       console.log(img.id);
@@ -449,13 +438,6 @@ function addStreetLamps() {
     }
   }
 }
-
-// generate a function that adds boats to water squares if they meet these conditions - 
-// 1. the square is water
-// 2. there are at least 3 water squares to its top, left, right, or bottom
-// 3. there are no boats within 3 spaces of the current square
-// 4. there are 4 spaces between the border of the grid and the current square
-
 
 function addBoats() {
   const waterSquares = [];
@@ -519,5 +501,19 @@ function addBoats() {
 }
 }
 
+function addStopLights() {
+  const intersections = document.querySelectorAll('.intersection');
+  for (const intersection of intersections) {
+    const img = document.createElement('img');
+    img.src = 'sprites/stoplight.png';
+    img.classList.add('stoplight');
+    img.style.position = 'absolute';
+    img.style.left = '0px';
+    img.style.top = '0px';
+    intersection.appendChild(img);
+  }
+}
+
 addStreetLamps();
 addBoats();
+addStopLights();
