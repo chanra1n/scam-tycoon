@@ -227,7 +227,7 @@
       }
     }
 
-    .streetlamp, .stoplight {
+    .streetlamp, .stoplight, .telephone-pole {
       position: absolute;
       width: 2px;
       height: 8px;
@@ -238,7 +238,7 @@
       margin: 1px;
     }
 
-    .stoplight, .stoplight-back {
+    .stoplight, .stoplight-back, .telephone-pole {
       width: 6px;
       height: 8px;
       margin: 0px;
@@ -251,6 +251,14 @@
     .stoplight-back {
     margin-top:25%;
     opacity:50%;
+    }
+
+    .telephone-pole {
+      opacity: 75%;
+      width: 20px;
+      height: 10px;
+      margin: -7.5px;
+      margin-left: 7.5px;
     }
 
     .boat {

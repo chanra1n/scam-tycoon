@@ -537,6 +537,21 @@ function addStopLights() {
   }
 }
 
+function addTelephonePoles() {
+  const horizontalRoads = document.querySelectorAll('.horizontal');
+  for (let i = 0; i < horizontalRoads.length; i += 1) {
+    const road = horizontalRoads[i];
+    const img = document.createElement('img');
+    img.src = 'sprites/powerlines.png';
+    img.classList.add('telephone-pole');
+    img.style.position = 'absolute';
+    img.style.left = '0px';
+    img.style.top = '0px';
+    road.appendChild(img);
+  }
+}
+
 addStreetLamps();
 addBoats();
 addStopLights();
+//addTelephonePoles();

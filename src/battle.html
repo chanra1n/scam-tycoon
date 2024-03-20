@@ -1,149 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/custom/lines.css">
     <link rel="stylesheet" href="css/lib/remixicon.css" />
+    <script src="js/lib/typewriter.js"></script>
     <title>Document</title>
+    <style>
+        @font-face {
+            font-family: 'pst';
+            src: url('fonts/pst.ttf');
+        }
+
+        @font-face {
+            font-family: 'gamer';
+            src: url('fonts/gamer.ttf');
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+            font-family: 'pst';
+            filter: sepia(1) hue-rotate(45deg);
+            user-select: none !important;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+            background-image: url("sprites/street.gif");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        #battleFrame {
+            width: 100vh;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #debug_info {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: green;
+            color: black;
+            width: 100%;
+            height: 100%;
+        }
+
+        #debug_info1 {
+            float: left;
+            width: 60%;
+            height: 100%;
+            background-color: red;
+            color: white;
+            overflow: auto;
+        }
+
+        #debug_info2 {
+            float: right;
+            width: 40%;
+            height: 100%;
+            background-color: blue;
+            color: white;
+            overflow: auto;
+        }
+
+        #battlePhase {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: #a1a1a150;
+        }
+
+        #enemyHPBar,
+        #playerHPBar {
+            background-color: #000000a0;
+            margin: 10px;
+            width: 50%;
+            font-family: 'pst';
+            padding: 7.5px;
+            float: right;
+        }
+
+        #enemyHPBarFill,
+        #playerHPBarFill {
+            width: 100%;
+            background-color: white;
+            display: flex;
+            transition: all 0.5s;
+        }
+
+        #enemyHPBarText,
+        #playerHPBarText {
+            padding: 5px;
+            color: #1a1a1a;
+            font-weight: 900;
+            font-size: 25px;
+            font-family: 'gamer';
+            padding-top: 0px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            filter: drop-shadow(1px 1px 0px white);
+        }
+
+        #enemyName,
+        #playerName {
+            display: inline-block;
+            font-size: 7.5px;
+            margin: 5px;
+            margin-left: 0px;
+            margin-right: 0px;
+            float: left;
+            text-align: left;
+            filter: drop-shadow(3px 2px 0px black);
+            text-transform: uppercase;
+        }
+
+        #enemyIcon,
+        #playerIcon {
+            display: inline-flex;
+            float: right;
+            text-align: right;
+        }
+
+        #enemyTopBar,
+        #playerTopBar {
+            width: 100%;
+            display: flow-root;
+        }
+
+        #enemyTotalHP,
+        #playerTotalHP {
+            font-size: 20px;
+        }
+
+        #playerUI {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            width: 100%;
+        }
+
+        #playerHPBar {
+            float: left;
+        }
+
+        #playerMenu {
+            display: grid;
+            width: 100%;
+            background-color: #1a1a1a50;
+            padding: 7.5px;
+            margin: 10px;
+            box-sizing: content-box;
+            width: calc(100% - 35px);
+            height: 150px;
+            background-image: linear-gradient(0deg, #1a1a1a50, #000000a0);
+        }
+
+        #playerBorder {
+
+            border: 2.5px dashed #a1a1a150;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        @keyframes horizontal-shaking {
+            0% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(5px)
+            }
+
+            50% {
+                transform: translateX(-5px)
+            }
+
+            75% {
+                transform: translateX(5px)
+            }
+
+            100% {
+                transform: translateX(0)
+            }
+        }
+
+        #playerText {
+            position: relative;
+            margin: 0px;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 100;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .typed-cursor {
+            display: none;
+        }
+
+        #enemyStatsBar,
+        #playerStatsBar {
+            display: inline-block;
+            width: 100%;
+            text-align: right;
+            float: right;
+            margin-top: 0px;
+            position: absolute;
+            right: 0;
+            margin: 15px;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        #playerStatsBar {
+            top: -20px;
+            left: 0;
+            float: left;
+            text-align: left;
+            width: max-content;
+            margin: 10px;
+            margin-top: 0px;
+        }
+
+        #enemyStatsBar p,
+        #playerStatsBar p {
+            background-color: #000000a0;
+            color: white;
+            font-family: 'pst';
+            font-size: 6.5px;
+            padding: 5px;
+            display: flex;
+            margin: 5px;
+            margin-left: 0px;
+            margin-bottom: 0px;
+            font-weight: 100;
+            float: right;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        #enemyStatsBar p i,
+        #playerStatsBar p i {
+            margin-right: 5px;
+        }
+
+        #playerMoves {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 5px;
+            display: none;
+        }
+
+        #playerMoves .moveButton {
+            padding: 5px;
+            display: inline-block;
+            border: none;
+            box-sizing: border-box;
+            background-color: #a1a1a150;
+            color: white;
+            font-family: 'pst';
+            font-size: 10px;
+            margin: 5px;
+            box-shadow: 2.5px 2.5px 0px white;
+            transform: translate(-2.5px, -2.5px);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #playerMoves .moveButton h1 {}
+
+        #playerMoves .moveButton p {}
+
+        #playerMoves .moveButton span {}
+
+        #playerMoves .moveButton i {}
+
+        .moveTopBar,
+        .moveDescriptionBar,
+        .moveBottomBar {
+            box-sizing: border-box;
+        }
+
+        .moveBottomBar {
+            align-self: flex-end;
+            box-sizing: border-box;
+        }
+
+        .moveTopBar {}
+
+        .moveDescriptionBar {
+            background-color: #a1a1a150;
+    padding: 5px;
+    text-align: left;
+    font-size: 7.5px;
+    text-transform: uppercase;
+    width: 100%;
+    white-space: normal;
+    padding-top: 2.5px;
+    padding-bottom: 2.5px;
+    line-height: 10px;
+    height: 100%;
+    margin: 5px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 2.5px;
+        }
+
+        .moveBottomBar {
+            float: right;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-right: -2.5px;
+        }
+
+        .moveBottomBar button {
+            display: inline-block;
+            margin: 0px;
+            background-color: #1a1a1a;
+            border: none;
+            color: white;
+            font-family: 'gamer';
+            font-size: 25px;
+            margin: 2.5px;
+            padding: 0px;
+            padding-bottom: 2.5px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .moveTopBar h1 {
+            font-size: 10px;
+    text-align: center;
+    background-color: #1a1a1a;
+    padding: 7.5px;
+    margin: 0px;
+    text-transform: uppercase;
+        }
+    </style>
 </head>
+
 <body>
-    
-
-<div id = "battleFrame">
-
-<div id = "light">
-
-<div id = "lineh1"></div>
-<div id = "lineh2"></div>
-<div id = "lineh3"></div>
-<div id = "lineh4"></div>
-<div id = "lineh5"></div>
-<div id = "lineh6"></div>
-<div id = "lineh7"></div>
-<div id = "lineh8"></div>
-<div id = "lineh9"></div>
-<div id = "lineh10"></div>
-<div id = "lineh11"></div>
-<div id = "lineh12"></div>
-<div id = "lineh13"></div>
-<div id = "lineh14"></div>
-<div id = "lineh15"></div>
-
-</div>
 
 
-<div id = "topbar"></div>
+    <div id="battleFrame">
 
-</div>
+        <div id="light">
 
+            <div id="lineh1"></div>
+            <div id="lineh2"></div>
+            <div id="lineh3"></div>
+            <div id="lineh4"></div>
+            <div id="lineh5"></div>
+            <div id="lineh6"></div>
+            <div id="lineh7"></div>
+            <div id="lineh8"></div>
+            <div id="lineh9"></div>
+            <div id="lineh10"></div>
+            <div id="lineh11"></div>
+            <div id="lineh12"></div>
+            <div id="lineh13"></div>
+            <div id="lineh14"></div>
+            <div id="lineh15"></div>
+
+        </div>
+
+        <div id="battlePhase">
+
+            <div id="enemyUI">
+
+                <div id="enemyHPBar">
+                    <div id="enemyTopBar">
+                        <div id="enemyName">POLICE OFFICER</div>
+                        <div id="enemyIcon"><i class="ri-police-badge-fill" style="    font-size: 12.5px;
+                    margin: 1px;"></i></div>
+                    </div>
+                    <div id="enemyHPBarFill">
+                        <div id="enemyHPBarText"><span id="enemyCurrentHP">100</span><span id="enemyTotalHP">/100</span>
+                        </div>
+                    </div>
+                    <div id="enemyStatsBar">
+                        <p title="Status"><i class="ri-heart-fill"></i> <span id="enemyStatus">Healthy</span></p>
+                        <p title="Defense"><i class="ri-shield-fill"></i> <span id="enemyDefense">5</span></p>
+                        <p title="Speed"><i class="ri-windy-fill"></i> <span id="enemySpeed">5</span></p>
+                        <p title="Luck"><i class="ri-dice-fill"></i> <span id="enemyLuck">5</span></p>
+                        <p title="Damage Bonus"><i class="ri-percent-fill"></i> <span id="enemyDamageBonus">5</span></p>
+                    </div>
+                </div>
+
+
+                <div id="playerUI">
+
+                </div>
+
+            </div>
+
+            <div id="playerUI">
+
+                <div id="playerHPBar">
+                    <div id="playerTopBar">
+                        <div id="playerName">PLAYER</div>
+                        <div id="playerIcon"><i class="ri-user-3-fill" style="    font-size: 12.5px;
+                        margin: 1px;"></i></div>
+                    </div>
+                    <div id="playerHPBarFill">
+                        <div id="playerHPBarText"><span id="playerCurrentHP">100</span><span
+                                id="playerTotalHP">/100</span>
+                        </div>
+                    </div>
+                    <div id="playerStatsBar">
+                        <p title="Status"><i class="ri-heart-fill"></i> <span id="playerStatus">Healthy</span></p>
+                        <p title="Defense"><i class="ri-shield-fill"></i> <span id="playerDefense">5</span></p>
+                        <p title="Speed"><i class="ri-windy-fill"></i> <span id="playerSpeed">5</span></p>
+                        <p title="Luck"><i class="ri-dice-fill"></i> <span id="playerLuck">5</span></p>
+                        <p title="Damage Bonus"><i class="ri-percent-fill"></i> <span id="enemyDamageBonus">5</span></p>
+                    </div>
+                </div>
+                <div id="playerMenu">
+                    <div id="playerBorder">
+                        <div id="playerMoves">
+
+                            <div class="moveButton" id="playerMove1">
+
+                                <div class="moveTopBar">
+                                    <h1 id="move1Title">Move Title</h1>
+                                </div>
+
+                                <div class="moveDescriptionBar">
+                                    <p id="move1Description">Move Description</p>
+                                </div>
+
+                                <div class="moveBottomBar">
+                                    <button id="move1PP">0</button>
+                                    <button id="move1Damage">00</button>
+                                </div>
+
+                            </div>
+
+                            <div class="moveButton" id="playerMove2">
+
+                                <div class="moveTopBar">
+                                    <h1 id="move2Title">Move Title</h1>
+                                </div>
+
+                                <div class="moveDescriptionBar">
+                                    <p id="move2Description">Move Description</p>
+                                </div>
+
+                                <div class="moveBottomBar">
+                                    <button id="move2PP">0</button>
+                                    <button id="move2Damage">00</button>
+                                </div>
+
+                            </div>
+
+                            <div class="moveButton" id="playerMove3">
+
+                                <div class="moveTopBar">
+                                    <h1 id="move3Title">Move Title</h1>
+                                </div>
+
+                                <div class="moveDescriptionBar">
+                                    <p id="move3Description">Move Description</p>
+                                </div>
+
+                                <div class="moveBottomBar">
+                                    <button id="move3PP">0</button>
+                                    <button id="move3Damage">00</button>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                        <div id="playerText">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </body>
 
+<script src="js/custom/battleMoves.js"></script>
+
 <script>
-    window.onclick = function(event) {
-       //reload page
-       window.location.reload(true);
-       initPlayer();
-       writePlayerPoliceTest();
-       console.log(player);
-       console.log(police);
-    }
+    window.onload = function () {
+        writePlayerInfo();
+        writePoliceInfo();
 
-    var player = {
-        name: "Player",
-        lawyers: {
-            // the player can have multiple lawyers
-            lawyer1: {
-                name: "Lawyer1",
-                health: 100,
-                attack: 10,
-                defense: 5,
-                speed: 5,
-                luck: 5
-            },
-            lawyer2: {
-                name: "Lawyer2",
-                health: 100,
-                attack: 10,
-                defense: 5,
-                speed: 5,
-                luck: 5
-            },
-            lawyer3: {
-                name: "Lawyer3",
-                health: 100,
-                attack: 10,
-                defense: 5,
-                speed: 5,
-                luck: 5
-            },
-            lawyer4: {
-                name: "Lawyer4",
-                health: 100,
-                attack: 10,
-                defense: 5,
-                speed: 5,
-                luck: 5
-            },
-            lawyer5: {
-                name: "Lawyer5",
-                health: 100,
-                attack: 10,
-                defense: 5,
-                speed: 5,
-                luck: 5
-            },
-            lawyer6: {
-                name: "Lawyer6",
-                health: 100,
-                attack: 10,
-                defense: 5,
-                speed: 5,
-                luck: 5
-            },
-        }
-    }
+        setTimeout(function () {
 
-    var police = {
-        name: "Police",
-        health: 100,
-        attack: 10,
-        defense: 5,
-        speed: 5,
-        luck: 5
-    }
+            playerMove("lawyer1", "physical", "Objection");
+            var movetouse = selectPoliceMove();
+            policeMove(movetouse.type, movetouse.move);
 
-    function initPlayer() {
-    var e = new URLSearchParams(window.location.search);
-    player.name = e.get("playerName");
-    for (let n = 1; n <= 6; n++) {
-        player.lawyers["lawyer" + n].health = e.get("l" + n + "H");
-        player.lawyers["lawyer" + n].attack = e.get("l" + n + "A");
-        player.lawyers["lawyer" + n].defense = e.get("l" + n + "D");
-        player.lawyers["lawyer" + n].speed = e.get("l" + n + "S");
-        player.lawyers["lawyer" + n].luck = e.get("l" + n + "L");
-    }
-    police.health = e.get("pH");
-    police.attack = e.get("pA");
-    police.defense = e.get("pD");
-    police.speed = e.get("pS");
-    police.luck = e.get("pL");
-}
+        }, 1000);
 
-
-function writePlayerPoliceTest() {
-    initPlayer();
-    document.getElementById("battleFrame").innerHTML = "Player: " + player.name + "<br>";
-    for (let n = 1; n <= 6; n++) {
-        document.getElementById("battleFrame").innerHTML += "Lawyer" + n + ": " + player.lawyers["lawyer" + n].health + " " + player.lawyers["lawyer" + n].attack + " " + player.lawyers["lawyer" + n].defense + " " + player.lawyers["lawyer" + n].speed + " " + player.lawyers["lawyer" + n].luck + "<br>";
-    }
-    document.getElementById("battleFrame").innerHTML += "Police: " + police.health + " " + police.attack + " " + police.defense + " " + police.speed + " " + police.luck + "<br>";
-}
-
-
-
-    
-
+    };
 </script>
 
 </html>

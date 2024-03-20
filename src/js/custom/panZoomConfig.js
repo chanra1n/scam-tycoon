@@ -11,7 +11,7 @@ worldMap.addEventListener('mouseout', function() {
 
 var panZoomController = panzoom(worldMap, {
   bounds: true,
-  maxZoom: 3.95,
+  maxZoom: 20,
   minZoom: 1,
   boundsPadding: 1,
   beforeWheel: function(e) {
@@ -31,7 +31,7 @@ panZoomController.on('zoom', function(e) {
   var zoomLevel = e.getTransform().scale;
   var element = document.getElementById('player');
 
-  if (zoomLevel == 4) {
+  if (zoomLevel == 25) {
     panZoomModeEnabled = false;
     element.style.opacity = "100%";
     element.style.transform = "scale(1)";
