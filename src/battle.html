@@ -209,6 +209,7 @@
             background-color: transparent;
             padding: 15px;
             box-sizing: border-box;
+            display:none;
         }
 
         .typed-cursor {
@@ -267,7 +268,7 @@
             box-sizing: border-box;
             margin: 0px;
             padding: 5px;
-            display: none;
+            display:inline-flex;
         }
 
         #playerMoves .moveButton {
@@ -280,20 +281,29 @@
             font-family: 'pst';
             font-size: 10px;
             margin: 5px;
-            box-shadow: 2.5px 2.5px 0px white;
-            transform: translate(-2.5px, -2.5px);
+            box-shadow: 0px 2.5px 0px #a1a1a1;
             text-align: left;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             width: -webkit-fill-available;
+            cursor: pointer;
+            transition: all 0.25s;
+            outline: 0px solid #a1a1a100;
+        }
+
+        #playerMoves .moveButton:hover {
+            transform: scale(1.0125);
+            box-shadow: 0px -2.5px 0px #a1a1a1;
         }
 
         #playerMoves .moveButton h1 {}
 
         #playerMoves .moveButton p {}
 
-        #playerMoves .moveButton span {}
+        #playerMoves .moveButton span {
+            filter: drop-shadow(2.5px 2.5px 0px black);
+        }
 
         #playerMoves .moveButton i {}
 
@@ -307,62 +317,113 @@
 
         .moveDescriptionBar {
             background-color: #a1a1a150;
-    padding: 10px;
-    text-align: left;
-    font-size: 9px;
-    text-transform: uppercase;
-    width: 100%;
-    white-space: normal;
-    line-height: 10px;
-    color: white;
-    padding-top: 2.5px;
-    padding-bottom: 2.5px;
+            padding: 10px;
+            text-align: left;
+            font-size: 7.5px;
+            text-transform: uppercase;
+            width: 100%;
+            white-space: normal;
+            line-height: 10px;
+            color: white;
+            padding-top: 2.5px;
+            padding-bottom: 2.5px;
+            height: -webkit-fill-available;
+            margin: 5px;
+            margin-left: 0px;
+            margin-right: 0px;
         }
 
         .moveBottomBar {
             align-self: flex-end;
             box-sizing: border-box;
             float: right;
-    padding: 0px;
-    margin: 0px;
-    display: inline-block;
-    justify-content: center;
-    align-items: end;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
-    text-align: right;
-    background-color: transparent;
-    background-image: linear-gradient(90deg, #1a1a1a, transparent);
+            padding: 0px;
+            margin: 0px;
+            display: inline-block;
+            justify-content: center;
+            align-items: end;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 0px;
+            text-align: right;
+            background-color: transparent;
+            background-image: linear-gradient(90deg, #1a1a1a, transparent);
         }
 
         .moveBottomBar button {
             border: none;
-    text-align: right;
-    font-family: 'pst';
-    padding: 5px;
-    font-size: 10px;
-    font-weight: 900;
-    background-color: transparent;
-    color: white;
-    vertical-align: middle;
-    display: contents;
+            text-align: right;
+            font-family: 'pst';
+            padding: 5px;
+            font-size: 10px;
+            font-weight: 900;
+            background-color: transparent;
+            color: white;
+            vertical-align: middle;
+            display: contents;
         }
 
         .moveTopBar h1 {
-            font-size: 10px;
-    text-align: center;
-    background-color: #1a1a1a;
-    padding: 7.5px;
-    margin: 0px;
-    text-transform: uppercase;
-    white-space: nowrap;
+            font-size: 8px;
+            text-align: center;
+            background-color: #1a1a1a;
+            padding: 7.5px;
+            margin: 0px;
+            text-transform: uppercase;
+            white-space: nowrap;
         }
 
-        .ppLabel, .damageLabel {
+        .ppLabel,
+        .damageLabel {
             font-size: 6px;
-    margin-right: 5px;
+            margin-right: 5px;
+        }
+
+        @keyframes pulsate {
+            0% {
+                opacity: 0.5;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            20% {
+                opacity: 0.5;
+            }
+
+            30% {
+                opacity: 1;
+            }
+
+            40% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            60% {
+                opacity: 0.5;
+            }
+
+            70% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 0.5;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
         }
     </style>
 </head>
@@ -458,8 +519,9 @@
                                 </div>
 
                                 <div class="moveBottomBar">
-                                    <button><span class = "ppLabel" >PP</span><span id="move1PP" ></span></button>
-                                    <button><span class = "damageLabel" >DMG</span><span id="move1Damage">00</span></button>
+                                    <button><span class="ppLabel">PP</span><span id="move1PP"></span></button>
+                                    <button><span class="damageLabel">DMG</span><span
+                                            id="move1Damage">00</span></button>
                                 </div>
 
                             </div>
@@ -475,8 +537,9 @@
                                 </div>
 
                                 <div class="moveBottomBar">
-                                    <button><span class = "ppLabel" >PP</span><span id="move2PP" ></span></button>
-                                    <button><span class = "damageLabel" >DMG</span><span id="move2Damage">00</span></button>
+                                    <button><span class="ppLabel">PP</span><span id="move2PP"></span></button>
+                                    <button><span class="damageLabel">DMG</span><span
+                                            id="move2Damage">00</span></button>
                                 </div>
 
                             </div>
@@ -492,8 +555,9 @@
                                 </div>
 
                                 <div class="moveBottomBar">
-                                    <button><span class = "ppLabel" >PP</span><span id="move3PP"></span></button>
-                                    <button><span class = "damageLabel" >DMG</span><span id="move3Damage">00</span></button>
+                                    <button><span class="ppLabel">PP</span><span id="move3PP"></span></button>
+                                    <button><span class="damageLabel">DMG</span><span
+                                            id="move3Damage">00</span></button>
                                 </div>
 
                             </div>
@@ -516,17 +580,10 @@
 <script src="js/custom/battleMoves.js"></script>
 
 <script>
+
     window.onload = function () {
         writePlayerInfo();
         writePoliceInfo();
-
-        setTimeout(function () {
-
-            selectRandomPlayerMove();
-            var movetouse = selectPoliceMove();
-            policeMove(movetouse.type, movetouse.move);
-
-        }, 1000);
 
     };
 </script>

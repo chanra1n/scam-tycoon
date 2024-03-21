@@ -108,7 +108,7 @@ var player = {
     }
 }
 
-var activeLawyer = "lawyer2";
+var activeLawyer = "lawyer3";
 
 var police = {
     name: "Police",
@@ -384,13 +384,22 @@ var availableMoves_police = {
 var playerTextDuration = 2500;
 
 var messageQueue = [];
+var messageQueueListener;
 var isWriting = false;
 
+var policeMoveInProgress = false;
+var playerMoveInProgress = false;
+
+var playerTextElement = document.getElementById('playerText');
+var playerMovesElement = document.getElementById('playerMoves');
+
 function writeToPlayerMenu(text) {
+    playerTextElement.style.display = 'inline-flex';
+    playerMovesElement.style.display = 'none';
     messageQueue.push(text);
     if (!isWriting) {
         writeNextMessage();
-    }
+    } 
 }
 
 function writeNextMessage() {
@@ -409,8 +418,6 @@ function writeNextMessage() {
                 isWriting = false;
                 if (messageQueue.length === 0) {
                     setTimeout(function () {
-                        document.getElementById('playerText').style.display = 'none';
-                        document.getElementById('playerMoves').style.display = 'inline-flex';
                     }, playerTextDuration);
                 }
             }
@@ -422,14 +429,15 @@ function writeNextMessage() {
                 writeNextMessage();
             } else {
                 isWriting = false;
-                playerTextElement.style.display = 'none';
-                document.getElementById('playerMoves').style.display = 'inline-flex';
             }
         }, playerTextDuration);
     }
 }
 
 function playerMove(lawyer, type, move) {
+    document.getElementById('playerMoves').style.display = 'none';
+    playerMoveInProgress = true;
+
     lawyer = activeLawyer;
     console.log('The lawyer is ' + lawyer + '. The move is "' + move + '", which is a ' + type + ' move.');
     let moveExists = false;
@@ -503,12 +511,30 @@ function playerMove(lawyer, type, move) {
     writePlayerInfo();
     writePoliceInfo();
 
+    messageQueueListener = setInterval(function () {
+        if (messageQueue.length === 0) {
+            playerMoveInProgress = false;
+            clearInterval(messageQueueListener);
+            if (!policeMoveInProgress) {
+                setTimeout(function () {
+                    policeMove();
+                    playerMovesElement.style.display = 'none';
+                    playerMovesElement.style.opacity = 0;
+                    playerMovesElement.style.pointerEvents = 'none';
+                }, playerTextDuration);
+            }
+        }
+    }
+        , 1000);
+
+
 }
 
 function policeMove(type, move) {
-    // police moves are like player moves, but they are not chosen by the player. They are chosen by the computer.
-    // the police also do not need to worry about PP, so we don't need to check for that.
-    // dont worry about calculating what move to do, that's handled by a function selectPoliceMove() that we will write later.
+
+    document.getElementById('playerMoves').style.display = 'none';
+
+    policeMoveInProgress = true;
 
     let moveType = type
     let movePower = 0;
@@ -533,6 +559,10 @@ function policeMove(type, move) {
         availableMoves_police[move].action.call(police);
     }
 
+    console.log("POLICE OFFICER used " + move + "!");
+    console.log("POLICE OFFICER has " + police.hp + " HP left.");
+    console.log("The move did " + (movePower + police.attack - player.lawyers[activeLawyer].defense) + " damage.");
+
 
 
 
@@ -551,11 +581,24 @@ function policeMove(type, move) {
     writePlayerInfo();
     writePoliceInfo();
 
+    messageQueueListener = setInterval(function () {
+        if (messageQueue.length === 0) {
+            policeMoveInProgress = false;
+            clearInterval(messageQueueListener);
+            if (!playerMoveInProgress) {
+                setTimeout(function () {
+                    playerMovesElement.style.display = 'inline-flex';
+                    playerMovesElement.style.opacity = "100%";
+                    playerMovesElement.style.pointerEvents = 'auto';
+                    playerTextElement.style.display = 'none';
+                }, playerTextDuration);
+            }
+        }
+    }, 1000);
+
 }
 
 function writePlayerInfo() {
-
-    // then, we should write some info regarding hp bars and stuff.
 
     document.getElementById('playerHPBarFill').style.animation = "horizontal-shaking 0.15s 1";
     document.getElementById('playerName').innerHTML = player.lawyers[activeLawyer].name;
@@ -585,20 +628,21 @@ function writePlayerInfo() {
     document.getElementById('move1PP').innerHTML = player.lawyers[activeLawyer].moveset.physicalPP;
     document.getElementById('move1Description').innerHTML = physicalMoves_player[player.lawyers[activeLawyer].moveset.physicalMove].description;
     document.getElementById('move1Damage').innerHTML = physicalMoves_player[player.lawyers[activeLawyer].moveset.physicalMove].power;
-
+    document.getElementById('playerMove1').setAttribute('onclick', 'playerMove("' + activeLawyer + '", "physical", "' + player.lawyers[activeLawyer].moveset.physicalMove + '")');
+    
     document.getElementById('move2Title').innerHTML = player.lawyers[activeLawyer].moveset.statusMove;
     document.getElementById('move2PP').innerHTML = player.lawyers[activeLawyer].moveset.statusPP;
     document.getElementById('move2Description').innerHTML = statusMoves_player[player.lawyers[activeLawyer].moveset.statusMove].description;
     document.getElementById('move2Damage').innerHTML = statusMoves_player[player.lawyers[activeLawyer].moveset.statusMove].power;
+    document.getElementById('playerMove2').setAttribute('onclick', 'playerMove("' + activeLawyer + '", "status", "' + player.lawyers[activeLawyer].moveset.statusMove + '")');
 
     document.getElementById('move3Title').innerHTML = player.lawyers[activeLawyer].moveset.specialMove;
     document.getElementById('move3PP').innerHTML = player.lawyers[activeLawyer].moveset.specialPP;
     document.getElementById('move3Description').innerHTML = specialMoves_player[player.lawyers[activeLawyer].moveset.specialMove].description;
     document.getElementById('move3Damage').innerHTML = specialMoves_player[player.lawyers[activeLawyer].moveset.specialMove].power;
+    document.getElementById('playerMove3').setAttribute('onclick', 'playerMove("' + activeLawyer + '", "special", "' + player.lawyers[activeLawyer].moveset.specialMove + '")');
 
-    
-
-
+    playerMoveInProgress = false;
 
 }
 
@@ -620,6 +664,8 @@ function writePoliceInfo() {
     setTimeout(function () {
         document.getElementById('enemyHPBarFill').style.animation = "";
     }, 100);
+
+    policeMoveInProgress = false;
 }
 
 function selectPoliceMove() {
@@ -684,3 +730,5 @@ function selectRandomPlayerMove() {
 
     return { type: selectedMoveType, move: selectedMoveName };
 }
+
+
