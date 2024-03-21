@@ -108,7 +108,7 @@ var player = {
     }
 }
 
-var activeLawyer = "lawyer1";
+var activeLawyer = "lawyer2";
 
 var police = {
     name: "Police",
@@ -129,37 +129,41 @@ var physicalMoves_player = {
     "Objection": {
         "type": "physical",
         "power": 50,
-        "accuracy": 90,
+        "accuracy": 100,
         "pp": 25,
-        "description": "A basic move."
-    },
-    "Present Evidence": {
-        "type": "physical",
-        "power": 70,
-        "accuracy": 75,
-        "pp": 20,
-        "description": "May not work, but it's worth a shot."
+        "description": "A low-level opener."
     },
     "Rebuttal": {
         "type": "physical",
-        "power": 80,
-        "accuracy": 70,
-        "pp": 15,
-        "description": "What the other guy said is wrong, and here's why."
+        "power": 70,
+        "accuracy": 80,
+        "pp": 20,
+        "description": "Strike back with the facts!"
+    },
+    "Present Evidence": {
+        "type": "physical",
+        "power": 65,
+        "accuracy": 75,
+        "pp": 20,
+        "description": "Damaging revelations go a long way.",
+        "action": function () {
+            this.defense += this.defense * 0.25;
+            writeToPlayerMenu(player.lawyers[activeLawyer].name + "'s defense rose!");
+        }
     },
     "Cross Examination": {
         "type": "physical",
-        "power": 40,
-        "accuracy": 95,
-        "pp": 30,
-        "description": "Ask some questions, maybe they'll slip up."
-    },
-    "Sustained Objection": {
-        "type": "physical",
-        "power": 90,
-        "accuracy": 60,
+        "power": 85,
+        "accuracy": 80,
         "pp": 10,
-        "description": "A strong move, but it's hard to pull off."
+        "description": "A strong move, but hard to pull off."
+    },
+    "Closing Argument": {
+        "type": "physical",
+        "power": 120,
+        "accuracy": 80,
+        "pp": 5,
+        "description": "Rest your case."
     }
 
 };
@@ -426,19 +430,22 @@ function writeNextMessage() {
 }
 
 function playerMove(lawyer, type, move) {
+    lawyer = activeLawyer;
     console.log('The lawyer is ' + lawyer + '. The move is "' + move + '", which is a ' + type + ' move.');
     let moveExists = false;
     let movePP = 0;
 
-    if (type === "physical" && physicalMoves_player[move] !== undefined) {
-        moveExists = true;
-        movePP = player.lawyers[lawyer].moveset.physicalPP;
-    } else if (type === "status" && statusMoves_player[move] !== undefined) {
-        moveExists = true;
-        movePP = player.lawyers[lawyer].moveset.statusPP;
-    } else if (type === "special" && specialMoves_player[move] !== undefined) {
-        moveExists = true;
-        movePP = player.lawyers[lawyer].moveset.specialPP;
+    if (player.lawyers[lawyer].moveset[type + "Move"] === move) { 
+        if (type === "physical" && physicalMoves_player[move] !== undefined) {
+            moveExists = true;
+            movePP = player.lawyers[lawyer].moveset.physicalPP;
+        } else if (type === "status" && statusMoves_player[move] !== undefined) {
+            moveExists = true;
+            movePP = player.lawyers[lawyer].moveset.statusPP;
+        } else if (type === "special" && specialMoves_player[move] !== undefined) {
+            moveExists = true;
+            movePP = player.lawyers[lawyer].moveset.specialPP;
+        }
     }
 
     if (!moveExists) {
@@ -650,4 +657,30 @@ function selectPoliceMove() {
 function selectLawyer(lawyer){
     activeLawyer = lawyer;
     writePlayerInfo();
+}
+
+function selectRandomPlayerMove() {
+    var moveTypes = ["physical", "status", "special"];
+    var selectedMoveType = moveTypes[Math.floor(Math.random() * moveTypes.length)];
+    var availableMoves = [];
+
+    switch (selectedMoveType) {
+        case "physical":
+            availableMoves = Object.keys(physicalMoves_player);
+            break;
+        case "status":
+            availableMoves = Object.keys(statusMoves_player);
+            break;
+        case "special":
+            availableMoves = Object.keys(specialMoves_player);
+            break;
+    }
+
+    var selectedMoveName = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+
+    if (player.lawyers[activeLawyer].moveset[selectedMoveType + "PP"] < 1) {
+        selectedMoveName = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    }
+
+    return { type: selectedMoveType, move: selectedMoveName };
 }

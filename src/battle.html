@@ -164,7 +164,7 @@
             margin: 10px;
             box-sizing: content-box;
             width: calc(100% - 35px);
-            height: 150px;
+            height: 130px;
             background-image: linear-gradient(0deg, #1a1a1a50, #000000a0);
         }
 
@@ -286,6 +286,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            width: -webkit-fill-available;
         }
 
         #playerMoves .moveButton h1 {}
@@ -302,56 +303,51 @@
             box-sizing: border-box;
         }
 
-        .moveBottomBar {
-            align-self: flex-end;
-            box-sizing: border-box;
-        }
-
         .moveTopBar {}
 
         .moveDescriptionBar {
             background-color: #a1a1a150;
-    padding: 5px;
+    padding: 10px;
     text-align: left;
-    font-size: 7.5px;
+    font-size: 9px;
     text-transform: uppercase;
     width: 100%;
     white-space: normal;
+    line-height: 10px;
+    color: white;
     padding-top: 2.5px;
     padding-bottom: 2.5px;
-    line-height: 10px;
-    height: 100%;
-    margin: 5px;
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-bottom: 2.5px;
         }
 
         .moveBottomBar {
+            align-self: flex-end;
+            box-sizing: border-box;
             float: right;
     padding: 0px;
     margin: 0px;
-    display: flex;
-    justify-content: end;
-    align-items: center;
+    display: inline-block;
+    justify-content: center;
+    align-items: end;
     width: 100%;
     box-sizing: border-box;
-    margin-right: -2.5px;
+    margin: 0px;
+    padding: 0px;
+    text-align: right;
+    background-color: transparent;
+    background-image: linear-gradient(90deg, #1a1a1a, transparent);
         }
 
         .moveBottomBar button {
-            display: inline-block;
-            margin: 0px;
-            background-color: #1a1a1a;
             border: none;
-            color: white;
-            font-family: 'gamer';
-            font-size: 25px;
-            margin: 2.5px;
-            padding: 0px;
-            padding-bottom: 2.5px;
-            padding-left: 10px;
-            padding-right: 10px;
+    text-align: right;
+    font-family: 'pst';
+    padding: 5px;
+    font-size: 10px;
+    font-weight: 900;
+    background-color: transparent;
+    color: white;
+    vertical-align: middle;
+    display: contents;
         }
 
         .moveTopBar h1 {
@@ -361,6 +357,12 @@
     padding: 7.5px;
     margin: 0px;
     text-transform: uppercase;
+    white-space: nowrap;
+        }
+
+        .ppLabel, .damageLabel {
+            font-size: 6px;
+    margin-right: 5px;
         }
     </style>
 </head>
@@ -456,8 +458,8 @@
                                 </div>
 
                                 <div class="moveBottomBar">
-                                    <button id="move1PP">0</button>
-                                    <button id="move1Damage">00</button>
+                                    <button><span class = "ppLabel" >PP</span><span id="move1PP" ></span></button>
+                                    <button><span class = "damageLabel" >DMG</span><span id="move1Damage">00</span></button>
                                 </div>
 
                             </div>
@@ -473,8 +475,8 @@
                                 </div>
 
                                 <div class="moveBottomBar">
-                                    <button id="move2PP">0</button>
-                                    <button id="move2Damage">00</button>
+                                    <button><span class = "ppLabel" >PP</span><span id="move2PP" ></span></button>
+                                    <button><span class = "damageLabel" >DMG</span><span id="move2Damage">00</span></button>
                                 </div>
 
                             </div>
@@ -490,8 +492,8 @@
                                 </div>
 
                                 <div class="moveBottomBar">
-                                    <button id="move3PP">0</button>
-                                    <button id="move3Damage">00</button>
+                                    <button><span class = "ppLabel" >PP</span><span id="move3PP"></span></button>
+                                    <button><span class = "damageLabel" >DMG</span><span id="move3Damage">00</span></button>
                                 </div>
 
                             </div>
@@ -520,7 +522,7 @@
 
         setTimeout(function () {
 
-            playerMove("lawyer1", "physical", "Objection");
+            selectRandomPlayerMove();
             var movetouse = selectPoliceMove();
             policeMove(movetouse.type, movetouse.move);
 
