@@ -91,14 +91,15 @@
             font-family: 'pst';
             padding: 7.5px;
             float: right;
+            overflow:hidden;
         }
 
         #enemyHPBarFill,
         #playerHPBarFill {
             width: 100%;
-            background-color: white;
-            display: flex;
-            transition: all 0.5s;
+    background-color: white;
+    box-shadow: 7.5px 7.5px 20px black;
+    transition: all 0.5s;        
         }
 
         #enemyHPBarText,
@@ -209,7 +210,7 @@
             background-color: transparent;
             padding: 15px;
             box-sizing: border-box;
-            display:none;
+            display: none;
         }
 
         .typed-cursor {
@@ -268,33 +269,41 @@
             box-sizing: border-box;
             margin: 0px;
             padding: 5px;
-            display:inline-flex;
+            display: inline-flex;
         }
 
         #playerMoves .moveButton {
             padding: 5px;
             display: inline-block;
-            border: none;
             box-sizing: border-box;
             background-color: #a1a1a150;
             color: white;
             font-family: 'pst';
             font-size: 10px;
             margin: 5px;
-            box-shadow: 0px 2.5px 0px #a1a1a1;
             text-align: left;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: -webkit-fill-available;
+            width: 100%;
             cursor: pointer;
             transition: all 0.25s;
             outline: 0px solid #a1a1a100;
+            overflow: hidden;
+            border: 2.5px solid #a1a1a1;
+            border-top: 2.5px solid transparent;
+            border-left: 2.5px solid transparent;
+            border-right: 2.5px solid transparent;
+            border-bottom: 2.5px solid #a1a1a1;
         }
 
         #playerMoves .moveButton:hover {
             transform: scale(1.0125);
-            box-shadow: 0px -2.5px 0px #a1a1a1;
+            border: 2.5px solid #a1a1a1;
+            border-top: 2.5px solid #a1a1a1;
+            border-left: 2.5px solid #a1a1a1;
+            border-right: 2.5px solid #a1a1a1;
+            border-bottom: 2.5px solid transparent;
         }
 
         #playerMoves .moveButton h1 {}
@@ -327,7 +336,7 @@
             color: white;
             padding-top: 2.5px;
             padding-bottom: 2.5px;
-            height: -webkit-fill-available;
+        height: 100%;
             margin: 5px;
             margin-left: 0px;
             margin-right: 0px;
@@ -424,6 +433,21 @@
             100% {
                 opacity: 0.5;
             }
+        }
+
+        #move1PP,
+        #move2PP,
+        #move3PP,
+        #move1Damage,
+        #move2Damage,
+        #move3Damage {
+            text-decoration: underline;
+    text-decoration-color: #a1a1a1a0;
+    padding: 2.5px;
+    padding-bottom: 10px;
+    background-color: transparent;
+    text-decoration-thickness: 1.5px;
+    text-decoration-style: dotted;
         }
     </style>
 </head>
@@ -578,12 +602,18 @@
 </body>
 
 <script src="js/custom/battleMoves.js"></script>
+<script src="js/custom/playerBattleMoves.js"></script>
+<script src="js/custom/policeBattleMoves.js"></script>
+<script src="js/custom/playerMovesDictionary.js"></script>
+<script src="js/custom/policeMovesDictionary.js"></script>
 
 <script>
 
     window.onload = function () {
-        writePlayerInfo();
-        writePoliceInfo();
+        police.hp = Math.floor(Math.random() * 100) + 100;
+        policeMaxHP = police.hp;
+
+        initialInfoWrite();
 
     };
 </script>
