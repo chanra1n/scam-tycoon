@@ -150,6 +150,7 @@
     100%{
         width: 95%;
         opacity: 0;
-        filter:hue-rotate(180deg);
+        filter:hue-rotate(180deg) blur(1px);
+        transform: scale(2, 1.5);
     }
 }

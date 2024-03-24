@@ -65,8 +65,9 @@ var statusMoves_player = {
             writeToPlayerMenu(player.lawyers[activeLawyer].name + "'s defense rose!");
         }
 
-    },
-    "Compelling Testimony": {
+        },
+        
+        "Key Testimony": {
         "type": "status",
         "power": 0,
         "accuracy": 90,
@@ -120,7 +121,9 @@ var specialMoves_player = {
         "power": 100,
         "accuracy": 70,
         "pp": 5,
-        "description": "The judge has spoken."
+        "description": "The judge has spoken.",
+        "action": function () {
+        }
     },
     "Hung Jury": {
         "type": "special",

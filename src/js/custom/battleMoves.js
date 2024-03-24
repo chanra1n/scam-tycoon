@@ -46,7 +46,7 @@ var player = {
             moveset: {
                 physicalMove: "Rebuttal",
                 physicalPP: 25,
-                statusMove: "Compelling Testimony",
+                statusMove: "Key Testimony",
                 statusPP: 15,
                 specialMove: "Act of God",
                 specialPP: 15
@@ -191,7 +191,7 @@ function writeNextMessage() {
 function initialInfoWrite() {
     // pick a random lawyer to be the active lawyer, lawyer1 - lawyer 6 are the choices.
     activeLawyer = "lawyer" + Math.floor(Math.random() * 6 + 1);
-    selectLawyer("lawyer5");
+    selectLawyer(activeLawyer);
     document.getElementById('enemyTotalHP').innerHTML = "/"+ Math.floor(police.hp);
     document.getElementById('playerTotalHP').innerHTML = "/"+ Math.floor(player.lawyers[activeLawyer].hp);
     writePlayerInfo();
