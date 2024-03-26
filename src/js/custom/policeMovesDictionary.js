@@ -1,107 +1,102 @@
 var availableMoves_police = {
-    "Taser Shock": {
-        "type": "physical",
-        "power": 20,
-        "accuracy": 90,
-        "pp": 25,
-        "description": "ACAB"
-    },
-    // mid level attack. does damage.
-    "Pepper Spray": {
-        "type": "physical",
-        "power": 25,
-        "accuracy": 90,
-        "pp": 20,
-        "description": "Damn, that stings."
-    },
-    // high level attack. does damage. less accurate.
     "Baton Strike": {
         "type": "physical",
-        "power": 40,
+        "power": 75,
+        "accuracy": 95,
+    },
+    "Pepper Spray": {
+        "type": "physical",
+        "power": 80,
+        "accuracy": 95,
+    },
+    "Baton Strike": {
+        "type": "physical",
+        "power": 80,
         "accuracy": 90,
-        "pp": 15,
-        "description": "Oh no, scawy baton."
     },
 
-    // low level status move. increases defense.    
-    "Qualified Immunity": {
-        "type": "status",
-        "power": 0,
-        "accuracy": 100,
-        "pp": 10,
-        "description": "I can do whatever I want.",
-        "action": function () {
-            this.defense += this.defense * 0.4;
-            writeToPlayerMenu("POLICE OFFICER's defense rose!");
-        }
-    },
-    "Old Boy Assist": {
-        "type": "status",
-        "power": 0,
-        "accuracy": 80,
-        "pp": 20,
-        "description": "I know a guy who knows a guy.",
-        "action": function () {
-            this.attack += this.attack * 0.25;
-            this.defense += this.defense * 0.1;
-            writeToPlayerMenu("POLICE OFFICER's attack rose!");
-            writeToPlayerMenu("POLICE OFFICER's defense rose!");
-        }
-    },
     "The Court of Public Opinion": {
         "type": "status",
         "power": 0,
         "accuracy": 100,
-        "pp": 15,
-        "description": "Your badge doesn't earn you respect, your actions do.",
         "action": function () {
-            this.speed += this.speed * 0.1;
-            writeToPlayerMenu("POLICE OFFICER's speed rose!");
+            police.hp += Math.floor(policeMaxHP * 0.5 + Math.random() * policeMaxHP * 0.25);
+            if (this.hp > policeMaxHP) {
+                this.hp = policeMaxHP;
+            }
+            document.getElementById('enemyHPBarFill').style.width = (this.hp / policeMaxHP) * 100 + "%";
+            writeToPlayerMenu("POLICE OFFICER's HP was restored!");
         }
     },
-
     "Blue Wall": {
-        "type": "special",
-        "power": 80,
-        "accuracy": 90,
-        "pp": 5,
-        "description": "🌰🔫👮🏻‍♂️",
+        "type": "status",
+        "power": 0,
+        "accuracy": 100,
+        "pp": 15,
+        "description": "A strong defense is a good offense.",
         "action": function () {
-            this.luck += this.luck * 0.25;
-            player.status = "Paralyzed";
-            this.defense += this.defense * 0.25;
+            police.defense += Math.ceil(police.defense * 0.75 + Math.random() * police.defense * 0.25);
             writeToPlayerMenu("POLICE OFFICER's defense rose!");
+        }
+    },
+    "Qualified Immunity": {
+        "type": "status",
+        "power": 0,
+        "accuracy": 90,
+        "pp": 15,
+        "description": "Increase your attack bonus.",
+        "action": function () {
+            police.attack += Math.floor(police.attack * 0.5);
+            police.luck += Math.floor(police.luck * 0.5);
+            writeToPlayerMenu("POLICE OFFICER's attack rose!");
             writeToPlayerMenu("POLICE OFFICER got luckier!");
-            writeToPlayerMenu(player.lawyers[activeLawyer].name + " became paralyzed! It may be unable to move!");
         }
     },
     "Thin Blue Line": {
-        "type": "special",
-        "power": 100,
-        "accuracy": 90,
+        "type": "status",
+        "power": 0,
+        "accuracy": 100,
         "pp": 10,
-        "description": "Oh, give me a break.",
+        "description": "Let's call in the witness.",
         "action": function () {
-            this.luck += this.luck * 0.25;
-            this.status = "Confused";
-            writeToPlayerMenu("POLICE OFFICER got luckier!");
-            writeToPlayerMenu("POLICE OFFICER became confused!");
+            police.speed += Math.floor(police.speed * 0.5);
+            police.defense += Math.floor(police.defense * 0.5);
+            writeToPlayerMenu("POLICE OFFICER's speed rose!");
+            writeToPlayerMenu("POLICE OFFICER's defense rose!");
         }
     },
     "Brutality": {
         "type": "special",
-        "power": 120,
-        "accuracy": 80,
-        "pp": 15,
-        "description": "Yeahhhhhh...",
+        "power": 150,
+        "accuracy": 90,
+        "pp": 5,
+        "description": "A last-ditch effort to turn the tide of the battle.",
         "action": function () {
-            this.luck -= this.luck * 0.5;
-            this.defense -= this.defense * 0.5;
-            this.attack += this.attack * 0.5;
-            writeToPlayerMenu("POLICE OFFICER's attack rose!");
-            writeToPlayerMenu("POLICE OFFICER's became unluckier!");
-            writeToPlayerMenu("POLICE OFFICER's defense fell!");
+            // there should be a 70% chance of this move succeeding.
+            // if it succeeds, every player stat is doubled.
+            // if it fails, every player stat is halved.
 
+            var success = Math.random() < 0.75;
+            if (success) {
+                police.attack *= 2;
+                police.defense *= 2;
+                police.speed *= 2;
+                police.luck *= 2;
+                writeToPlayerMenu("POLICE OFFICER's attack bonus rose!");
+                writeToPlayerMenu("POLICE OFFICER's defense rose!");
+                writeToPlayerMenu("POLICE OFFICER's speed rose!");
+                writeToPlayerMenu("POLICE OFFICER got luckier!");
+
+            } else {
+                police.attack /= 2;
+                police.defense /= 2;
+                police.speed /= 2;
+                police.luck /= 2;
+                writeToPlayerMenu("POLICE OFFICER's attack bonus fell!");
+                writeToPlayerMenu("POLICE OFFICER's defense fell!");
+                writeToPlayerMenu("POLICE OFFICER's speed fell!");
+                writeToPlayerMenu("POLICE OFFICER became unluckier!");
+            }
         }
     }
 };

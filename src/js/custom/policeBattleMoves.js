@@ -1,5 +1,7 @@
 function policeMove(type, move) {
 
+    if (!playerWins) {
+
     document.getElementById('playerMoves').style.display = 'none';
     policeMoveInProgress = true;
 
@@ -25,37 +27,31 @@ function policeMove(type, move) {
             writeToPlayerMenu("They hurt themselves in their confusion!");
             conditionMet = true;
         }
-    } 
-
-    if (!conditionMet && police.status === "Paralyzed") {
+    } else if (police.status === "Paralyzed") {
         if (Math.random() < 0.75) {
             writeToPlayerMenu("POLICE OFFICER is paralyzed!");
             writeToPlayerMenu("They can't move!");
             conditionMet = true;
         }
-    } 
-
-    if (!conditionMet && police.status === "Poisoned") {
+    } else if (police.status === "Poisoned") {
         police.hp -= 5;
         writePoliceInfo();
         conditionMet = true;
     } 
 
-    if (!conditionMet && moveType === "physical") {
-        writeToPlayerMenu("POLICE OFFICER used " + move + "!");
-        damagePlayer((movePower));
-    } 
-
-    if (!conditionMet && moveType === "status") {
-        damagePlayer((movePower));
-        availableMoves_police[move].action.call(police);
-        writeToPlayerMenu("POLICE OFFICER used " + move + "!");
-    } 
-
-    if (!conditionMet && moveType === "special") {
-        damagePlayer((movePower));
-        writeToPlayerMenu("POLICE OFFICER used " + move + "!");
-        availableMoves_police[move].action.call(police);
+    if (!conditionMet) {
+        if (moveType === "physical") {
+            writeToPlayerMenu("POLICE OFFICER used " + move + "!");
+            damagePlayer((movePower));
+        } else if (moveType === "status") {
+            writeToPlayerMenu("POLICE OFFICER used " + move + "!");
+            damagePlayer((movePower));
+            availableMoves_police[move].action.call(police);
+        } else if (moveType === "special") {
+            writeToPlayerMenu("POLICE OFFICER used " + move + "!");
+            damagePlayer((movePower));
+            availableMoves_police[move].action.call(police);
+        }
     }
 
     writePlayerInfo();
@@ -77,7 +73,32 @@ function policeMove(type, move) {
     }, 1000);
 
     document.getElementById('playerHPBarFill').style.animation = "horizontal-shaking 0.15s 1";
-    let hpPercentage = (player.lawyers[activeLawyer].hp / player.lawyers[activeLawyer].maxHp) * 100;
+    let activeLawyerMaxHP;
+    
+    switch (activeLawyer) {
+        case 'lawyer1':
+            activeLawyerMaxHP = lawyer1maxHP;
+            break;
+        case 'lawyer2':
+            activeLawyerMaxHP = lawyer2maxHP;
+            break;
+        case 'lawyer3':
+            activeLawyerMaxHP = lawyer3maxHP;
+            break;
+        case 'lawyer4':
+            activeLawyerMaxHP = lawyer4maxHP;
+            break;
+        case 'lawyer5':
+            activeLawyerMaxHP = lawyer5maxHP;
+            break;
+        case 'lawyer6':
+            activeLawyerMaxHP = lawyer6maxHP;
+            break;
+        default:
+            console.log("Invalid activeLawyer value");
+    }
+
+    let hpPercentage = (player.lawyers[activeLawyer].hp / activeLawyerMaxHP) * 100;
 
     if (player.lawyers[activeLawyer].hp <= 100) {
         document.getElementById('playerHPBarFill').style.width = Math.floor(hpPercentage) + '%';
@@ -94,15 +115,16 @@ function policeMove(type, move) {
     }, 100);
 
 }
+}
 
 function writePoliceInfo() {
 
     document.getElementById('enemyCurrentHP').innerHTML = Math.floor(police.hp);
     document.getElementById('enemyStatus').innerHTML = police.status;
-    document.getElementById('enemyDefense').innerHTML = Math.floor(police.defense);
-    document.getElementById('enemySpeed').innerHTML = Math.floor(police.speed);
-    document.getElementById('enemyLuck').innerHTML = Math.floor(police.luck);
-    document.getElementById('enemyDamageBonus').innerHTML = Math.floor(police.attack);
+    document.getElementById('enemyDefense').innerHTML = (Math.floor(police.defense) == police.defense) ? police.defense : police.defense.toFixed(1);
+    document.getElementById('enemySpeed').innerHTML = (Math.floor(police.speed) == police.speed) ? police.speed : police.speed.toFixed(1);
+    document.getElementById('enemyLuck').innerHTML = (Math.floor(police.luck) == police.luck) ? police.luck : police.luck.toFixed(1);
+    document.getElementById('enemyDamageBonus').innerHTML = (Math.floor(police.attack) == police.attack) ? police.attack : police.attack.toFixed(1);
 
     policeMoveInProgress = false;
 }
@@ -142,4 +164,8 @@ function selectPoliceMove() {
 
     return { type: selectedMoveType, move: selectedMoveName };
 
+}
+
+function policeWinsAction() {
+    alert('THE COPS WON!');
 }

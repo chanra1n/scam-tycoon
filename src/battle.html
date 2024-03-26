@@ -46,34 +46,6 @@
             flex-direction: column;
         }
 
-        #debug_info {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: green;
-            color: black;
-            width: 100%;
-            height: 100%;
-        }
-
-        #debug_info1 {
-            float: left;
-            width: 60%;
-            height: 100%;
-            background-color: red;
-            color: white;
-            overflow: auto;
-        }
-
-        #debug_info2 {
-            float: right;
-            width: 40%;
-            height: 100%;
-            background-color: blue;
-            color: white;
-            overflow: auto;
-        }
-
         #battlePhase {
             position: absolute;
             width: 100%;
@@ -169,7 +141,6 @@
         }
 
         #playerBorder {
-
             border: 2.5px dashed #a1a1a150;
             width: 100%;
             height: 100%;
@@ -210,6 +181,7 @@
             padding: 15px;
             box-sizing: border-box;
             display: none;
+            transition: all 0.5s;
         }
 
         .typed-cursor {
@@ -255,6 +227,7 @@
             float: right;
             text-align: right;
             vertical-align: middle;
+            text-transform: uppercase;
         }
 
         #enemyStatsBar p i,
@@ -269,6 +242,7 @@
             margin: 0px;
             padding: 5px;
             display: inline-flex;
+            transition: all 0.5s;
         }
 
         #playerMoves .moveButton {
@@ -296,8 +270,8 @@
             border-bottom: 2.5px solid #a1a1a1;
         }
 
-        #playerMoves .moveButton:hover {
-            transform: scale(1.0125);
+        #playerMoves .moveButton:hover, .lawyerSelect:hover {
+            transform: scale(1.0125)!important;
             border: 2.5px solid #a1a1a1;
             border-top: 2.5px solid #a1a1a1;
             border-left: 2.5px solid #a1a1a1;
@@ -477,11 +451,192 @@
         }
     }
 
+    #lawyerSelection {
+        display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    position: absolute;
+    top: -40%;
+    left: 0;
+    background-color: #1a1a1a;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    overflow: auto;
+    padding: 10px;
+    margin: 10px;
+    box-sizing: border-box;
+    opacity: 0%;
+    pointer-events: none;
+    }
+    
+    .lawyerSelect {
+        background-color: green;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: 2.5px solid transparent;
+    border-left: 2.5px solid transparent;
+    border-right: 2.5px solid transparent;
+    border-bottom: 2.5px solid #a1a1a1;
+    height: fit-content;
+    cursor:pointer;
+    }
+
+    .lawyerSelect .lawyerMoveset {
+    }
+
+    .lawyerSelect h1 {
+        font-size: 10px;
+    text-transform: uppercase;
+    float: left;
+    width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor:pointer;
+    }
+
+    .lawyerSelect p {
+        font-size: 7px;
+    text-transform: uppercase;
+    float: right;
+    text-decoration: underline;
+    text-underline-offset: 2.5px;
+    text-decoration-style: dashed;
+    cursor:pointer;
+    }
+
+    .lawyerSelect .buttonContainer {
+        width: 100%;
+    box-sizing: border-box;
+    color: black;
+    font-size: 12.5px;
+    background-color: transparent;
+    padding: 2.5px;
+    vertical-align: middle;
+    margin: 3px;
+    margin-left: 0px;
+    margin-right: 0px;
+    overflow: hidden;
+    filter: invert(1);
+    background-image: linear-gradient(45deg, #ffffff, transparent);
+    cursor:pointer;
+    }
+
+    .lawyerSelect .buttonContainer i {
+        display: inline-block;
+    vertical-align: middle;
+    margin: 1.25px;
+    padding: 0px;
+    float:left;
+    cursor:pointer;
+    }
+
+    .lawyerSelect .buttonContainer button {
+        width: 70%;
+    border: none;
+    font-family: 'pst';
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: transparent;
+    font-size: 7.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    padding-left: 7.5px;
+    cursor:pointer;
+    }
+
+    .labelContainer {
+        float: right;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    display: block;
+    margin: -2.5px;
+    padding-top: 0px;
+    padding-bottom: 2.5px;
+    height: 100%;
+    cursor:pointer;
+    }
+
+    .labelContainer span {
+        display: block;
+    font-size: 20px;
+    font-family: 'gamer';
+    font-weight: lighter;
+    cursor:pointer;
+    }
+
+    .callButton {
+        width: 100%;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 7.5px;
+    font-family: 'pst';
+    font-size: 7.5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    cursor:pointer;
+    }
+
+    #playerHPBar {
+        transform: translate(-100%,0);
+        transition: all 1s;
+        transition-timing-function:cubic-bezier(0.8,0,0,1);
+        opacity:0%;
+    }
+
+    #enemyHPBar {
+        transform: translate(100%,0);
+        transition: all 1s;
+        transition-timing-function:cubic-bezier(0.8,0,0,1);
+        opacity:0%;
+    }
+
+    #playerStatsBar > *, #enemyStatsBar > * {
+        opacity:0%;
+        transform:scale(0.9);
+        transition-timing-function:cubic-bezier(0.8,0,0,1);
+        transition: all 0.3s;
+    }
+
+    .moveButton {
+        transform:scaleY(0);
+        transition: all 0.1s, opacity 0.25s;
+        transition-timing-function:cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        opacity: 0%;
+    }
+
+    #light {
+        filter:blur(2.5px);
+        transition: all 10s;
+        animation: fadeIn 10s infinite;
+    }
+
+
+    @keyframes fadeIn {
+        0% {
+            filter:blur(2.5px);
+        }
+
+        50% {
+            filter:blur(0px);
+        }
+
+        100% {
+            filter:blur(2.5px);
+        }
+    }
+
     </style>
 </head>
 
 <body>
-
 
     <div id="battleFrame">
 
@@ -524,7 +679,7 @@
                         </div>
                     </div>
                     <div id="enemyStatsBar">
-                        <p title="Status"><i class="ri-heart-fill"></i> <span id="enemyStatus">Healthy</span></p>
+                        <p title="Status"><i class="ri-pulse-fill"></i> <span id="enemyStatus">Healthy</span></p>
                         <p title="Defense"><i class="ri-shield-fill"></i> <span id="enemyDefense">5</span></p>
                         <p title="Speed"><i class="ri-windy-fill"></i> <span id="enemySpeed">5</span></p>
                         <p title="Luck"><i class="ri-dice-fill"></i> <span id="enemyLuck">5</span></p>
@@ -553,11 +708,11 @@
                         </div>
                     </div>
                     <div id="playerStatsBar">
-                        <p title="Status"><i class="ri-heart-fill"></i> <span id="playerStatus">Healthy</span></p>
+                        <p title="Status"><i class="ri-pulse-fill"></i> <span id="playerStatus">Healthy</span></p>
                         <p title="Defense"><i class="ri-shield-fill"></i> <span id="playerDefense">5</span></p>
                         <p title="Speed"><i class="ri-windy-fill"></i> <span id="playerSpeed">5</span></p>
                         <p title="Luck"><i class="ri-dice-fill"></i> <span id="playerLuck">5</span></p>
-                        <p title="Damage Bonus"><i class="ri-percent-fill"></i> <span id="enemyDamageBonus">5</span></p>
+                        <p title="Damage Bonus"><i class="ri-percent-fill"></i> <span id="playerDamageBonus">5</span></p>
                     </div>
                 </div>
                 <div id="playerMenu">
@@ -622,8 +777,168 @@
 
                         </div>
                         <div id="playerText">
-
                         </div>
+                        <div id = "lawyerSelection">
+                            <div class = "lawyerSelect" id = "lawyer1select">
+                            <h1 id = "lawyer1name"></h1>
+                            <p id = "lawyer1HP"></p>
+                                <div onclick = "selectLawyer('lawyer1')" class = "lawyerMoveset" id = "lawyer1moveset">
+                                    <div class = "buttonContainer">
+                                    <i class="ri-sword-fill"></i> <button id = "lawyer1physicalmove"></button>
+                                    <div class = "labelContainer">
+                                    <span id = "lawyer1physicalmovedamage">0</span>
+                                    </div>
+                                    </div>
+                                    <div class = "buttonContainer">
+                                    <i class="ri-empathize-fill"></i> <button id = "lawyer1statusmove" ></button>
+                                    <div class = "labelContainer">
+                                    <span id = "lawyer1statusmovedamage">0</span>
+                                    </div>
+                                    </div>
+                                    <div class = "buttonContainer">
+                                    <i class="ri-sparkling-fill"></i> <button id = "lawyer1specialmove" ></button>
+                                    <div class = "labelContainer">
+                                    <span id = "lawyer1specialmovedamage">0</span>
+                                    </div>
+                                    </div>
+                                </div>
+                            <button class = "callButton" id = "lawyer1callbutton" onclick = "selectLawyer('lawyer1')" >CALL THIS LAWYER</button>
+                            </div>
+                            <div onclick = "selectLawyer('lawyer2')" class = "lawyerSelect" id = "lawyer2select">
+                                <h1 id = "lawyer2name"></h1>
+                                <p id = "lawyer2HP"></p>
+                                    <div class = "lawyerMoveset" id = "lawyer2moveset">
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sword-fill"></i> <button id = "lawyer2physicalmove"></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer2physicalmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-empathize-fill"></i> <button id = "lawyer2statusmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer2statusmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sparkling-fill"></i> <button id = "lawyer2specialmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer2specialmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <button class = "callButton" id = "lawyer2callbutton" onclick = "selectLawyer('lawyer2')">CALL THIS LAWYER</button>
+                                </div>
+                            <div onclick = "selectLawyer('lawyer3')" class = "lawyerSelect" id = "lawyer3select">
+                                <h1 id = "lawyer3name"></h1>
+                                <p id = "lawyer3HP"></p>
+                                    <div class = "lawyerMoveset" id = "lawyer3moveset">
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sword-fill"></i> <button id = "lawyer3physicalmove"></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer3physicalmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-empathize-fill"></i> <button id = "lawyer3statusmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer3statusmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sparkling-fill"></i> <button id = "lawyer3specialmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer3specialmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <button class = "callButton" id = "lawyer3callbutton" onclick = "selectLawyer('lawyer3')">CALL THIS LAWYER</button>
+                                </div>
+    
+                            <div onclick = "selectLawyer('lawyer4')" class = "lawyerSelect" id = "lawyer4select">
+                                <h1 id = "lawyer4name"></h1>
+                                <p id = "lawyer4HP"></p>
+                                    <div class = "lawyerMoveset" id = "lawyer4moveset">
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sword-fill"></i> <button id = "lawyer4physicalmove"></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer4physicalmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-empathize-fill"></i> <button id = "lawyer4statusmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer4statusmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sparkling-fill"></i> <button id = "lawyer4specialmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer4specialmovedamage">0</span>
+                                        </div>
+                                        </div>
+
+                                    </div>
+                                <button class = "callButton" id = "lawyer4callbutton" onclick = "selectLawyer('lawyer4')">CALL THIS LAWYER</button>
+                                </div>
+                            
+    
+                            <div onclick = "selectLawyer('lawyer5')" class = "lawyerSelect" id = "lawyer5select">
+                                <h1 id = "lawyer5name"></h1>
+                                <p id = "lawyer5HP"></p>
+                                    <div class = "lawyerMoveset" id = "lawyer5moveset">
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sword-fill"></i> <button id = "lawyer5physicalmove"></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer5physicalmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-empathize-fill"></i> <button id = "lawyer5statusmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer5statusmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sparkling-fill"></i> <button id = "lawyer5specialmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer5specialmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <button class = "callButton" id = "lawyer5callbutton" onclick = "selectLawyer('lawyer5')">CALL THIS LAWYER</button>
+                                </div>
+                
+    
+                            <div onclick = "selectLawyer('lawyer6')" class = "lawyerSelect" id = "lawyer6select">
+                                <h1 id = "lawyer6name"></h1>
+                                <p id = "lawyer6HP"></p>
+                                    <div class = "lawyerMoveset" id = "lawyer6moveset">
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sword-fill"></i> <button id = "lawyer6physicalmove"></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer6physicalmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-empathize-fill"></i> <button id = "lawyer6statusmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer6statusmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                        <div class = "buttonContainer">
+                                        <i class="ri-sparkling-fill"></i> <button id = "lawyer6specialmove" ></button>
+                                        <div class = "labelContainer">
+                                        <span id = "lawyer6specialmovedamage">0</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <button class = "callButton" id = "lawyer6callbutton" onclick = "selectLawyer('lawyer6')">CALL THIS LAWYER</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
                     </div>
                 </div>
             </div>
@@ -642,12 +957,75 @@
 <script>
 
     window.onload = function () {
-        police.hp = Math.floor(Math.random() * 100) + 100;
+        police.hp = Math.floor(Math.random() * 250) + 250;
         policeMaxHP = police.hp;
 
+        player.lawyers.lawyer1.hp = Math.floor(Math.random() * 100) + 100;
+        lawyer1maxHP = player.lawyers.lawyer1.hp;
+        player.lawyers.lawyer2.hp = Math.floor(Math.random() * 100) + 100;
+        lawyer2maxHP = player.lawyers.lawyer2.hp;
+        player.lawyers.lawyer3.hp = Math.floor(Math.random() * 100) + 100;
+        lawyer3maxHP = player.lawyers.lawyer3.hp;
+        player.lawyers.lawyer4.hp = Math.floor(Math.random() * 100) + 100;
+        lawyer4maxHP = player.lawyers.lawyer4.hp;
+        player.lawyers.lawyer5.hp = Math.floor(Math.random() * 100) + 100;
+        lawyer5maxHP = player.lawyers.lawyer5.hp;
+        player.lawyers.lawyer6.hp = Math.floor(Math.random() * 100) + 100;
+        lawyer6maxHP = player.lawyers.lawyer6.hp;
+
         initialInfoWrite();
+        initalizeUIElements();
 
     };
+
+    function initalizeUIElements() {
+    
+    document.getElementById('playerHPBar').style.opacity = "100%";
+    document.getElementById('playerHPBar').style.transform = "none";
+    document.getElementById('enemyHPBar').style.opacity = "100%";
+    document.getElementById('enemyHPBar').style.transform = "none";
+
+    setTimeout(function () {
+
+            setTimeout(function(){
+            var moveButton = document.getElementsByClassName('moveButton');
+        for (var i = 0; i < moveButton.length; i++) {
+            (function(i) {
+                setTimeout(function() {
+                    moveButton[i].style.opacity = "100%";
+                    moveButton[i].style.transform = "scaleY(1)";
+                }, i * 50); 
+            })(i);
+            }
+        },300);
+
+    }, playerTextDuration);
+
+    setTimeout(function () {
+        var playerStatsBarChildren = document.getElementById('playerStatsBar').children;
+        for (var i = playerStatsBarChildren.length - 1; i >= 0; i--) {
+            (function(i) {
+                setTimeout(function() {
+                    playerStatsBarChildren[i].style.transform = "scale(1)";
+                    playerStatsBarChildren[i].style.opacity = "100%";
+                }, (playerStatsBarChildren.length - 1 - i) * 10); 
+        })(i);
+        }
+
+
+        var enemyStatsBarChildren = document.getElementById('enemyStatsBar').children;
+        for (var i = 0; i < enemyStatsBarChildren.length; i++) {
+            (function(i) {
+                setTimeout(function() {
+                    enemyStatsBarChildren[i].style.transform = "scale(1)";
+                    enemyStatsBarChildren[i].style.opacity = "100%";
+                }, i * 10); 
+            })(i);
+            }
+    }, 1000);
+
+    };
+    
 </script>
 
 </html>
