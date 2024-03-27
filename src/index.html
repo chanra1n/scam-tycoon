@@ -632,7 +632,7 @@
       lawyers: 0,
       lawyerParty: {
         lawyer1: {
-            name: "",
+            name: "Lawyer1",
             status: "Healthy",
             hp: 123,
             maxHp: 123,
@@ -1091,6 +1091,7 @@
       setTimeout(function () {
 
         document.getElementById('divider_background').style.display = "block";
+        document.getElementById('divider_background').style.backgroundImage = "url('sprites/divider.gif')";
 
         setTimeout(function () {
 
@@ -1118,12 +1119,42 @@
     }
 
     function endBattleEvent() {
-      document.getElementById('battleFrame').style.pointerEvents = "none";
       document.getElementById('battleFrame').style.opacity = "0%";
       setTimeout(function () {
-        document.getElementById('world-map').style.filter = "none";
+        document.getElementById('battleFrame').src = "";
+        document.getElementById('battleFrame').style.opacity = "100%";
+        document.getElementById('battleFrame').style.display = "none";
+      }, 1500);
+      document.getElementById('world-map').style.filter = "none";
+      document.getElementById('world-map').style.opacity = "100%";
+      document.getElementById('topbar').style.top = "0%";
+      document.getElementById('sidebar').style.left = "0%";
+      document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
+      document.getElementById('bannerText').style.opacity = "0%";
+      document.getElementById('bannerText').innerHTML = "";
+      document.getElementById('divider_background').style.display = "none";
+      document.body.style.pointerEvents = "auto";
+      document.getElementById('world-map').style.filter = "blur(10px)";
 
-      }, 2500);
+      document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(1)";
+      document.getElementById('bannerText').style.opacity = "100%";
+
+
+      setTimeout(function(){
+
+        document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
+        document.getElementById('bannerText').style.opacity = "0%";
+
+        setTimeout(function(){
+          document.getElementById('world-map').style.filter = "none";
+          document.getElementById('topbar').style.top = "0%";
+          document.getElementById('sidebar').style.left = "0%";
+          document.getElementById('divider_background').style.backgroundImage = "none";
+        },0);
+
+      },2000);
+
+      resumeTime();
     }
 
     VANTA.FOG({
@@ -1243,6 +1274,18 @@ function exportPlayerData() {
 }
 
 
+window.addEventListener('message', function (event) {
+    console.log('Message received from iframe: ' + event.data);
+
+    if (event.data == "PLAYER WINS") {
+      endBattleEvent();
+      writeBanner('YOU GOT AWAY THIS TIME...');
+    } else if (event.data == "POLICE WINS") {
+      endBattleEvent();
+      writeBanner('YOU GOT ARRESTED!');
+    }
+
+});
 
 
   

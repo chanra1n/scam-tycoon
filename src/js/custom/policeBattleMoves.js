@@ -167,5 +167,5 @@ function selectPoliceMove() {
 }
 
 function policeWinsAction() {
-    alert('THE COPS WON!');
+    writeToParentDocument("POLICE WINS");
 }

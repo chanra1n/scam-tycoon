@@ -6,7 +6,7 @@
   z-index: 9;
   opacity: 100%;
   pointer-events: none;
-  transition: all 0.5s;
+  transition: all 0.5s, opacity 1s;
   transition-timing-function: ease-in-out;
   display:none;
 }

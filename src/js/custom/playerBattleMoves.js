@@ -381,7 +381,7 @@ function selectLawyer(lawyer) {
     let hpBarFillPercentage = Math.min((lawyerHP / lawyerMaxHP) * 100, 100);
     document.getElementById('playerHPBarFill').style.width = hpBarFillPercentage + "%";
 
-    writeToPlayerMenu(player.lawyers[activeLawyer].name + " enters the courtroom!");
+    writeToPlayerMenu(player.lawyers[activeLawyer].name + " COMES TO YOUR DEFENSE!");
 
     setTimeout(function () {
         playerTextElement.style.display = 'none';
@@ -444,5 +444,12 @@ function selectRandomPlayerMove() {
 }
 
 function playerWinsAction() {
-    alert('YOU WON!');
+    writeToParentDocument("PLAYER WINS");
+}
+
+// let's write a function that passes a string to the parent document.
+// after all, this is an iframe, and we need to communicate with the parent document.
+
+function writeToParentDocument(message) {
+    window.parent.postMessage(message, '*');
 }
