@@ -207,6 +207,31 @@
 <body>
   <span id="fps"></span>
   <span id="bannerText"></span>
+  <style>
+    #divider_background {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      z-index: 110000000000;
+      transition: all 0.5s;
+      transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
+      background-image: url('sprites/divider.gif');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 100%;
+      display: none;
+      image-rendering: pixelated;
+    }
+
+    #fps {
+      display: none !important;
+    }
+  </style>
+  <div id="divider_background"></div>
   <div id="crt-lines" style="opacity:10%"></div>
   <div id="vignette" style="opacity:40%"></div>
   <div id="weather_filter" class="weather_filter back-row-toggle splat-toggle">
@@ -217,7 +242,7 @@
   <div id="player"></div>
 
   <div id="sidebar">
-   
+
     <i id="help-icon" class="sidebar-icon ri-questionnaire-fill"></i>
     <div id="help-dropdown" uk-dropdown>
       <h1 class="selectascam">NEED SOME HELP?</h1>
@@ -232,8 +257,8 @@
 
     <style>
       #lawyer-dropdown {
-        width: 40vw!important;
-    max-width: unset!important;
+        width: 40vw !important;
+        max-width: unset !important;
       }
 
       #lawyer-dropdown h2 {
@@ -242,41 +267,39 @@
         margin: 0px;
         padding: 0px;
         margin-bottom: -5px;
-    margin-top: 2.5px;
+        margin-top: 2.5px;
       }
 
       .party-slot {
         width: 100%;
-    border: 1.5px dashed green;
-    text-align: center;
-    box-sizing: border-box;
-    margin-left: 0px;
-    margin-right: 0px;
-    font-family: 'pst';
-    font-size: 7.5px;
-    padding: 10px;
-    opacity: 50%;
-    margin-bottom:2.5px;
-    margin-top:7.5px;
+        border: 1.5px dashed green;
+        text-align: center;
+        box-sizing: border-box;
+        margin-left: 0px;
+        margin-right: 0px;
+        font-family: 'pst';
+        font-size: 7.5px;
+        padding: 10px;
+        opacity: 50%;
+        margin-bottom: 2.5px;
+        margin-top: 7.5px;
       }
 
       #lawyer-dropdown button {
         border: none;
-    font-family: 'pst';
-    padding: 7.5px;
-    font-size: 9px;
-    width: 100%;
-    background-color: black!important;
-    color: green!important;
-    border: 2.5px solid green;
+        font-family: 'pst';
+        padding: 7.5px;
+        font-size: 9px;
+        width: 100%;
+        background-color: black !important;
+        color: green !important;
+        border: 2.5px solid green;
       }
 
-      #current_lawyer_count {
-
-      }
+      #current_lawyer_count {}
     </style>
 
-    <i id = "lawyer-icon" class="sidebar-icon ri-scales-fill"></i>
+    <i id="lawyer-icon" class="sidebar-icon ri-scales-fill"></i>
     <div id="lawyer-dropdown" uk-dropdown>
       <span style="
     font-size: 18px;
@@ -289,22 +312,23 @@
 
       <hr class="selectascamhr">
 
-      <span class="datapointspan" id="lawyer_blurb" style="font-family:'pst'">ADD LAWYERS TO YOUR LEGAL TEAM, THEY COULD COME IN HANDY WITH THE LAW!</span>
-      
-      
-        <button class="hire" id="hire_1_lawyer_button" onclick="hireExtraWorkers('lawyer', 1)">HIRE LAWYERS</button>
-    
+      <span class="datapointspan" id="lawyer_blurb" style="font-family:'pst'">ADD LAWYERS TO YOUR LEGAL TEAM, THEY COULD
+        COME IN HANDY WITH THE LAW!</span>
 
-      <div id = "lawyer-party">
+
+      <button class="hire" id="hire_1_lawyer_button" onclick="hireExtraWorkers('lawyer', 1)">HIRE LAWYERS</button>
+
+
+      <div id="lawyer-party">
         <h2>YOUR TEAM</h2>
-        <div class = "party-slot">[SLOT EMPTY]</div>
-        <div class = "party-slot">[SLOT EMPTY]</div>
-        <div class = "party-slot">[SLOT EMPTY]</div>
-        <div class = "party-slot">[SLOT EMPTY]</div>
-        <div class = "party-slot">[SLOT EMPTY]</div>
-        <div class = "party-slot">[SLOT EMPTY]</div>
+        <div class="party-slot">[SLOT EMPTY]</div>
+        <div class="party-slot">[SLOT EMPTY]</div>
+        <div class="party-slot">[SLOT EMPTY]</div>
+        <div class="party-slot">[SLOT EMPTY]</div>
+        <div class="party-slot">[SLOT EMPTY]</div>
+        <div class="party-slot">[SLOT EMPTY]</div>
       </div>
-      </div>
+    </div>
 
     <i id="mail-icon" class="sidebar-icon ri-mail-fill"></i>
     <div id="mail-dropdown" onmouseenter="document.getElementById('mail-icon').style.animation = 'none'" uk-dropdown>
@@ -526,7 +550,7 @@
         <button class="fire" id="fire_100_interns_button" onclick="fireExtraWorkers('intern', 100)">-100</button>
         <br>
 
-      
+
       </div>
 
 
@@ -543,7 +567,8 @@
 
   </div>
 
-  <iframe id = "battleFrame"></iframe>
+  <iframe id="battleFrame"></iframe>
+
 
   <div id="world-map" class="grid-container"></div>
 
@@ -576,6 +601,8 @@
   <script src="js/lib/vanta_birds.js"></script>
   <script src="js/custom/rainWeather.js"></script>
 
+  <script src="js/custom/taxFunctions.js"></script>
+
   <script src="js/lib/pathfinding.js"></script>
 
   <script>
@@ -605,52 +632,112 @@
       lawyers: 0,
       lawyerParty: {
         lawyer1: {
-          name: "Lawyer1",
-          health: 100,
-          attack: 10,
-          defense: 5,
-          speed: 5,
-          luck: 5
+            name: "",
+            status: "Healthy",
+            hp: 123,
+            maxHp: 123,
+            moveset: {
+                physicalMove: "Objection",
+                physicalPP: 0,
+                statusMove: "Solid Defense",
+                statusPP: 0,
+                specialMove: "Final Verdict",
+                specialPP: 0
+            },
+            defense: 1,
+            speed: 1,
+            luck: 1,
+            attack: 1
         },
         lawyer2: {
-          name: "Lawyer2",
-          health: 100,
-          attack: 10,
-          defense: 5,
-          speed: 5,
-          luck: 5
+            name: "Lawyer2",
+            status: "Healthy",
+            hp: 456,
+            maxHp: 456,
+            moveset: {
+              physicalMove: "Objection",
+              physicalPP: 0,
+              statusMove: "Solid Defense",
+              statusPP: 0,
+              specialMove: "Final Verdict",
+              specialPP: 0
+            },
+            defense: 1,
+            speed: 1,
+            luck: 1,
+            attack: 1
         },
         lawyer3: {
-          name: "Lawyer3",
-          health: 100,
-          attack: 10,
-          defense: 5,
-          speed: 5,
-          luck: 5
+            name: "Lawyer3",
+            status: "Healthy",
+            hp: 789,
+            maxHp: 789,
+            moveset: {
+            physicalMove: "Objection",
+            physicalPP: 0,
+            statusMove: "Solid Defense",
+            statusPP: 0,
+            specialMove: "Final Verdict",
+            specialPP: 0
+            },
+            defense: 1,
+            speed: 1,
+            luck: 1,
+            attack: 1
         },
         lawyer4: {
-          name: "Lawyer4",
-          health: 100,
-          attack: 10,
-          defense: 5,
-          speed: 5,
-          luck: 5
+            name: "Lawyer4",
+            status: "Healthy",
+            hp: 987,
+            maxHp: 987,
+            moveset: {
+            physicalMove: "Objection",
+            physicalPP: 0,
+            statusMove: "Solid Defense",
+            statusPP: 0,
+            specialMove: "Final Verdict",
+            specialPP: 0
+            },
+            defense: 1,
+            speed: 1,
+            luck: 1,
+            attack: 1
         },
         lawyer5: {
-          name: "Lawyer5",
-          health: 100,
-          attack: 10,
-          defense: 5,
-          speed: 5,
-          luck: 5
+            name: "Lawyer5",
+            status: "Healthy",
+            hp: 654,
+            maxHp: 654,
+            moveset: {
+            physicalMove: "Objection",
+            physicalPP: 0,
+            statusMove: "Solid Defense",
+            statusPP: 0,
+            specialMove: "Final Verdict",
+            specialPP: 0
+            },
+            defense: 1,
+            speed: 1,
+            luck: 1,
+            attack: 1,
         },
         lawyer6: {
-          name: "Lawyer6",
-          health: 100,
-          attack: 10,
-          defense: 5,
-          speed: 5,
-          luck: 5
+            name: "Lawyer6",
+            status: "Healthy",
+            hp: 321,
+            maxHp: 321,
+            moveset: {
+            physicalMove: "Objection",
+            physicalPP: 0,
+            statusMove: "Solid Defense",
+            statusPP: 0,
+            specialMove: "Final Verdict",
+            specialPP: 0
+            },
+            defense: 1,
+            speed: 1,
+            luck: 1,
+            attack: 1
         },
       },
       spendingLimit: 0,
@@ -684,8 +771,6 @@
     var nonDisclosureFraudCommittedThisYear = 0;
     var propertyTaxFraudCommittedThisYear = 0;
 
-
-
     window.onload = function () {
       initTime();
       movePlayer();
@@ -707,7 +792,6 @@
       }
       );
       notifyPlayer('Welcome to SCAM CENTER TYCOON!');
-      //beginBattleEvent();
     };
 
     var secondlyRate = 2500;
@@ -729,155 +813,6 @@
 
     function writeBanner(text) {
       document.getElementById('bannerText').innerHTML = text;
-    }
-
-
-    function beginTaxEvent() {
-      killTime();
-
-      document.body.style.pointerEvents = "none";
-      writeBanner('TIME TO FILE YOUR TAXES!');
-      document.getElementById('world-map').style.filter = "blur(10px)";
-
-      setTimeout(function () {
-
-        document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
-        document.getElementById('bannerText').style.opacity = "0%";
-
-        payrollTaxFraudCommittedThisYear = 0;
-        accountingFraudCommittedThisYear = 0;
-        nonDisclosureFraudCommittedThisYear = 0;
-        propertyTaxFraudCommittedThisYear = 0;
-
-        document.getElementById('worker-tax-count').placeholder = player.employees + player.interns + player.lawyers;
-        document.getElementById('savings-tax-count').placeholder = player.money;
-        document.getElementById('otherSavings-tax-count').placeholder = player.datapoints;
-        document.getElementById('location-tax-count').placeholder = player.buildings;
-
-        document.getElementById('user-desk').style.bottom = "-15%";
-        document.getElementById('user-desk').style.pointerEvents = "auto";
-        document.getElementById('sidebar').style.display = "none";
-        document.body.style.pointerEvents = "auto";
-      }, 2500);
-    }
-
-
-    function submitTaxForm() {
-
-
-
-      // basically, take the values that the player entered, and compare them to their "true" values.
-      // record how off they were from the true value, and add it to their reportingAccuracy object.
-
-      var workerTaxCount = parseInt(document.getElementById('worker-tax-count').value);
-      var savingsTaxCount = parseInt(document.getElementById('savings-tax-count').value);
-      var otherSavingsTaxCount = parseInt(document.getElementById('otherSavings-tax-count').value);
-      var locationTaxCount = parseInt(document.getElementById('location-tax-count').value);
-
-      if (workerTaxCount == 0 || isNaN(workerTaxCount)) {
-        workerTaxCount = player.employees + player.interns + player.lawyers;
-      }
-
-      if (savingsTaxCount == 0 || isNaN(savingsTaxCount)) {
-        savingsTaxCount = player.money;
-      }
-
-      if (otherSavingsTaxCount == 0 || isNaN(otherSavingsTaxCount)) {
-        otherSavingsTaxCount = player.datapoints;
-      }
-
-      if (locationTaxCount == 0 || isNaN(locationTaxCount)) {
-        locationTaxCount = player.buildings;
-      }
-
-      var workerTaxDifference = Math.abs(player.employees - workerTaxCount);
-      var savingsTaxDifference = Math.abs(player.money - savingsTaxCount);
-      var otherSavingsTaxDifference = Math.abs(player.datapoints - otherSavingsTaxCount);
-      var locationTaxDifference = Math.abs(player.buildings - locationTaxCount);
-
-      player.reportingAccuracy.onWorkers = workerTaxDifference;
-      player.reportingAccuracy.onSavings = savingsTaxDifference;
-      player.reportingAccuracy.onOtherSavings = otherSavingsTaxDifference;
-      player.reportingAccuracy.onLocations = locationTaxDifference;
-
-      // let's generate some percentages
-
-
-      // it's a crime if the player fails to report the amount of workers they have within 20% of the true value.
-      if (workerTaxDifference > Math.round(player.employees * generatePercentage(0.2))) {
-        player.payrollTaxFraudCounts++;
-        payrollTaxFraudCommittedThisYear++;
-        console.log('YOU COMMITTED A CRIME');
-        console.log(player.payrollTaxFraudCounts);
-      }
-
-      // it's a crime if the player fails to report the amount of money they have within 25% of the true value.
-      if (savingsTaxDifference > Math.round(player.money * generatePercentage(0.25))) {
-        player.accountingFraudCounts++;
-        accountingFraudCommittedThisYear++;
-        console.log('YOU COMMITTED A CRIME');
-        console.log(player.accountingFraudCounts);
-      }
-
-      // it's a crime if the player fails to report the amount of datapoints they have within 20% of the true value.
-      if (otherSavingsTaxDifference > Math.round(player.datapoints * generatePercentage(0.20))) {
-        player.nonDisclosureFraudCounts++;
-        nonDisclosureFraudCommittedThisYear++;
-        console.log('YOU COMMITTED A CRIME');
-        console.log(player.nonDisclosureFraudCounts);
-      }
-
-      // it's a crime if the player fails to report the amount of buildings they have within 50% of the true value.
-      if (locationTaxDifference > Math.round(player.buildings * generatePercentage(0.50))) {
-        player.propertyTaxFraudCounts++;
-        propertyTaxFraudCommittedThisYear++;
-        console.log('YOU COMMITTED A CRIME');
-        console.log(player.propertyTaxFraudCounts);
-      }
-
-      // let's calculate a tax rate.
-
-      var workerTaxRate = Math.round(player.employees * 0.0765);
-      var savingsTaxRate = Math.round(player.money * 0.10);
-      var otherSavingsTaxRate = Math.round(player.datapoints * 0.15);
-      var locationTaxRate = Math.round(player.buildings * 0.01);
-
-
-
-
-      resumeTime();
-
-      document.getElementById('world-map').style.filter = "none";
-      document.getElementById('user-desk').style.bottom = "-150%";
-      document.getElementById('user-desk').style.pointerEvents = "none";
-      document.getElementById('sidebar').style.display = "block";
-
-
-      setTimeout(function () {
-
-        var totalFraudCountsCommittedThisYear = payrollTaxFraudCommittedThisYear + accountingFraudCommittedThisYear + nonDisclosureFraudCommittedThisYear + propertyTaxFraudCommittedThisYear;
-        if (totalFraudCountsCommittedThisYear == 0) {
-          sendMail('TAX FORM SUBMITTED', `Your tax form has been submitted. Thank you for your cooperation.`);
-        } else if (totalFraudCountsCommittedThisYear == 1) {
-          sendMail('TAX FORM SUBMITTED', `THIS IS A NOTICE. Some discrepancies were found in your tax form. Please be more careful in the future.`);
-        } else if (totalFraudCountsCommittedThisYear == 2) {
-          sendMail('TAX FORM SUBMITTED', `THIS IS A WARNING. Some discrepancies were found in your tax form. Please be more careful in the future.`);
-        } else if (totalFraudCountsCommittedThisYear == 3) {
-          sendMail('TAX FORM SUBMITTED', `YOU ARE BEING FINED. THIS IS A WARNING. Many discrepancies were found in your submitted tax form. You are being fined and are on notice. Please be more careful in the future.`
-            `<button onclick = "updateBalance('subtract', 250000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> PAY FINE [$250K]</button>`);
-        } else {
-          sendMail('TAX FORM SUBMITTED', `YOU ARE BEING FINED. THIS IS A WARNING. Many discrepancies were found in your submitted tax form. You are being fined and are on notice. Please insure that this does not happen again.
-          <button onclick = "updateBalance('subtract', 500000);removeMail(this.parentElement)"><i style = "float:none!important;font-size:12px!important;" class="ri-money-dollar-circle-fill"></i> PAY FINE [$500K]</button>`);
-        }
-
-        updateBalance('subtract', workerTaxRate + savingsTaxRate + otherSavingsTaxRate + locationTaxRate);
-
-        notifyPlayer('TAXES PAID: $' + (workerTaxRate + savingsTaxRate + otherSavingsTaxRate + locationTaxRate));
-
-      }, 5000)
-
-
-
     }
 
     var notifCounter = 0;
@@ -923,7 +858,6 @@
       }
     }
 
-
     function notifyPlayer(message) {
       UIkit.notification({
         message: message,
@@ -933,10 +867,7 @@
       });
     }
 
-    // create an array to store the distances between all buildings and police stations
     var distances = [];
-
-
 
     function dictatePoliceActions() {
       // get the location of each police station in the policeBuildings array by their #id.
@@ -1144,27 +1075,45 @@
     }
 
     function beginBattleEvent() {
-      document.getElementById('battleFrame').src = `
-      battle.html?playerName=John&l1H=100&l1A=50&l1D=30&l1S=20&l1L=10&l2H=90&l2A=45&l2D=35&l2S=25&l2L=15&l3H=80&l3A=40&l3D=40&l3S=30&l3L=20&l4H=70&l4A=35&l4D=45&l4S=35&l4L=25&l5H=60&l5A=30&l5D=50&l5S=40&l5L=30&l6H=50&l6A=25&l6D=55&l6S=45&l6L=35&pH=200&pA=100&pD=100&pS=100&pL=100
-
-      `;
       killTime();
 
       document.body.style.pointerEvents = "none";
       writeBanner('HEY! STOP RIGHT THERE!');
+
       document.getElementById('world-map').style.filter = "blur(10px)";
 
       document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(1)";
       document.getElementById('bannerText').style.opacity = "100%";
 
+      document.getElementById('topbar').style.top = "-15%";
+      document.getElementById('sidebar').style.left = "-15%";
+
       setTimeout(function () {
 
-        document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
-        document.getElementById('bannerText').style.opacity = "0%";
-        document.getElementById('battleFrame').style.opacity = "100%";
-        document.getElementById('battleFrame').style.pointerEvents = "auto";
+        document.getElementById('divider_background').style.display = "block";
 
-      }, 2500);
+        setTimeout(function () {
+
+          document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
+          document.getElementById('bannerText').style.opacity = "0%";
+
+          document.getElementById('battleFrame').src = exportPlayerData();
+
+          document.getElementById('battleFrame').style.display = "block";
+          document.getElementById('battleFrame').style.filter = "brightness(1.1)";
+
+
+          setTimeout(function () {
+            // battle begin!
+            document.getElementById('divider_background').style.display = "none";
+            document.body.style.pointerEvents = "auto";
+            document.getElementById('battleFrame').style.pointerEvents = "auto";
+            document.getElementById('world-map').style.opacity = "0%";
+          }, 1000);
+
+        }, 2000);
+
+      }, 2000);
 
     }
 
@@ -1193,7 +1142,6 @@
       zoom: 2.75
     })
 
-
     function decideWeather() {
 
       var random = Math.random();
@@ -1219,25 +1167,10 @@
 
     }
 
-
-    // let's write a function that allows the player to walk around the map. the code should:
-    // 1. generate a player character
-    // 2. allow the player to move the character around the map via the arrow keys
-    // 3. make sure that the player can't walk through buildings
-    // 4. make sure that the player can't walk off the map
-    // 5. make sure that the player can't walk through police stations
-    // 6. make sure that the player can't walk on water
-
     function movePlayer() {
       panZoomModeEnabled = false;
 
     }
-
-
-
-    // keyup event listener.
-    // when the key is up, get the backgroundimage of player.
-    // swap it out for a still image based on the direction the player is facing.
 
     document.addEventListener('keyup', function (event) {
       if (event.key === 'ArrowUp') {
@@ -1250,8 +1183,6 @@
         document.getElementById('player').style.backgroundImage = "url('sprites/character/cat/black/left/left2.png')";
       }
     });
-
-
 
     window.requestAnimFrame = (function () {
       return window.requestAnimationFrame ||
@@ -1300,6 +1231,21 @@
 
       requestAnimFrame(render);
     };
+
+// let's a function that exports the ENTIRE player object to a url param string.
+
+function exportPlayerData() {
+  var playerData = JSON.stringify(player);
+  var playerDataEncoded = btoa(playerData);
+  var playerDataUrl = `battle.html?playerData=${playerDataEncoded}`;
+  console.log(playerDataUrl);
+  return playerDataUrl;
+}
+
+
+
+
+  
 
 
 

@@ -26,7 +26,7 @@
             width: 100%;
             height: 100%;
             font-family: 'pst';
-            filter: sepia(1) hue-rotate(45deg);
+            /*filter: sepia(1) hue-rotate(45deg);*/
             user-select: none !important;
             background-color: black;
             color: white;
@@ -136,7 +136,7 @@
             margin: 10px;
             box-sizing: content-box;
             width: calc(100% - 35px);
-            height: 135px;
+            height: 145px;
             background-image: linear-gradient(0deg, #1a1a1a50, #000000a0);
         }
 
@@ -960,17 +960,26 @@
         police.hp = Math.floor(Math.random() * 250) + 250;
         policeMaxHP = police.hp;
 
+        // detect if there's any data in the URL
+        var url = new URL(window.location.href);
+        var playerData = url.searchParams.get("playerData");
+
+        if (playerData) {
+            clonePlayerObject();
+        } else {
         player.lawyers.lawyer1.hp = Math.floor(Math.random() * 100) + 100;
-        lawyer1maxHP = player.lawyers.lawyer1.hp;
         player.lawyers.lawyer2.hp = Math.floor(Math.random() * 100) + 100;
-        lawyer2maxHP = player.lawyers.lawyer2.hp;
         player.lawyers.lawyer3.hp = Math.floor(Math.random() * 100) + 100;
-        lawyer3maxHP = player.lawyers.lawyer3.hp;
         player.lawyers.lawyer4.hp = Math.floor(Math.random() * 100) + 100;
-        lawyer4maxHP = player.lawyers.lawyer4.hp;
         player.lawyers.lawyer5.hp = Math.floor(Math.random() * 100) + 100;
-        lawyer5maxHP = player.lawyers.lawyer5.hp;
         player.lawyers.lawyer6.hp = Math.floor(Math.random() * 100) + 100;
+        }
+
+        lawyer1maxHP = player.lawyers.lawyer1.hp;
+        lawyer2maxHP = player.lawyers.lawyer2.hp;
+        lawyer3maxHP = player.lawyers.lawyer3.hp;
+        lawyer4maxHP = player.lawyers.lawyer4.hp;
+        lawyer5maxHP = player.lawyers.lawyer5.hp;
         lawyer6maxHP = player.lawyers.lawyer6.hp;
 
         initialInfoWrite();
@@ -1025,6 +1034,29 @@
     }, 1000);
 
     };
+
+    // this is an example of how this page is loaded, its url:
+    // battle.html?playerData=eyJtb25leSI6MCwiaW5jb21lIjowLCJleHBlbnNlcyI6MCwibGV2ZWwiOjAsImVtcGxveWVlcyI6MCwiYnVpbGRpbmdzIjowLCJidWlsZGluZ3NJbmRleCI6W10sInBlcnN1YXNpdmVuZXNzIjowLCJkYXRhcG9pbnRzIjowLCJtb2RpZmllclJhdGUiOjAsImludGVybnMiOjAsImxhd3llcnMiOjAsImxhd3llclBhcnR5Ijp7Imxhd3llcjEiOnsibmFtZSI6IiIsInN0YXR1cyI6IkhlYWx0aHkiLCJocCI6LTEsIm1heEhwIjoxMDAsIm1vdmVzZXQiOnsicGh5c2ljYWxNb3ZlIjoiT2JqZWN0aW9uIiwicGh5c2ljYWxQUCI6MCwic3RhdHVzTW92ZSI6IlNvbGlkIERlZmVuc2UiLCJzdGF0dXNQUCI6MCwic3BlY2lhbE1vdmUiOiJGaW5hbCBWZXJkaWN0Iiwic3BlY2lhbFBQIjowfSwiZGVmZW5zZSI6MSwic3BlZWQiOjEsImx1Y2siOjEsImF0dGFjayI6MX0sImxhd3llcjIiOnsibmFtZSI6Ikxhd3llcjIiLCJzdGF0dXMiOiJIZWFsdGh5IiwiaHAiOi0xLCJtYXhIcCI6MTAwLCJtb3Zlc2V0Ijp7InBoeXNpY2FsTW92ZSI6Ik9iamVjdGlvbiIsInBoeXNpY2FsUFAiOjAsInN0YXR1c01vdmUiOiJTb2xpZCBEZWZlbnNlIiwic3RhdHVzUFAiOjAsInNwZWNpYWxNb3ZlIjoiRmluYWwgVmVyZGljdCIsInNwZWNpYWxQUCI6MH0sImRlZmVuc2UiOjEsInNwZWVkIjoxLCJsdWNrIjoxLCJhdHRhY2siOjF9LCJsYXd5ZXIzIjp7Im5hbWUiOiJMYXd5ZXIzIiwic3RhdHVzIjoiSGVhbHRoeSIsImhwIjotMSwibWF4SHAiOjEwMCwibW92ZXNldCI6eyJwaHlzaWNhbE1vdmUiOiJPYmplY3Rpb24iLCJwaHlzaWNhbFBQIjowLCJzdGF0dXNNb3ZlIjoiU29saWQgRGVmZW5zZSIsInN0YXR1c1BQIjowLCJzcGVjaWFsTW92ZSI6IkZpbmFsIFZlcmRpY3QiLCJzcGVjaWFsUFAiOjB9LCJkZWZlbnNlIjoxLCJzcGVlZCI6MSwibHVjayI6MSwiYXR0YWNrIjoxfSwibGF3eWVyNCI6eyJuYW1lIjoiTGF3eWVyNCIsInN0YXR1cyI6IkhlYWx0aHkiLCJocCI6LTEsIm1heEhwIjoxMDAsIm1vdmVzZXQiOnsicGh5c2ljYWxNb3ZlIjoiT2JqZWN0aW9uIiwicGh5c2ljYWxQUCI6MCwic3RhdHVzTW92ZSI6IlNvbGlkIERlZmVuc2UiLCJzdGF0dXNQUCI6MCwic3BlY2lhbE1vdmUiOiJGaW5hbCBWZXJkaWN0Iiwic3BlY2lhbFBQIjowfSwiZGVmZW5zZSI6MSwic3BlZWQiOjEsImx1Y2siOjEsImF0dGFjayI6MX0sImxhd3llcjUiOnsibmFtZSI6Ikxhd3llcjUiLCJzdGF0dXMiOiJIZWFsdGh5IiwiaHAiOi0xLCJtYXhIcCI6MTAwLCJtb3Zlc2V0Ijp7InBoeXNpY2FsTW92ZSI6Ik9iamVjdGlvbiIsInBoeXNpY2FsUFAiOjAsInN0YXR1c01vdmUiOiJTb2xpZCBEZWZlbnNlIiwic3RhdHVzUFAiOjAsInNwZWNpYWxNb3ZlIjoiRmluYWwgVmVyZGljdCIsInNwZWNpYWxQUCI6MH0sImRlZmVuc2UiOjEsInNwZWVkIjoxLCJsdWNrIjoxLCJhdHRhY2siOjF9LCJsYXd5ZXI2Ijp7Im5hbWUiOiJMYXd5ZXI2Iiwic3RhdHVzIjoiSGVhbHRoeSIsImhwIjotMSwibWF4SHAiOjEwMCwibW92ZXNldCI6e30sImRlZmVuc2UiOjEsInNwZWVkIjoxLCJsdWNrIjoxLCJhdHRhY2siOjF9fSwic3BlbmRpbmdMaW1pdCI6MCwiY3JlZGl0U2NvcmUiOjYwMCwiaW50ZXJlc3RSYXRlIjowLCJzZWxlY3RlZEJhbmtzIjpbXSwicmVwb3J0aW5nQWNjdXJhY3kiOnsib25Xb3JrZXJzIjowLCJvblNhdmluZ3MiOjAsIm9uT3RoZXJTYXZpbmdzIjowLCJvbkxvY2F0aW9ucyI6MH0sInBheXJvbGxUYXhGcmF1ZENvdW50cyI6MCwiYWNjb3VudGluZ0ZyYXVkQ291bnRzIjowLCJub25EaXNjbG9zdXJlRnJhdWRDb3VudHMiOjAsInByb3BlcnR5VGF4RnJhdWRDb3VudHMiOjAsImRhdGFUcmFmZmlja2luZ0NvdW50cyI6MH0=
+
+    // this is the entire player object.
+    // you need to extract THIS PAGE'S player.lawyers object from player.lawyerParty in this object.
+    // now, parse it.
+
+    // DO NOT DO EVERY PROPERTY MANUALLY. SIMPLY CLONE PLAYER.LAWYERPARTY OBJECT AND ASSIGN IT TO PLAYER.LAWYERS.
+
+    var playerData = JSON.parse(atob(getUrlParameter('playerData')));
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    function clonePlayerObject(){
+        player.lawyers = playerData.lawyerParty;
+    }
+
     
 </script>
 

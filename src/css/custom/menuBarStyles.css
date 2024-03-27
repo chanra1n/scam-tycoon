@@ -128,6 +128,12 @@
       box-sizing: border-box;
     }
 
+    #sidebar {
+      transition: all 1s;
+      transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
+      left:0%;
+    }
+
     #rightbar {
       right:0;
     }
