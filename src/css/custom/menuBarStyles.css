@@ -45,7 +45,7 @@
   margin: 0px;
   text-align: right;
   box-sizing: border-box;
-  transition: all 1s;
+  transition: all 0.5s;
   transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
 }
 
@@ -129,7 +129,7 @@
     }
 
     #sidebar {
-      transition: all 1s;
+      transition: all 0.5s;
       transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
       left:0%;
     }

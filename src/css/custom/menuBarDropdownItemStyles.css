@@ -58,12 +58,13 @@
     .credit_line_listing_item {
 
       background-color: #1a1a1a;
-      border: 10px solid black;
-      border-left: 0;
-      border-right: 0;
       width: 100%;
       overflow: hidden;
-      border-bottom: 5px;
+      margin: 10px;
+      margin-left: 0px;
+      margin-right: 0px;
+      border: 2.5px solid green;
+      box-sizing: border-box;
 
     }
 

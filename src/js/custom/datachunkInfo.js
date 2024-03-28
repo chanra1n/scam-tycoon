@@ -1,11 +1,3 @@
-// create 5 third-party companies that will occasionally offer datapoint trades to the player.
-// these companies will have a random chance of offering a trade every 7 days (in-game time)
-// there are 3 classes of trades: 
-// 1. high payout, offered for a very limited amount of time (only lasts 7 days)
-// 2. medium trade, offered for a medium amount of time (lasts 14 days)
-// 3. low trade, offered for a long amount of time (lasts one month)
-// 4. rare payout, offered until the end of the month (no matter what day it currently is)
-
 var activeTradeCount = 0;
 
 function randomizePayout(payout) {
@@ -228,15 +220,26 @@ var thirdPartyCompanies = [
   },
 ];
 
-
-
 function removeTrade() {
   activeTradeCount--;
-  if (activeTradeCount === 0) {
+  player.creditScore += 0.25;
+  if (activeTradeCount === 0 || activeTradeCount === 1){
     document.getElementById('datachunk_blurb').style.display = "block";
   } else {
     document.getElementById('datachunk_blurb').style.display = "none";
   }
+
+    // Get the number of active trades in the menu
+    var activeTradeCount_temp = document.querySelectorAll('.datapoint_trade_listing_item').length;
+
+    // If there are no active trades or only one, show the 'datachunk_blurb' element
+    if (activeTradeCount_temp === 0){
+      document.getElementById('datachunk_blurb').style.display = "block";
+    } else {
+      // Otherwise, hide it
+      document.getElementById('datachunk_blurb').style.display = "none";
+    }
+
 }
 
 function sendTradeOffer(company) {
@@ -254,7 +257,10 @@ function sendTradeOffer(company) {
     <h4><i class = "ri-money-dollar-circle-fill"></i> ${randomTrade.payout}</h4>
     <h4><i class="ri-time-fill"></i> ${randomTrade.duration} DAYS</h4>
     <button onclick = "acceptTrade('${randomTrade.name.replace(/\s/g, '')}', ${randomTrade.payout}, ${randomTrade.cost})" ><i class="ri-database-2-fill"></i> ${randomTrade.cost} - ACCEPT</button>
-    <button style = "color:green;background-color:transparent" onclick = "document.getElementById('${randomTrade.name.replace(/\s/g, '')}').remove();removeTrade();" ><i class="ri-close-fill"></i> DECLINE</button>
+    <button style = "    color: black;
+    background-color: green;
+    margin: 0px;
+    margin-bottom: -5px;width:100%;" onclick = "document.getElementById('${randomTrade.name.replace(/\s/g, '')}').remove();removeTrade();" ><i class="ri-close-fill"></i> DECLINE</button>
     </div>
     `;
     // mark the trade as offered
@@ -295,6 +301,7 @@ function sendTradeOffers() {
 
 function acceptTrade(name, payout, cost) {
   player.dataTraffickingCounts+=1;
+  player.creditScore -= 1;
   // check if the player has enough datapoints to accept the trade
   if (player.datapoints >= cost) {
     // if they do, add the payout to their balance and subtract the cost from their datapoints
@@ -309,5 +316,17 @@ function acceptTrade(name, payout, cost) {
   } else {
     alert("You don't have enough datachunks to accept this trade!");
   }
+
+  // Get the number of active trades in the menu
+  var activeTradeCount_temp = document.querySelectorAll('.datapoint_trade_listing_item').length;
+
+  // If there are no active trades or only one, show the 'datachunk_blurb' element
+  if (activeTradeCount_temp === 0){
+    document.getElementById('datachunk_blurb').style.display = "block";
+  } else {
+    // Otherwise, hide it
+    document.getElementById('datachunk_blurb').style.display = "none";
+  }
+
 }
 

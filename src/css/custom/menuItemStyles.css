@@ -23,16 +23,16 @@
     .datapoint_trade_listing_item h3,
     .credit_line_listing_item h3,
     .mail-message h3 {
-        font-size: 7px;
-        color: green;
-        font-family: 'pst';
-        text-overflow: ellipsis;
-        padding: 5px;
-        border: 1px solid green;
-        margin: 0px;
-        display: block;
-        border-top: 1px solid green;
-        margin-bottom: 2.5px;
+      font-size: 7px;
+      color: green;
+      font-family: 'pst';
+      text-overflow: ellipsis;
+      padding: 5px;
+      border: 1px dotted green;
+      margin: 0px;
+      display: block;
+      border-top: 1px dotted green;
+      margin-bottom: 2.5px;
     }
 
     .datapoint_trade_listing_item h4,
@@ -73,20 +73,24 @@
     .datapoint_trade_listing_item button,
     .credit_line_listing_item button,
     .mail-message button {
-        width: 100%;
-        vertical-align: middle;
-        padding: 2.5px;
-        padding-left: 0px;
-        padding-right: 0px;
-        border: 1px solid green;
-        color: black;
-        font-family: 'gamer';
-        font-size: 20px;
-        background-color: green;
-        text-align: center;
-        padding-top: 0px;
-        cursor: pointer;
-        margin-top: 2.5px;
+      width: calc(100% - 10px);
+      vertical-align: middle;
+      padding: 2.5px;
+      padding-left: 0px;
+      padding-right: 0px;
+      border: 1px solid green;
+      color: black;
+      font-family: 'gamer';
+      font-size: 20px;
+      background-color: green;
+      text-align: center;
+      padding-top: 0px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .datapoint_trade_listing_item button {
+      margin-bottom:0px;
     }
 
     .datapoint_trade_listing_item button i,
@@ -121,7 +125,7 @@
     }
 
     .credit_line_listing_item {
-        opacity: 75%;
+        opacity: 100%;
     }
 
     .credit_line_listing_item:hover {

@@ -201,8 +201,6 @@ function secondlyUpdate() {
     document.getElementById('hire_100_interns_button').style.pointerEvents = "auto";
   }
 
-
-
   if (player.money < 30000) {
     document.getElementById('hire_10_employees_button').style.opacity = "50%";
     document.getElementById('hire_10_employees_button').style.pointerEvents = "none";
@@ -226,6 +224,30 @@ function secondlyUpdate() {
     document.getElementById('hire_100_employees_button').style.opacity = "100%";
     document.getElementById('hire_100_employees_button').style.pointerEvents = "auto";
   }
+
+  
+  // get all of the banks - bank1, bank2, bank3, bank4.
+  // for each bank, compare its minimum credit score with the player's credit score.
+  // if the player's is greater, log it to the console for now.
+  // if the player's is less, disable the button and set the opacity to 50%.
+
+  
+  if (!playerHasSelectedBank) {
+
+    document.getElementById('credit-readout-list').style.display = "none";
+
+  var banks = [bank1, bank2, bank3, bank4];
+  for (var i = 0; i < banks.length; i++) {
+    var bank = banks[i];
+    if (player.creditScore >= bank.minimumCreditScore) {
+      document.getElementById(bank.pageElement).style.display = "block";
+    } else {
+      document.getElementById(bank.pageElement).style.display = "none";
+    }
+  }
+} else {
+  document.getElementById('credit-readout-list').style.display = "block";
+}
 
 
   var totalToPay = parseFloat(document.getElementById('total_to_pay').innerHTML.replace("$", "").replace(/,/g, ""));

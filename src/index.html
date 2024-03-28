@@ -48,7 +48,7 @@
       background-color: black;
       width: 100vh;
       overflow: hidden;
-      background-image: url("sprites/street.gif");
+      background-image: none;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -170,7 +170,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scaleY(0);
+      transform: translate(-50%, -50%) scaleX(0);
       z-index: 10000;
       font-size: 15px;
       font-family: 'pst';
@@ -178,16 +178,23 @@
       background-color: black;
       width: 100%;
       padding: 20px;
-      color: #a1a1a1;
-      box-shadow: 7.5px 7.5px 0px #a1a1a1;
-      transition: all 0.5s;
+      color: white;
+      transition: all 0.5s, opacity 0.75s;
       transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
+      transform-origin: left;
       opacity: 0%;
+      text-shadow: 2.5px 2.5px 0px black;
+      backdrop-filter: blur(5px) grayscale(1);
+      text-transform: uppercase;
     }
 
     #typed-cursor,
     .typed-cursor {
       display: none !important;
+    }
+
+    #credit-readout-list {
+      display: none;
     }
   </style>
   <link rel="stylesheet" href="css/custom/menuBarDropdownItemStyles.css">
@@ -215,7 +222,7 @@
       width: 100%;
       height: 100%;
       background-color: transparent;
-      z-index: 110000000000;
+      z-index: 100000000000000;
       transition: all 0.5s;
       transition-timing-function: cubic-bezier(0.8, 0, 0, 1);
       background-image: url('sprites/divider.gif');
@@ -225,6 +232,7 @@
       opacity: 100%;
       display: none;
       image-rendering: pixelated;
+      pointer-events:none!important;
     }
 
     #fps {
@@ -296,7 +304,6 @@
         border: 2.5px solid green;
       }
 
-      #current_lawyer_count {}
     </style>
 
     <i id="lawyer-icon" class="sidebar-icon ri-scales-fill"></i>
@@ -316,7 +323,7 @@
         COME IN HANDY WITH THE LAW!</span>
 
 
-      <button class="hire" id="hire_1_lawyer_button" onclick="hireExtraWorkers('lawyer', 1)">HIRE LAWYERS</button>
+      <button class="hire" id="hire_1_lawyer_button" onclick="hireExtraWorkers('lawyer', 1)">HIRE A LAWYER</button>
 
 
       <div id="lawyer-party">
@@ -404,88 +411,96 @@
 
         <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">CURRENT MONTHLY READOUT</span>
           <hr class="selectascamhr">
-          <span id="current_daily_income_display">+ $0.00/day</span>
-          <span id="current_monthly_income_display">$0/mo.</span>
+          <span title="Daily Income" id="current_daily_income_display">+ $0.00/day</span>
+          <span title="Projected Monthly Income" id="current_monthly_income_display">$0/mo.</span>
           <canvas id="income_chart"></canvas>
-          <span id="current_monthly_expenses_display"><i class="ri-money-dollar-circle-line"></i> </span>
+          <span title="Monthly Expenses" id="current_monthly_expenses_display"><i
+              class="ri-money-dollar-circle-line"></i> </span>
         </ul>
-        <br>
-        <h1 style="    font-family: 'gamer';
+        <hr style="padding: 0px;
+        margin-top: 7.5px;
+        border: 1px dotted green;">
+        <div id="credit-readout-list">
+          <h1 style="font-family: 'gamer';
         font-size: 15px;
         margin: 0px;
         padding: 0px;
         margin-bottom: 2.5px;">CREDIT REMAINING FOR THIS MONTH</h1>
-        <hr>
-        <h2 class="bigcreditnumber" id="spending_limit">$0.00</h2>
+          <hr>
+          <h2 class="bigcreditnumber" id="spending_limit">$0.00</h2>
 
-        <div id="credit-input-dialog">
-          <p>HOW MUCH WOULD YOU LIKE TO CASH OUT?</p>
-          <input type="number" id="cashout-amount" />
-          <button id="cashout-button" onclick="creditCashOut(document.getElementById('cashout-amount').value)">CASH
+          <div id="credit-input-dialog">
+            <p>HOW MUCH WOULD YOU LIKE TO CASH OUT?</p>
+            <input type="number" id="cashout-amount" />
+            <button id="cashout-button" onclick="creditCashOut(document.getElementById('cashout-amount').value)">CASH
+              OUT</button>
+          </div>
+
+          <button class="cashoutbutton" id="cashoutcreditbutton"
+            onclick="$('#credit-input-dialog').dialog('open');">CASH
             OUT</button>
-        </div>
-
-        <button class="cashoutbutton" id="cashoutcreditbutton" onclick="$('#credit-input-dialog').dialog('open');">CASH
-          OUT</button>
-        <br>
-        <h1 style="    font-family: 'gamer';
+          <br>
+          <h1 style="    font-family: 'gamer';
         font-size: 16px;
         margin: 0px;
         padding: 0px;
         margin-bottom: 2.5px;">AMOUNT SPENT + INTEREST RATE</h1>
-        <hr>
+          <hr>
 
-        <h2 class="bigcreditnumber" id="amount_to_pay">$0.00</h2><span style="opacity:75%;font-size:17.5px;"> +</span>
-        <h2 style="opacity:75%;font-size:27.5px" class="bigcreditnumber" id="current_interest">0%</h2>
-        <span style="opacity:75%;font-size:17.5px;"> =</span>
+          <h2 class="bigcreditnumber" id="amount_to_pay">$0.00</h2><span style="opacity:75%;font-size:17.5px;"> +</span>
+          <h2 style="opacity:75%;font-size:27.5px" class="bigcreditnumber" id="current_interest">0%</h2>
+          <span style="opacity:75%;font-size:17.5px;"> =</span>
 
-        <br>
+          <br>
 
-        <h2 class="bigcreditnumber" id="total_to_pay">$0.00</h2>
+          <h2 class="bigcreditnumber" id="total_to_pay">$0.00</h2>
 
-        <button class="cashoutbutton" id="payoffbutton" onclick="payOffDebt()"> PAY OFF DEBT</button>
-        <br>
-        <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">AVAILABLE LINES OF CREDIT</span>
-          <hr class="selectascamhr">
-          <span class="datapointspan" id="credit_blurb" style="font-family:'pst'">DOWN ON YOUR LUCK? GET MONEY FAST,
-            OPEN A LINE OF CREDIT! WHAT COULD GO WRONG?</span>
-          <div id="credit-line-index-list">
+          <button class="cashoutbutton" id="payoffbutton" onclick="payOffDebt()"> PAY OFF DEBT</button>
+          <br>
+        </div>
+        <div id="available-credit-readout">
+          <ul class="uk-nav uk-dropdown-nav"><span style="font-size:17.5px">AVAILABLE LINES OF CREDIT</span>
+            <hr class="selectascamhr">
+            <span class="datapointspan" id="credit_blurb" style="font-family:'pst'">DOWN ON YOUR LUCK? GET MONEY FAST,
+              OPEN A LINE OF CREDIT! WHAT COULD GO WRONG?</span>
+            <div id="credit-line-index-list" style="margin-bottom:-10px;">
 
-            <div class="credit_line_listing_item">
-              <span>L0AN$HARKZ.COM</span>
-              <h3>Hey kid, need CA$H fast?</h3>
-              <h4><i class="ri-skip-up-fill"></i> $5M/mo.</h4>
-              <h4> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 25%</h4>
-              <button onclick="selectCreditLine(bank1, this)">OPEN ACCOUNT</button>
+              <div id="bank1_listing_item" class="credit_line_listing_item">
+                <span>L0AN$HARKZ.COM</span>
+                <h3>Hey kid, need CA$H fast?</h3>
+                <h4 title="Monthly Spending Limit"><i class="ri-skip-up-fill"></i> $5M/mo.</h4>
+                <h4 title="Interest Rate"> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 25%</h4>
+                <button onclick="selectCreditLine(bank1, this)">OPEN ACCOUNT</button>
+              </div>
+
+              <div id="bank2_listing_item" class="credit_line_listing_item">
+                <span>DANK OF ABEARICA</span>
+                <h3>Infinite growth. No excuses.</h3>
+                <h4 title="Monthly Spending Limit"><i class="ri-skip-up-fill"></i> $1M/mo.</h4>
+                <h4 title="Interest Rate"> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 10%</h4>
+                <button onclick="selectCreditLine(bank2, this)">OPEN ACCOUNT</button>
+              </div>
+
+              <div id="bank3_listing_item" class="credit_line_listing_item">
+                <span>WASTERCURD</span>
+                <h3>For everything money can buy.</h3>
+                <h4 title="Monthly Spending Limit"><i class="ri-skip-up-fill"></i> $500K/mo.</h4>
+                <h4 title="Interest Rate"> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 7%</h4>
+                <button onclick="selectCreditLine(bank3, this)">OPEN ACCOUNT</button>
+              </div>
+
+
+              <div id="bank4_listing_item" class="credit_line_listing_item">
+                <span>MEESA INC.</span>
+                <h3>Everywhere you are.</h3>
+                <h4 title="Monthly Spending Limit"><i class="ri-skip-up-fill"></i> $100K/mo.</h4>
+                <h4 title="Interest Rate"> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 5%</h4>
+                <button onclick="selectCreditLine(bank4, this)">OPEN ACCOUNT</button>
+              </div>
+
             </div>
-
-            <div class="credit_line_listing_item">
-              <span>DANK OF ABEARICA</span>
-              <h3>Infinite growth. No excuses.</h3>
-              <h4><i class="ri-skip-up-fill"></i> $1M/mo.</h4>
-              <h4> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 10%</h4>
-              <button onclick="selectCreditLine(bank2, this)">OPEN ACCOUNT</button>
-            </div>
-
-            <div class="credit_line_listing_item">
-              <span>WASTERCURD</span>
-              <h3>For everything money can buy.</h3>
-              <h4><i class="ri-skip-up-fill"></i> $500K/mo.</h4>
-              <h4> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 7%</h4>
-              <button onclick="selectCreditLine(bank3, this)">OPEN ACCOUNT</button>
-            </div>
-
-
-            <div class="credit_line_listing_item">
-              <span>MEESA INC.</span>
-              <h3>Everywhere you are.</h3>
-              <h4><i class="ri-skip-up-fill"></i> $100K/mo.</h4>
-              <h4> <i style="font-size:12px" class="ri-discount-percent-fill"></i> 5%</h4>
-              <button onclick="selectCreditLine(bank4, this)">OPEN ACCOUNT</button>
-            </div>
-
-          </div>
-        </ul>
+          </ul>
+        </div>
       </div>
 
 
@@ -519,8 +534,8 @@
 
           <hr style="margin-top:7.5px">
 
-          <h2 id="current_employee_count">EMPLOYEES: <span>0</span></h2>
-          <h2 id="current_intern_count">INTERNS: <span>0</span></h2>
+          <h2 title="Current Employee Count" id="current_employee_count">EMPLOYEES: <span>0</span></h2>
+          <h2 title="Current Intern Count" id="current_intern_count">INTERNS: <span>0</span></h2>
 
         </div>
 
@@ -632,112 +647,112 @@
       lawyers: 0,
       lawyerParty: {
         lawyer1: {
-            name: "Lawyer1",
-            status: "Healthy",
-            hp: 123,
-            maxHp: 123,
-            moveset: {
-                physicalMove: "Objection",
-                physicalPP: 0,
-                statusMove: "Solid Defense",
-                statusPP: 0,
-                specialMove: "Final Verdict",
-                specialPP: 0
-            },
-            defense: 1,
-            speed: 1,
-            luck: 1,
-            attack: 1
+          name: "Lawyer1",
+          status: "Healthy",
+          hp: 100,
+          maxHp: 123,
+          moveset: {
+            physicalMove: "Objection",
+            physicalPP: 0,
+            statusMove: "Solid Defense",
+            statusPP: 0,
+            specialMove: "Final Verdict",
+            specialPP: 0
+          },
+          defense: 1,
+          speed: 1,
+          luck: 1,
+          attack: 1
         },
         lawyer2: {
-            name: "Lawyer2",
-            status: "Healthy",
-            hp: 456,
-            maxHp: 456,
-            moveset: {
-              physicalMove: "Objection",
-              physicalPP: 0,
-              statusMove: "Solid Defense",
-              statusPP: 0,
-              specialMove: "Final Verdict",
-              specialPP: 0
-            },
-            defense: 1,
-            speed: 1,
-            luck: 1,
-            attack: 1
+          name: "Lawyer2",
+          status: "Healthy",
+          hp: 100,
+          maxHp: 456,
+          moveset: {
+            physicalMove: "Objection",
+            physicalPP: 0,
+            statusMove: "Solid Defense",
+            statusPP: 0,
+            specialMove: "Final Verdict",
+            specialPP: 0
+          },
+          defense: 1,
+          speed: 1,
+          luck: 1,
+          attack: 1
         },
         lawyer3: {
-            name: "Lawyer3",
-            status: "Healthy",
-            hp: 789,
-            maxHp: 789,
-            moveset: {
+          name: "Lawyer3",
+          status: "Healthy",
+          hp: 100,
+          maxHp: 789,
+          moveset: {
             physicalMove: "Objection",
             physicalPP: 0,
             statusMove: "Solid Defense",
             statusPP: 0,
             specialMove: "Final Verdict",
             specialPP: 0
-            },
-            defense: 1,
-            speed: 1,
-            luck: 1,
-            attack: 1
+          },
+          defense: 1,
+          speed: 1,
+          luck: 1,
+          attack: 1
         },
         lawyer4: {
-            name: "Lawyer4",
-            status: "Healthy",
-            hp: 987,
-            maxHp: 987,
-            moveset: {
+          name: "Lawyer4",
+          status: "Healthy",
+          hp: 100,
+          maxHp: 987,
+          moveset: {
             physicalMove: "Objection",
             physicalPP: 0,
             statusMove: "Solid Defense",
             statusPP: 0,
             specialMove: "Final Verdict",
             specialPP: 0
-            },
-            defense: 1,
-            speed: 1,
-            luck: 1,
-            attack: 1
+          },
+          defense: 1,
+          speed: 1,
+          luck: 1,
+          attack: 1
         },
         lawyer5: {
-            name: "Lawyer5",
-            status: "Healthy",
-            hp: 654,
-            maxHp: 654,
-            moveset: {
+          name: "Lawyer5",
+          status: "Healthy",
+          hp: 100,
+          maxHp: 654,
+          moveset: {
             physicalMove: "Objection",
             physicalPP: 0,
             statusMove: "Solid Defense",
             statusPP: 0,
             specialMove: "Final Verdict",
             specialPP: 0
-            },
-            defense: 1,
-            speed: 1,
-            luck: 1,
-            attack: 1,
+          },
+          defense: 1,
+          speed: 1,
+          luck: 1,
+          attack: 1,
         },
         lawyer6: {
-            name: "Lawyer6",
-            status: "Healthy",
-            hp: 321,
-            maxHp: 321,
-            moveset: {
+          name: "Lawyer6",
+          status: "Healthy",
+          hp: 100,
+          maxHp: 321,
+          moveset: {
             physicalMove: "Objection",
             physicalPP: 0,
             statusMove: "Solid Defense",
             statusPP: 0,
             specialMove: "Final Verdict",
             specialPP: 0
-            },
-            defense: 1,
-            speed: 1,
-            luck: 1,
-            attack: 1
+          },
+          defense: 1,
+          speed: 1,
+          luck: 1,
+          attack: 1
         },
       },
       spendingLimit: 0,
@@ -771,7 +786,12 @@
     var nonDisclosureFraudCommittedThisYear = 0;
     var propertyTaxFraudCommittedThisYear = 0;
 
+    var previous_world_filter = "none";
+
     window.onload = function () {
+      document.querySelectorAll('img').forEach((img) => {
+        img.setAttribute('loading', 'lazy');
+      });
       initTime();
       movePlayer();
       initBuildingAppearance();
@@ -812,7 +832,41 @@
     }
 
     function writeBanner(text) {
+
+      previous_world_filter = document.getElementById('world-map').style.filter;
+
+      document.body.style.pointerEvents = "none";
+
+      document.getElementById('world-map').style.filter = previous_world_filter + " blur(5px)";
+
+      document.getElementById('topbar').style.top = "-15%";
+      document.getElementById('sidebar').style.left = "-15%";
+
+      document.getElementById('bannerText').style.transformOrigin = "left";
+      document.getElementById('bannerText').style.transform = "translate(-50%, -50%) scaleX(1)";
+      document.getElementById('bannerText').style.opacity = "100%";
       document.getElementById('bannerText').innerHTML = text;
+
+      setTimeout(function () {
+        document.getElementById('bannerText').style.transformOrigin = "right";
+        document.getElementById('bannerText').style.transition = "all 0.5s, opacity 0.25s";
+        setTimeout(function () {
+          document.body.style.pointerEvents = "auto";
+          document.getElementById('bannerText').style.transform = "translate(-50%, -50%) scaleX(0)";
+          document.getElementById('bannerText').style.opacity = "0%";
+          document.getElementById('world-map').style.filter = previous_world_filter;
+          document.getElementById('world-map').style.opacity = "100%";
+          document.getElementById('topbar').style.top = "0%";
+          document.getElementById('sidebar').style.left = "0%";
+          setTimeout(function () {
+          document.getElementById('bannerText').style.transition = "all 0.5s, opacity 0.75s";
+          document.getElementById('bannerText').style.transformOrigin = "left";
+          document.getElementById('bannerText').innerHTML = "";
+        }, 1000);
+        }, 3000); 
+        
+
+      }, 1000);
     }
 
     var notifCounter = 0;
@@ -1075,18 +1129,9 @@
     }
 
     function beginBattleEvent() {
+
       killTime();
-
-      document.body.style.pointerEvents = "none";
       writeBanner('HEY! STOP RIGHT THERE!');
-
-      document.getElementById('world-map').style.filter = "blur(10px)";
-
-      document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(1)";
-      document.getElementById('bannerText').style.opacity = "100%";
-
-      document.getElementById('topbar').style.top = "-15%";
-      document.getElementById('sidebar').style.left = "-15%";
 
       setTimeout(function () {
 
@@ -1094,22 +1139,19 @@
         document.getElementById('divider_background').style.backgroundImage = "url('sprites/divider.gif')";
 
         setTimeout(function () {
-
-          document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
-          document.getElementById('bannerText').style.opacity = "0%";
-
           document.getElementById('battleFrame').src = exportPlayerData();
 
           document.getElementById('battleFrame').style.display = "block";
           document.getElementById('battleFrame').style.filter = "brightness(1.1)";
-
+          document.getElementById('battleFrame').style.pointerEvents = "auto";
+            document.getElementById('topbar').style.display = "none";
+            document.getElementById('sidebar').style.display = "none";
+            document.getElementById('world-map').style.opacity = "0%";
 
           setTimeout(function () {
             // battle begin!
-            document.getElementById('divider_background').style.display = "none";
+            //document.getElementById('divider_background').style.display = "none";
             document.body.style.pointerEvents = "auto";
-            document.getElementById('battleFrame').style.pointerEvents = "auto";
-            document.getElementById('world-map').style.opacity = "0%";
           }, 1000);
 
         }, 2000);
@@ -1120,39 +1162,25 @@
 
     function endBattleEvent() {
       document.getElementById('battleFrame').style.opacity = "0%";
+      document.getElementById('world-map').style.opacity = "100%";
       setTimeout(function () {
         document.getElementById('battleFrame').src = "";
         document.getElementById('battleFrame').style.opacity = "100%";
         document.getElementById('battleFrame').style.display = "none";
       }, 1500);
-      document.getElementById('world-map').style.filter = "none";
-      document.getElementById('world-map').style.opacity = "100%";
-      document.getElementById('topbar').style.top = "0%";
-      document.getElementById('sidebar').style.left = "0%";
-      document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
-      document.getElementById('bannerText').style.opacity = "0%";
-      document.getElementById('bannerText').innerHTML = "";
+ 
       document.getElementById('divider_background').style.display = "none";
       document.body.style.pointerEvents = "auto";
-      document.getElementById('world-map').style.filter = "blur(10px)";
 
-      document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(1)";
-      document.getElementById('bannerText').style.opacity = "100%";
+      setTimeout(function () {
 
-
-      setTimeout(function(){
-
-        document.getElementById('bannerText').style.transform = "translate(-50%,-50%) scaleY(0)";
-        document.getElementById('bannerText').style.opacity = "0%";
-
-        setTimeout(function(){
-          document.getElementById('world-map').style.filter = "none";
-          document.getElementById('topbar').style.top = "0%";
-          document.getElementById('sidebar').style.left = "0%";
+        setTimeout(function () {
+          document.getElementById('topbar').style.display = "block";
+          document.getElementById('sidebar').style.display = "block";
           document.getElementById('divider_background').style.backgroundImage = "none";
-        },0);
+        }, 0);
 
-      },2000);
+      }, 2000);
 
       resumeTime();
     }
@@ -1263,36 +1291,29 @@
       requestAnimFrame(render);
     };
 
-// let's a function that exports the ENTIRE player object to a url param string.
+    // let's a function that exports the ENTIRE player object to a url param string.
 
-function exportPlayerData() {
-  var playerData = JSON.stringify(player);
-  var playerDataEncoded = btoa(playerData);
-  var playerDataUrl = `battle.html?playerData=${playerDataEncoded}`;
-  console.log(playerDataUrl);
-  return playerDataUrl;
-}
-
-
-window.addEventListener('message', function (event) {
-    console.log('Message received from iframe: ' + event.data);
-
-    if (event.data == "PLAYER WINS") {
-      endBattleEvent();
-      writeBanner('YOU GOT AWAY THIS TIME...');
-    } else if (event.data == "POLICE WINS") {
-      endBattleEvent();
-      writeBanner('YOU GOT ARRESTED!');
+    function exportPlayerData() {
+      var playerData = JSON.stringify(player);
+      var playerDataEncoded = btoa(playerData);
+      var playerDataUrl = `battle.html?playerData=${playerDataEncoded}`;
+      console.log(playerDataUrl);
+      return playerDataUrl;
     }
 
-});
 
+    window.addEventListener('message', function (event) {
+      console.log('Message received from iframe: ' + event.data);
 
-  
+      if (event.data == "PLAYER WINS") {
+        endBattleEvent();
+        writeBanner('YOU GOT AWAY THIS TIME...');
+      } else if (event.data == "POLICE WINS") {
+        endBattleEvent();
+        writeBanner('YOU GOT ARRESTED!');
+      }
 
-
-
-
+    });
 
   </script>
 </body>

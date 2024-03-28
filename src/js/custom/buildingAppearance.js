@@ -68,4 +68,9 @@ document.querySelectorAll('.admin-buildings').forEach((building) => {
         building.style.backgroundImage = `url('${randomImage}')`;
         building.style.filter = `hue-rotate(${Math.floor(Math.random() * 360)}deg)`;
       });
+
+      addStreetLamps();
+addBoats();
+addStopLights();
+
     }
